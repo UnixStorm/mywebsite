@@ -2,109 +2,91 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>UNIXSTORM — Kayıt</title>
+<title>UNIXSTORM Giriş</title>
 
 <style>
-    body {
-        margin: 0;
-        background: url("arkaplan.jpg") no-repeat center center fixed;
-        background-size: cover;
-        font-family: Arial, sans-serif;
-    }
+  body {
+    margin: 0;
+    padding: 0;
+    background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
+  }
 
-    /* ======= ÜST TURUNCU BAŞLIK ======= */
-    .top-text {
-        width: 100%;
-        text-align: center;
-        margin-top: 20px;
-        font-size: 18px;
-        font-weight: bold;
-        color: #ff8800;
-        text-shadow: 0 0 8px rgba(255,120,20,0.7);
-        letter-spacing: 1px;
-        user-select: none;
-    }
+  /* Üstteki yazı */
+  .ust-yazi {
+      position: absolute;
+      top: 20px;
+      width: 100%;
+      text-align: center;
+      color: #ffffff;
+      font-size: 20px;
+      font-weight: bold;
+      text-shadow: 0 0 8px cyan;
+      user-select: none;
+  }
 
-    .top-text small {
-        display: block;
-        margin-top: 6px;
-        font-size: 16px;
-    }
+  /* Ortadaki giriş kutusu */
+  .container {
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 330px;
+    background: rgba(20,20,20,0.7);
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px cyan;
+    text-align: center;
+    color: white;
+  }
 
-    /* ======= ORTA FORM KUTUSU ======= */
-    .card {
-        width: 330px;
-        margin: 140px auto;
-        background: rgba(0,0,0,0.70);
-        padding: 25px;
-        border-radius: 15px;
-        box-shadow: 0 0 25px rgba(0,255,255,0.4);
-        backdrop-filter: blur(2px);
-        color: white;
-        text-align: center;
-    }
+  .container input {
+    width: 90%;
+    padding: 10px;
+    margin-top: 10px;
+    border-radius: 7px;
+    border: none;
+  }
 
-    .card h2 {
-        margin-bottom: 20px;
-        font-size: 22px;
-        letter-spacing: 1px;
-    }
+  .btn {
+    width: 95%;
+    padding: 12px;
+    margin-top: 15px;
+    background: #007bff;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    font-size: 16px;
+    cursor: pointer;
+  }
 
-    .input {
-        width: 90%;
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 6px;
-        border: none;
-        outline: none;
-    }
-
-    .button {
-        width: 95%;
-        padding: 10px;
-        margin-top: 15px;
-        border: none;
-        border-radius: 6px;
-        background: dodgerblue;
-        color: white;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    .alt-link {
-        margin-top: 10px;
-        font-size: 14px;
-        color: #ccc;
-    }
+  .kucuk-yazi {
+    margin-top: 10px;
+    font-size: 13px;
+    opacity: 0.8;
+  }
 </style>
+
 </head>
 <body>
 
-<!-- ======= ÜST TURUNCU YAZI ======= -->
-<div class="top-text">
-    𝗕𝘂 𝘀𝗶𝘁𝗲 𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 𝘁𝗮𝗿𝗮𝗳ı𝗻𝗱𝗮𝗻 𝗸𝘂𝗿𝘂𝗹𝗺𝘂𝘀𝘁𝘂𝗿
-    <small>gardaşlarım:<br>
-    ✧ İNFAZZORBA ✧<br>
-    ✧ KAAN ZORBA ✧</small>
+<div class="ust-yazi">
+  creater:𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 (𝐬𝐚𝐡𝐨) (9/A AMP)<br>
+  gardaşlarım:<br>
+  𝐈𝐧𝐟𝐚𝐳_𝐙𝐨𝐫𝐛𝐚 𝐯𝐞 𝐊𝐚𝐚𝐧_𝐙𝐨𝐫𝐛𝐚
 </div>
 
-<!-- ======= ORTA FORM ======= -->
-<div class="card">
-    <h2>UNIXSTORM — Kayıt Ol</h2>
+<div class="container">
+    <h2>UNIXSTORM-KAYIT</h2>
 
-    <input class="input" type="text" placeholder="Kullanıcı adı">
-    <input class="input" type="email" placeholder="E-posta (kod gönderilecek)">
-    <input class="input" type="password" placeholder="Şifre">
+    <input type="text" placeholder="Kullanıcı adı">
+    <input type="email" placeholder="E-posta">
+    <input type="password" placeholder="Şifre">
 
-    <button class="button">Kayıt Ol</button>
+    <button class="btn">Kayıt Ol</button>
 
-    <div class="alt-link">Hesabın var mı? Giriş yap</div>
-    <div class="alt-link" style="margin-top:8px;">Şifremi unuttum</div>
-
-    <p style="font-size:12px; margin-top:10px; color:#bbb;">
-        Not: Kayıt olunca doğrulama e-postası gelecek.<br>
-        Doğruladıktan sonra giriş yapabilirsiniz.
-    </p>
+    <div class="kucuk-yazi">Hesabın var mı? Giriş yap</div>
 </div>
 
 </body>
