@@ -2,7 +2,7 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>Giriş Sayfası</title>
+<title>UNIXSTORM Giriş</title>
 
 <style>
 body {
@@ -12,219 +12,95 @@ body {
     background-image: url("3cc68b3f22ff5463843e82b661033950.jpg");
     background-size: cover;
     background-position: center;
-    background-repeat: no-repeat;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-family: Arial;
+    font-family: Arial, sans-serif;
 }
 
-.box {
-    width: 350px;
-    background: rgba(0,0,0,0.6);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 0 25px #fff;
-    animation: glow 3s infinite alternate;
+/* --- Ayının üstündeki yazı --- */
+#ustYazi {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
     color: white;
+    font-size: 22px;
+    font-weight: bold;
+    text-shadow: 0 0 10px #fff, 0 0 20px #00eaff, 0 0 40px #00eaff;
+    animation: parilti 2s infinite alternate;
 }
 
-@keyframes glow {
-    from { box-shadow: 0 0 10px #00eaff; }
-    to   { box-shadow: 0 0 25px #0099ff; }
+@keyframes parilti {
+    0% { text-shadow: 0 0 10px #fff; }
+    100% { text-shadow: 0 0 25px #00eaff, 0 0 45px #00eaff; }
+}
+
+/* --- Giriş kutusu --- */
+.container {
+    width: 320px;
+    background: rgba(0,0,0,0.65);
+    padding: 20px;
+    border-radius: 12px;
+    margin: auto;
+    margin-top: 28%;
+    box-shadow: 0 0 25px #00eaff;
+    backdrop-filter: blur(4px);
+}
+
+.container h2 {
+    color: white;
+    text-align: center;
 }
 
 input {
     width: 100%;
     padding: 10px;
-    margin-top: 12px;
-    border-radius: 8px;
+    margin: 6px 0;
     border: none;
+    border-radius: 6px;
 }
 
 button {
     width: 100%;
-    padding: 10px;
-    margin-top: 15px;
-    border: none;
-    background: #0099ff;
+    background: #008cff;
     color: white;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
-    font-weight: bold;
-}
-
-button:hover {
-    background: #00b7ff;
-}
-
-.link {
+    padding: 10px;
+    border: none;
     margin-top: 10px;
+    border-radius: 6px;
+}
+
+p {
     text-align: center;
-    cursor: pointer;
-    color: #00b7ff;
+    margin-top: 10px;
+}
+
+p a {
+    color: #00c8ff;
 }
 </style>
 </head>
 
 <body>
 
-<div class="box">
-
-    <h2 style="text-align:center;">UNIXSTORM Giriş</h2>
-
-    <!-- KAYIT OL FORMU -->
-    <div id="registerBox">
-        <input type="text" id="username" placeholder="Kullanıcı adı">
-        <input type="email" id="regEmail" placeholder="E-posta">
-        <input type="password" id="regPass" placeholder="Şifre">
-        <button onclick="register()">Kayıt Ol</button>
-        <div class="link" onclick="showLogin()">Hesabın var mı? Giriş yap</div>
-    </div>
-
-    <!-- GİRİŞ FORMU -->
-    <div id="loginBox" style="display:none;">
-        <input type="email" id="logEmail" placeholder="E-posta">
-        <input type="password" id="logPass" placeholder="Şifre">
-        <button onclick="login()">Giriş Yap</button>
-        <div class="link" onclick="showRegister()">Hesabın yok mu? Kayıt ol</div>
-        <div class="link" onclick="showReset()">Şifremi unuttum</div>
-    </div>
-
-    <!-- ŞİFRE SIFIRLAMA FORMU -->
-    <div id="resetBox" style="display:none;">
-        <input type="email" id="resetEmail" placeholder="E-postanızı girin">
-        <button onclick="resetPassword()">Şifre Sıfırla</button>
-        <div class="link" onclick="showLogin()">Geri dön</div>
-    </div>
-
-</div>
-
-
-<!-- FIREBASE BAĞLANTISI -->
-<script type="module">
-
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getAuth, 
-         createUserWithEmailAndPassword, 
-         signInWithEmailAndPassword,
-         sendPasswordResetEmail } 
-         from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
-    authDomain: "unixstorm-9dff8.firebaseapp.com",
-    projectId: "unixstorm-9dff8",
-    storageBucket: "unixstorm-9dff8.firebasestorage.app",
-    messagingSenderId: "787509821542",
-    appId: "1:787509821542:web:2b54b5bafee1207edeada7",
-    measurementId: "G-BQYS1575QZ"
-};
-
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-// FORM GEÇİŞLERİ
-window.showLogin = () => {
-    document.getElementById("registerBox").style.display = "none";
-    document.getElementById("resetBox").style.display = "none";
-    document.getElementById("loginBox").style.display = "block";
-}
-
-window.showRegister = () => {
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("resetBox").style.display = "none";
-    document.getElementById("registerBox").style.display = "block";
-}
-
-window.showReset = () => {
-    document.getElementById("loginBox").style.display = "none";
-    document.getElementById("registerBox").style.display = "none";
-    document.getElementById("resetBox").style.display = "block";
-}
-
-// KAYIT OL
-window.register = () => {
-    const email = document.getElementById("regEmail").value;
-    const pass = document.getElementById("regPass").value;
-    
-    createUserWithEmailAndPassword(auth, email, pass)
-        .then(() => {
-            alert("Kayıt başarılı! Giriş yapabilirsiniz.");
-            showLogin();
-        })
-        .catch(err => alert(err.message));
-}
-
-// GİRİŞ YAP
-window.login = () => {
-    const email = document.getElementById("logEmail").value;
-    const pass = document.getElementById("logPass").value;
-
-    signInWithEmailAndPassword(auth, email, pass)
-        .then(() => {
-            alert("Giriş başarılı!");
-            window.location.href = "ana_site.html"; // GİRİŞTEN SONRA GİDİLECEK SAYFA
-        })
-        .catch(err => alert(err.message));
-}
-
-// ŞİFRE SIFIRLAMA
-window.resetPassword = () => {
-    const email = document.getElementById("resetEmail").value;
-
-    sendPasswordResetEmail(auth, email)
-        .then(() => alert("Şifre sıfırlama maili gönderildi!"))
-        .catch(err => alert(err.message));
-}
-
-</script>
-
-</body>
-</html>
-<style>
-.glowText {
-    position: absolute;
-    top: 10%;
-    width: 100%;
-    text-align: center;
-    font-size: 28px;
-    color: #fff;
-    font-weight: bold;
-    text-shadow: 0 0 10px #ffffff,
-                 0 0 20px #00eaff,
-                 0 0 30px #00eaff,
-                 0 0 40px #00eaff,
-                 0 0 55px #00eaff;
-    animation: glow 2.5s ease-in-out infinite;
-}
-
-@keyframes glow {
-    0% {
-        text-shadow: 0 0 10px #fff,
-                     0 0 20px #00eaff,
-                     0 0 30px #00eaff,
-                     0 0 40px #00eaff;
-    }
-    50% {
-        text-shadow: 0 0 20px #ffffff,
-                     0 0 30px #00eaff,
-                     0 0 40px #00eaff,
-                     0 0 60px #00eaff;
-    }
-    100% {
-        text-shadow: 0 0 10px #fff,
-                     0 0 20px #00eaff,
-                     0 0 30px #00eaff,
-                     0 0 40px #00eaff;
-    }
-}
-</style>
-
-<div class="glowText">
+<!-- 👑 Ayının üstündeki animasyonlu yazı -->
+<div id="ustYazi">
     creater: 𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌 <br>
     gardaşlarım: <br>
     ༒𝐈𝐍𝐅𝐀𝐙𝐙𝐎𝐑𝐁𝐀 <br>
     ༒𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀
 </div>
+
+<!-- Giriş kutusu -->
+<div class="container">
+    <h2>UNIXSTORM Giriş</h2>
+
+    <input type="text" placeholder="Kullanıcı adı">
+    <input type="email" placeholder="E-posta">
+    <input type="password" placeholder="Şifre">
+
+    <button>Kayıt Ol</button>
+    <p>Hesabın var mı? <a href="#">Giriş yap</a></p>
+</div>
+
+</body>
+</html>
