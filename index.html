@@ -1,71 +1,260 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<title>UNIXSTORM LOGIN</title>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>UNIXSTORM — Giriş</title>
 
-<!-- ARKA PLAN VE ORTALAMA (ekstra CSS gerekmez) -->
+<!-- Firebase (modular, web v12) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, updateProfile } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+  // --- SENİN KONFİGURASYONUN (kopyaladığın) ---
+  const firebaseConfig = {
+    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
+    authDomain: "unixstorm-9dff8.firebaseapp.com",
+    projectId: "unixstorm-9dff8",
+    storageBucket: "unixstorm-9dff8.firebasestorage.app",
+    messagingSenderId: "787509821542",
+    appId: "1:787509821542:web:2b54b5bafee1207edeada7",
+    measurementId: "G-BQYS1575QZ"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // Utility: deviceId (basit) -> localStorage
+  let deviceId = localStorage.getItem('unix_device_id');
+  if (!deviceId) {
+    deviceId = 'd_' + Math.random().toString(36).slice(2,12);
+    localStorage.setItem('unix_device_id', deviceId);
+  }
+
+  // Export small API to window for UI code below:
+  window.UNIX = {
+    auth, db, deviceId,
+    async register(username, email, password) {
+      // check device mapping in Firestore
+      const devRef = doc(db, 'devices', deviceId);
+      const devSnap = await getDoc(devRef);
+      if (devSnap.exists()) throw new Error('Bu cihaz zaten bir hesapla ilişkilendirilmiş.');
+
+      // create account
+      const cred = await createUserWithEmailAndPassword(auth, email, password);
+      // set displayName
+      await updateProfile(cred.user, { displayName: username });
+      // save user doc
+      const userRef = doc(db, 'users', cred.user.uid);
+      await setDoc(userRef, {
+        username, email, createdAt: new Date().toISOString(), deviceId
+      });
+      // map device -> uid
+      await setDoc(devRef, { uid: cred.user.uid, createdAt: new Date().toISOString() });
+      // send verification email
+      await sendEmailVerification(cred.user);
+      return cred.user;
+    },
+    async login(email, password) {
+      const cred = await signInWithEmailAndPassword(auth, email, password);
+      // enforce email verified
+      if (!cred.user.emailVerified) throw new Error('E-posta doğrulanmamış. Gönderilen doğrulama linkini kullanın.');
+      return cred.user;
+    },
+    async sendReset(email) {
+      await sendPasswordResetEmail(auth, email);
+    }
+  };
+
+</script>
+
 <style>
-  body {
-    margin: 0;
-    background: black;
-    font-family: Arial, sans-serif;
-    overflow: hidden;
+  :root{
+    --card-w:360px;
+    --accent: #00d1ff;
+    --bg: #000;
+    --glass: rgba(8,8,10,0.72);
+    --neon: 0 0 24px rgba(0,209,255,.35);
   }
 
-  /* ======= ÜSTTE PARILTILI YAZI ======= */
-  .ust-yazi {
-      position: absolute;
-      top: 5%;
-      width: 100%;
-      text-align: center;
-      font-size: 26px;
-      font-weight: 700;
-      color: #ffffff;
-      text-shadow: 0 0 10px #fff, 0 0 20px cyan, 0 0 40px cyan;
-      animation: parilti 2.5s infinite ease-in-out;
-      letter-spacing: 1px;
-      pointer-events: none;
-      user-select: none;
+  *{box-sizing:border-box}
+  html,body{height:100%;margin:0;font-family:Inter,Arial,Helvetica,sans-serif;background:#000;color:#fff}
+
+  /* ARKA PLAN: resim dosya adını BURADA değiştir */
+  body{
+    background: url("3cc68b3f22ff5463843e82b661033950.jpg") center/cover no-repeat fixed;
   }
 
-  @keyframes parilti {
-    0% { text-shadow: 0 0 10px #fff, 0 0 30px cyan; }
-    50% { text-shadow: 0 0 20px #fff, 0 0 60px cyan; }
-    100% { text-shadow: 0 0 10px #fff, 0 0 30px cyan; }
+  /* ÜSTTE neon yazı (sağ üst küçük, saydam) */
+  .watermark {
+    position:fixed; right:12px; top:12px;
+    font-size:12px; color:rgba(255,165,0,.9);
+    padding:6px 10px; background:rgba(0,0,0,.25);
+    border-radius:6px; backdrop-filter: blur(4px);
+    box-shadow: 0 0 18px rgba(255,165,0,.12);
+    z-index:999;
+    opacity:.85;
   }
 
-  /* ORTADAKİ KUTUNUN DURDUĞU YER – senin login/register burada */
-  .container {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 350px;
-      padding: 25px;
-      background: rgba(20,20,20,0.75);
-      border-radius: 15px;
-      box-shadow: 0 0 20px cyan;
-      color: white;
-      text-align: center;
+  /* ÜST PARILTILI ÇOK BAŞLIK (orta üst) */
+  .titleTop {
+    position:fixed; left:50%; transform:translateX(-50%); top:34px;
+    text-align:center; color:#ffb56b; font-weight:700; letter-spacing:1px;
+    text-shadow: 0 0 12px rgba(255,165,0,.25);
+    z-index: 900;
+    font-size:18px;
+  }
+
+  /* ORTA KUTU */
+  .card {
+    width:var(--card-w);
+    max-width:92%;
+    padding:20px;
+    border-radius:12px;
+    background: linear-gradient(180deg, rgba(12,12,14,.78), rgba(12,12,14,.68));
+    margin:0 auto;
+    position:fixed; left:50%; top:50%; transform:translate(-50%,-50%);
+    box-shadow: 0 6px 30px rgba(0,0,0,.6), var(--neon);
+    border: 1px solid rgba(0,209,255,.12);
+  }
+  .card h2{margin:0 0 12px 0;font-size:18px;font-weight:700;text-align:center}
+  .input{width:100%;padding:10px;border-radius:6px;border:0;margin:8px 0;background:#fff;color:#000}
+  .btn{display:block;width:100%;padding:10px;border-radius:8px;border:0;background:#00a6ff;color:#fff;font-weight:700;cursor:pointer}
+  .link{display:block;margin-top:8px;text-align:center;color:rgba(255,255,255,.7);font-size:13px;cursor:pointer}
+  .small{font-size:12px;color:rgba(255,255,255,.65);text-align:center;margin-top:8px}
+
+  /* modal notifications */
+  .notice{position:fixed;left:50%;transform:translateX(-50%);bottom:24px;background:rgba(0,0,0,.6);padding:10px 16px;border-radius:10px;border:1px solid rgba(255,255,255,.06);color:#fff;display:none;z-index:9999}
+
+  /* responsive */
+  @media (max-width:420px){
+    .titleTop{font-size:14px;top:18px}
   }
 </style>
-
 </head>
 <body>
 
-<!-- ===== ÜSTTE PARILTILI YAZI ===== -->
-<div class="ust-yazi">
-  creater:SAHO REIS (9/A AMP)<br>
-  gardaşlarım:<br>
-  INFAZ-ZORBA<br>
-  KAAN-ZORBA
-</div>
+  <!-- sağ üst küçük suluboya yazı -->
+  <div class="watermark">bu site Şahin (9/A Amp) tarafından kurulmuştur</div>
 
-<!-- ====== ORTA KUTU (login/register buraya gelecek) ====== -->
-<div class="container">
-  <h2>Giriş / Kayıt Alanı Buraya Gelecek</h2>
-</div>
+  <!-- üst büyük başlık -->
+  <div class="titleTop">
+    creater: 𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌<br>
+    gardaşlarım: ༒𝐈𝐍𝐅𝐀𝐙𝐙𝐎𝐑𝐁𝐀 · ༒𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀
+  </div>
 
+  <!-- Giriş / Kayıt KUTUSU -->
+  <div class="card" id="card">
+    <h2 id="cardTitle">UNIXSTORM — Kayıt Ol</h2>
+
+    <!-- kayıt alanı -->
+    <input id="username" class="input" placeholder="Kullanıcı adı (her şey serbest)" />
+    <input id="email" class="input" placeholder="E-posta (kod gönderilecek)" />
+    <input id="password" class="input" placeholder="Şifre" type="password" />
+
+    <button id="actionBtn" class="btn">Kayıt Ol</button>
+    <div class="link" id="toggleLogin">Hesabın var mı? Giriş yap</div>
+    <div class="small"><a id="forgot" style="color:lightblue;cursor:pointer">Şifremi unuttum</a></div>
+    <div class="small" style="margin-top:10px;font-size:12px;color:rgba(255,255,255,.6)">
+      Not: Kayıt olunca doğrulama e-postası gelecek. Doğruladıktan sonra giriş yapabilirsiniz.
+    </div>
+  </div>
+
+  <div class="notice" id="notice">Uyarı</div>
+
+<script type="module">
+  // UI select
+  const cardTitle = document.getElementById('cardTitle');
+  const usernameEl = document.getElementById('username');
+  const emailEl = document.getElementById('email');
+  const passwordEl = document.getElementById('password');
+  const actionBtn = document.getElementById('actionBtn');
+  const toggleLogin = document.getElementById('toggleLogin');
+  const forgotLink = document.getElementById('forgot');
+  const notice = document.getElementById('notice');
+
+  // get window.UNIX from module above
+  const { register, login, sendReset, deviceId } = window.UNIX;
+
+  let mode = 'register'; // or 'login'
+
+  function showNotice(text, duration=3000){
+    notice.textContent = text;
+    notice.style.display = 'block';
+    setTimeout(()=> notice.style.display='none', duration);
+  }
+
+  // switch mode UI
+  function setMode(m){
+    mode = m;
+    if (m === 'register'){
+      cardTitle.textContent = 'UNIXSTORM — Kayıt Ol';
+      actionBtn.textContent = 'Kayıt Ol';
+      usernameEl.style.display = 'block';
+      toggleLogin.textContent = 'Hesabın var mı? Giriş yap';
+    } else {
+      cardTitle.textContent = 'UNIXSTORM — Giriş Yap';
+      actionBtn.textContent = 'Giriş Yap';
+      usernameEl.style.display = 'none';
+      toggleLogin.textContent = 'Hesabın yok mu? Kayıt ol';
+    }
+  }
+  setMode('register');
+
+  toggleLogin.addEventListener('click', ()=> {
+    setMode(mode==='register' ? 'login':'register');
+  });
+
+  // forgot password
+  forgotLink.addEventListener('click', async ()=>{
+    const email = prompt('E-posta adresini gir (şifre sıfırlama maili gönderilecek):');
+    if (!email) return;
+    try{
+      await sendReset(email);
+      showNotice('Sıfırlama e-postası gönderildi. Gelen kutunu kontrol et.');
+    }catch(e){
+      showNotice('Hata: '+ (e.message || e));
+    }
+  });
+
+  // action button (register or login)
+  actionBtn.addEventListener('click', async ()=>{
+    const username = usernameEl.value.trim();
+    const email = emailEl.value.trim();
+    const pwd = passwordEl.value;
+
+    if (mode === 'register'){
+      if (!username) { showNotice('Kullanıcı adı gir.'); return; }
+      if (!email || !pwd) { showNotice('E-posta ve şifre gerekli.'); return; }
+      try{
+        actionBtn.disabled = true;
+        showNotice('Kayıt yapılıyor...');
+        const user = await register(username, email, pwd);
+        showNotice('Kayıt başarılı. Doğrulama maili gönderildi.');
+        // after register ask user to check mail
+      }catch(e){
+        showNotice('Hata: ' + (e.message || e));
+      }finally{ actionBtn.disabled = false; }
+    } else {
+      if (!email || !pwd) { showNotice('E-posta ve şifre gerekli.'); return; }
+      try{
+        actionBtn.disabled = true;
+        showNotice('Giriş deneniyor...');
+        const user = await login(email, pwd);
+        showNotice('Giriş başarılı! yönlendiriliyorsun...');
+        // redirect to protected main page (create main.html later)
+        setTimeout(()=>{ window.location.href = '/main.html'; }, 900);
+      }catch(e){
+        showNotice('Hata: ' + (e.message || e));
+      }finally{ actionBtn.disabled = false; }
+    }
+  });
+
+  // Optional: show deviceId in console
+  console.log('deviceId:', deviceId);
+
+</script>
 </body>
 </html>
