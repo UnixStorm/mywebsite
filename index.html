@@ -2,104 +2,69 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>UNIXSTORM Giriş</title>
+<title>UNIXSTORM LOGIN</title>
 
+<!-- ARKA PLAN VE ORTALAMA (ekstra CSS gerekmez) -->
 <style>
-body {
+  body {
     margin: 0;
-    padding: 0;
-    height: 100vh;
-    background-image: url("3cc68b3f22ff5463843e82b661033950.jpg");
-    background-size: cover;
-    background-position: center;
+    background: black;
     font-family: Arial, sans-serif;
-}
+    overflow: hidden;
+  }
 
-/* --- Ayının üstündeki yazı --- */
-#ustYazi {
-    position: absolute;
-    top: 15%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
-    color: white;
-    font-size: 22px;
-    font-weight: bold;
-    text-shadow: 0 0 10px #fff, 0 0 20px #00eaff, 0 0 40px #00eaff;
-    animation: parilti 2s infinite alternate;
-}
+  /* ======= ÜSTTE PARILTILI YAZI ======= */
+  .ust-yazi {
+      position: absolute;
+      top: 5%;
+      width: 100%;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 0 10px #fff, 0 0 20px cyan, 0 0 40px cyan;
+      animation: parilti 2.5s infinite ease-in-out;
+      letter-spacing: 1px;
+      pointer-events: none;
+      user-select: none;
+  }
 
-@keyframes parilti {
-    0% { text-shadow: 0 0 10px #fff; }
-    100% { text-shadow: 0 0 25px #00eaff, 0 0 45px #00eaff; }
-}
+  @keyframes parilti {
+    0% { text-shadow: 0 0 10px #fff, 0 0 30px cyan; }
+    50% { text-shadow: 0 0 20px #fff, 0 0 60px cyan; }
+    100% { text-shadow: 0 0 10px #fff, 0 0 30px cyan; }
+  }
 
-/* --- Giriş kutusu --- */
-.container {
-    width: 320px;
-    background: rgba(0,0,0,0.65);
-    padding: 20px;
-    border-radius: 12px;
-    margin: auto;
-    margin-top: 28%;
-    box-shadow: 0 0 25px #00eaff;
-    backdrop-filter: blur(4px);
-}
-
-.container h2 {
-    color: white;
-    text-align: center;
-}
-
-input {
-    width: 100%;
-    padding: 10px;
-    margin: 6px 0;
-    border: none;
-    border-radius: 6px;
-}
-
-button {
-    width: 100%;
-    background: #008cff;
-    color: white;
-    padding: 10px;
-    border: none;
-    margin-top: 10px;
-    border-radius: 6px;
-}
-
-p {
-    text-align: center;
-    margin-top: 10px;
-}
-
-p a {
-    color: #00c8ff;
-}
+  /* ORTADAKİ KUTUNUN DURDUĞU YER – senin login/register burada */
+  .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 350px;
+      padding: 25px;
+      background: rgba(20,20,20,0.75);
+      border-radius: 15px;
+      box-shadow: 0 0 20px cyan;
+      color: white;
+      text-align: center;
+  }
 </style>
-</head>
 
+</head>
 <body>
 
-<!-- 👑 Ayının üstündeki animasyonlu yazı -->
-<div id="ustYazi">
-    creater: 𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌 <br>
-    gardaşlarım: <br>
-    ༒𝐈𝐍𝐅𝐀𝐙𝐙𝐎𝐑𝐁𝐀 <br>
-    ༒𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀
+<!-- ===== ÜSTTE PARILTILI YAZI ===== -->
+<div class="ust-yazi">
+  creater:𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌<br>
+  gardaşlarım:<br>
+  ༒𝐈𝐍𝐅𝐀𝐙𝐙𝐎𝐑𝐁𝐀<br>
+  ༒𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀
 </div>
 
-<!-- Giriş kutusu -->
+<!-- ====== ORTA KUTU (login/register buraya gelecek) ====== -->
 <div class="container">
-    <h2>UNIXSTORM Giriş</h2>
-
-    <input type="text" placeholder="Kullanıcı adı">
-    <input type="email" placeholder="E-posta">
-    <input type="password" placeholder="Şifre">
-
-    <button>Kayıt Ol</button>
-    <p>Hesabın var mı? <a href="#">Giriş yap</a></p>
+  <h2>Giriş / Kayıt Alanı Buraya Gelecek</h2>
 </div>
 
 </body>
