@@ -12,7 +12,7 @@
     font-family: Arial, sans-serif;
   }
 
-  /* ======= ÜSTTE PARILTILI ANA YAZI ======= */
+  /* ======= ÜSTTE PARILTILI YAZI ======= */
   .ust-yazi {
       position: absolute;
       top: 5%;
@@ -26,7 +26,7 @@
       letter-spacing: 1px;
       user-select: none;
       pointer-events: none;
-      z-index: 5;
+      z-index: 10;
   }
 
   @keyframes parilti {
@@ -35,19 +35,19 @@
     100% { text-shadow: 0 0 10px #fff, 0 0 30px cyan; }
   }
 
-  /* ======= SAĞ ÜST KÖŞE NOT ======= */
-  .kose-not {
+  /* ===== SAĞ ÜSTTE KÜÇÜK YAZI ===== */
+  .kucuk-yazi {
       position: absolute;
       top: 10px;
-      right: 15px;
-      font-size: 12px;
+      right: 10px;
+      font-size: 10px;
+      opacity: 0.4;
       color: white;
-      opacity: 0.35; /* az görünür, rahatsız etmez */
-      z-index: 10;
       user-select: none;
+      z-index: 99999;
   }
 
-  /* ======= ORTA GİRİŞ KUTUSU ======= */
+  /* ====== ORTA KUTU ====== */
   .container {
       position: absolute;
       top: 50%;
@@ -60,18 +60,17 @@
       box-shadow: 0 0 20px cyan;
       color: white;
       text-align: center;
-      z-index: 3;
+      z-index: 5;
   }
 
   .container button {
       width: 100%;
       padding: 12px;
-      margin-top: 10px;
+      background: cyan;
       border: none;
-      border-radius: 10px;
-      background: #0bd;
-      color: white;
-      font-size: 16px;
+      border-radius: 8px;
+      font-size: 17px;
+      margin-top: 10px;
       cursor: pointer;
   }
 </style>
@@ -79,24 +78,23 @@
 </head>
 <body>
 
-<!-- ===== PARILTILI BAŞLIK ===== -->
+<!-- PARILTILI BAŞLIK -->
 <div class="ust-yazi">
   creater:𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌<br>
   gardaşlarım:<br>
-  ✟𝐈𝐍𝐅𝐀𝐙𝐙𝐎𝐑𝐁𝐀<br>
-  ✟𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀
+  ༒𝐈𝐍𝐅𝐀𝐙𝐙𝐎𝐑𝐁𝐀<br>
+  ༒𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀
 </div>
 
-<!-- ===== SAĞ ÜST KÜÇÜK YAZI ===== -->
-<div class="kose-not">
-  @Bu site Şahin (9/A Amp) tarafından kurulmuştur
+<!-- SAĞ ÜST KÜÇÜK YAZI -->
+<div class="kucuk-yazi">
+  @bu site Şahin (9/A Amp) tarafından kurulmuştur
 </div>
 
-<!-- ===== ORTA GİRİŞ KUTUSU ===== -->
+<!-- GİRİŞ KUTUSU -->
 <div class="container">
   <h2>UNIXSTORM Giriş</h2>
-  <!-- Buraya giriş-kayıt sistemi gelecek -->
-  <button>Giriş</button>
+  <button>Giriş Yap</button>
 </div>
 
 </body>
