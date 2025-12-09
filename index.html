@@ -26,7 +26,7 @@
       letter-spacing: 1px;
       user-select: none;
       pointer-events: none;
-      z-index: 9999; /* EN ÖNE GETİRİYOR */
+      z-index: 9999;
   }
 
   @keyframes parilti {
@@ -50,6 +50,19 @@
       text-align: center;
       z-index: 2;
   }
+
+  /* ===== SAĞ ÜST KÖŞE NOT ===== */
+  .kose-not {
+      position: absolute;
+      top: 8px;
+      right: 12px;
+      font-size: 12px;
+      color: white;
+      opacity: 0.40; /* Daha saydam */
+      user-select: none;
+      pointer-events: none;
+      z-index: 99999;
+  }
 </style>
 
 </head>
@@ -63,10 +76,15 @@
   ༒𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀
 </div>
 
+<!-- SAĞ ÜST KÖŞE NOTU -->
+<div class="kose-not">
+  @Bu site Şahin (9/A Amp) tarafından kurulmuştur
+</div>
+
 <!-- GİRİŞ KUTUSU -->
 <div class="container">
   <h2>UNIXSTORM Giriş</h2>
-  <!-- Senin login/register formu buraya gelecek -->
+  <!-- Giriş & Kayıt sistemi buraya gelecek -->
 </div>
 
 </body>
