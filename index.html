@@ -4,13 +4,12 @@
 <meta charset="UTF-8">
 <title>UNIXSTORM LOGIN</title>
 
-<!-- ARKA PLAN VE ORTALAMA (ekstra CSS gerekmez) -->
 <style>
   body {
     margin: 0;
-    background: black;
+    background: url("arkaplan.jpg") no-repeat center center fixed;
+    background-size: cover;
     font-family: Arial, sans-serif;
-    overflow: hidden;
   }
 
   /* ======= ÜSTTE PARILTILI YAZI ======= */
@@ -25,8 +24,9 @@
       text-shadow: 0 0 10px #fff, 0 0 20px cyan, 0 0 40px cyan;
       animation: parilti 2.5s infinite ease-in-out;
       letter-spacing: 1px;
-      pointer-events: none;
       user-select: none;
+      pointer-events: none;
+      z-index: 9999; /* EN ÖNE GETİRİYOR */
   }
 
   @keyframes parilti {
@@ -35,7 +35,7 @@
     100% { text-shadow: 0 0 10px #fff, 0 0 30px cyan; }
   }
 
-  /* ORTADAKİ KUTUNUN DURDUĞU YER – senin login/register burada */
+  /* ORTA KUTU */
   .container {
       position: absolute;
       top: 50%;
@@ -48,13 +48,14 @@
       box-shadow: 0 0 20px cyan;
       color: white;
       text-align: center;
+      z-index: 2;
   }
 </style>
 
 </head>
 <body>
 
-<!-- ===== ÜSTTE PARILTILI YAZI ===== -->
+<!-- PARILTILI BAŞLIK -->
 <div class="ust-yazi">
   creater:𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌<br>
   gardaşlarım:<br>
@@ -62,9 +63,10 @@
   ༒𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀
 </div>
 
-<!-- ====== ORTA KUTU (login/register buraya gelecek) ====== -->
+<!-- GİRİŞ KUTUSU -->
 <div class="container">
-  <h2>Giriş / Kayıt Alanı Buraya Gelecek</h2>
+  <h2>UNIXSTORM Giriş</h2>
+  <!-- Senin login/register formu buraya gelecek -->
 </div>
 
 </body>
