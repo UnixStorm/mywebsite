@@ -1,205 +1,103 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>UNIXSTORM - Giriş</title>
+<meta charset="UTF-8">
+<title>UNIXSTORM LOGIN</title>
 
 <style>
-  :root{
-    --card-w: 360px;
-    --accent: #00d4ff;
-    --glass-bg: rgba(10,10,12,0.72);
-    --glass-border: rgba(0,212,255,0.18);
-  }
-  html,body{height:100%;margin:0;font-family:Inter, system-ui, Arial, sans-serif;}
-  body{
-    background: url("3cc68b3f22ff5463843e82b661033950.jpg") center/cover no-repeat fixed;
-    display:flex;align-items:center;justify-content:center;
-    color:#fff;
+  body {
+    margin: 0;
+    background: url("arkaplan.jpg") no-repeat center center fixed;
+    background-size: cover;
+    font-family: Arial, sans-serif;
   }
 
-  /* üstte parıltılı yazı (ortaüst -> z-index en üst) */
-  .ust-yazi{
-    position:fixed; top:18px; left:50%; transform:translateX(-50%);
-    text-align:center; font-weight:800; font-size:18px; letter-spacing:1px;
-    color:#fff; pointer-events:none; user-select:none;
-    text-shadow: 0 0 8px #fff, 0 0 18px var(--accent), 0 0 36px rgba(0,212,255,0.12);
-    animation:parilti 2.6s infinite ease-in-out;
-    z-index:9999;
-    mix-blend-mode:screen;
-  }
-  @keyframes parilti{
-    0%{text-shadow:0 0 6px #fff,0 0 22px var(--accent)}
-    50%{text-shadow:0 0 18px #fff,0 0 54px var(--accent)}
-    100%{text-shadow:0 0 6px #fff,0 0 22px var(--accent)}
-  }
-
-  /* sağ üst küçük watermark */
-  .watermark{
-    position:fixed; right:12px; top:10px;
-    color:rgba(255,255,255,0.6); font-size:12px;
-    background:rgba(0,0,0,0.25); padding:6px 8px; border-radius:6px;
-    backdrop-filter: blur(4px); z-index:9999;
+  /* ======= ÜSTTE PARILTILI ANA YAZI ======= */
+  .ust-yazi {
+      position: absolute;
+      top: 5%;
+      width: 100%;
+      text-align: center;
+      font-size: 26px;
+      font-weight: 700;
+      color: #ffffff;
+      text-shadow: 0 0 10px #fff, 0 0 20px cyan, 0 0 40px cyan;
+      animation: parilti 2.5s infinite ease-in-out;
+      letter-spacing: 1px;
+      user-select: none;
+      pointer-events: none;
+      z-index: 5;
   }
 
-  /* orta kutu (glass) */
-  .card{
-    width:var(--card-w); max-width:94%;
-    background:var(--glass-bg);
-    border-radius:12px; padding:18px 18px 20px;
-    box-shadow:0 8px 30px rgba(0,0,0,0.6),0 0 24px rgba(0,212,255,0.06) inset;
-    border:1px solid var(--glass-border);
-    text-align:center;
-    transition:transform .18s ease, box-shadow .2s ease;
-    z-index:50;
-  }
-  .card:active{ transform: translateY(2px) }
-  .card h2{ margin:4px 0 12px; font-size:18px; }
-  .inputs{ display:flex; flex-direction:column; gap:10px; margin-bottom:10px; }
-  input[type="text"], input[type="password"], input[type="email"]{
-    width:100%; padding:10px 12px; border-radius:8px; border:0; outline:none;
-    font-size:14px; box-sizing:border-box;
-  }
-  .btn{
-    display:block; width:100%; padding:10px; border-radius:8px; border:0;
-    font-weight:700; cursor:pointer; margin-top:6px;
-    background:linear-gradient(90deg,#06a6ff,#00e0ff); color:#03222b;
-    box-shadow:0 6px 20px rgba(0,212,255,0.12);
-  }
-  .muted{ color:rgba(255,255,255,0.7); font-size:13px; margin-top:8px; }
-  .link{ color:var(--accent); cursor:pointer; text-decoration:underline; font-weight:600 }
-
-  /* küçük metin animasyon (giriş kutusu etrafında parıltı) */
-  .card::before{
-    content:""; position:absolute; left:50%; top:50%;
-    transform:translate(-50%,-50%); width:calc(var(--card-w) + 36px); height:calc(100% + 28px);
-    border-radius:16px; z-index:-1; pointer-events:none;
-    background: radial-gradient(closest-side, rgba(0,212,255,0.08), transparent 60%);
-    filter: blur(10px); opacity:0.95;
+  @keyframes parilti {
+    0% { text-shadow: 0 0 10px #fff, 0 0 30px cyan; }
+    50% { text-shadow: 0 0 20px #fff, 0 0 60px cyan; }
+    100% { text-shadow: 0 0 10px #fff, 0 0 30px cyan; }
   }
 
-  /* toggle görünümleri */
-  .small-row{ display:flex; justify-content:center; gap:12px; margin-top:8px; align-items:center; }
-  .hidden{ display:none; }
+  /* ======= SAĞ ÜST KÖŞE NOT ======= */
+  .kose-not {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      font-size: 12px;
+      color: white;
+      opacity: 0.35; /* az görünür, rahatsız etmez */
+      z-index: 10;
+      user-select: none;
+  }
 
-  /* responsive küçük ekran */
-  @media(max-width:420px){
-    .ust-yazi{ font-size:14px; top:10px }
-    .watermark{ font-size:11px; padding:5px }
+  /* ======= ORTA GİRİŞ KUTUSU ======= */
+  .container {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 350px;
+      padding: 25px;
+      background: rgba(20,20,20,0.75);
+      border-radius: 15px;
+      box-shadow: 0 0 20px cyan;
+      color: white;
+      text-align: center;
+      z-index: 3;
+  }
+
+  .container button {
+      width: 100%;
+      padding: 12px;
+      margin-top: 10px;
+      border: none;
+      border-radius: 10px;
+      background: #0bd;
+      color: white;
+      font-size: 16px;
+      cursor: pointer;
   }
 </style>
+
 </head>
 <body>
 
-  <div class="ust-yazi" id="ust">
-    creater:𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌<br>
-    gardaşlarım:<br>
-    ༒𝐈𝐍𝐅𝐀𝐙𝐙𝐎𝐑𝐁𝐀<br>
-    ༒𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀
-  </div>
+<!-- ===== PARILTILI BAŞLIK ===== -->
+<div class="ust-yazi">
+  creater:𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌<br>
+  gardaşlarım:<br>
+  ✟𝐈𝐍𝐅𝐀𝐙𝐙𝐎𝐑𝐁𝐀<br>
+  ✟𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀
+</div>
 
-  <div class="watermark">bu site Şahin (9/A Amp) tarafından kurulmuştur</div>
+<!-- ===== SAĞ ÜST KÜÇÜK YAZI ===== -->
+<div class="kose-not">
+  @Bu site Şahin (9/A Amp) tarafından kurulmuştur
+</div>
 
-  <div class="card" id="card">
-    <h2 id="form-title">UNIXSTORM Giriş</h2>
-
-    <!-- KAYIT FORMU (ilk görülecek) -->
-    <form id="register-form">
-      <div class="inputs">
-        <input id="reg-username" placeholder="Kullanıcı adı (her karakter serbest)" />
-        <input id="reg-email" type="email" placeholder="E-posta (gerekli doğrulama için)" />
-        <input id="reg-pass" type="password" placeholder="Şifre" />
-      </div>
-      <button type="button" class="btn" id="do-register">Kayıt Ol</button>
-
-      <div class="muted small-row">
-        <span>Hesabın var mı?</span>
-        <span class="link" id="show-login">Giriş yap</span>
-      </div>
-    </form>
-
-    <!-- GİRİŞ FORMU (başta gizli) -->
-    <form id="login-form" class="hidden">
-      <div class="inputs">
-        <input id="login-email" type="email" placeholder="E-posta" />
-        <input id="login-pass" type="password" placeholder="Şifre" />
-      </div>
-      <button type="button" class="btn" id="do-login">Giriş Yap</button>
-
-      <div class="muted small-row">
-        <span class="link" id="show-register">Kayıt ol</span>
-        <span style="margin-left:8px;color:rgba(255,255,255,0.6);font-size:13px;">•</span>
-        <span class="link" id="forgot">Şifremi unuttum</span>
-      </div>
-    </form>
-
-    <!-- Şifre sıfırlama formu (gizli) -->
-    <form id="reset-form" class="hidden">
-      <div class="inputs">
-        <input id="reset-email" type="email" placeholder="Kayıtlı E-posta" />
-      </div>
-      <button type="button" class="btn" id="do-reset">E-posta Gönder</button>
-      <div class="muted small-row">
-        <span class="link" id="back-to-login">Girişe dön</span>
-      </div>
-    </form>
-
-    <div id="status" class="muted" style="margin-top:10px; font-size:13px;"></div>
-  </div>
-
-<script>
-  // form geçişleri
-  const regForm = document.getElementById('register-form');
-  const logForm = document.getElementById('login-form');
-  const resetForm = document.getElementById('reset-form');
-  const title = document.getElementById('form-title');
-  const status = document.getElementById('status');
-
-  document.getElementById('show-login').onclick = ()=>{ regForm.classList.add('hidden'); logForm.classList.remove('hidden'); resetForm.classList.add('hidden'); title.innerText='UNIXSTORM Giriş'; status.innerText=''; }
-  document.getElementById('show-register').onclick = ()=>{ regForm.classList.remove('hidden'); logForm.classList.add('hidden'); resetForm.classList.add('hidden'); title.innerText='Kayıt Ol'; status.innerText=''; }
-  document.getElementById('forgot').onclick = ()=>{ regForm.classList.add('hidden'); logForm.classList.add('hidden'); resetForm.classList.remove('hidden'); title.innerText='Şifre Sıfırlama'; status.innerText=''; }
-  document.getElementById('back-to-login').onclick = ()=>{ regForm.classList.add('hidden'); logForm.classList.remove('hidden'); resetForm.classList.add('hidden'); title.innerText='UNIXSTORM Giriş'; status.innerText=''; }
-
-  // kısa uyarı fonksiyonu
-  function showStatus(txt, ok=true){
-    status.style.color = ok ? '#cfeffd' : '#ffb3b3';
-    status.innerText = txt;
-    setTimeout(()=>{ if(status.innerText===txt) status.innerText=''; }, 5000);
-  }
-
-  // ŞİMDİ ÖNEMLİ: Bu kısım şu an sadece frontend simülasyonu.
-  // Gerçek kayıt / giriş için Firebase veya başka bir backend bağlamamız gerekli.
-  // Aşağıdaki butonlara tıklayınca frontend doğrulama gösterir.
-  document.getElementById('do-register').onclick = ()=>{
-    const u = document.getElementById('reg-username').value.trim();
-    const e = document.getElementById('reg-email').value.trim();
-    const p = document.getElementById('reg-pass').value;
-    if(!u || !e || !p){ showStatus('Lütfen tüm alanları doldurun.', false); return; }
-    // email basit kontrol
-    if(!e.includes('@')){ showStatus('Geçerli bir e-posta girin.', false); return; }
-    // simülasyon başarı
-    showStatus('Kayıt isteğiniz alındı. (Frontend demo) — Gerçek kayıt için Firebase bağlamamız lazım.');
-    // sonra istersen Firebase fonksiyonları buraya çağrılır.
-  };
-
-  document.getElementById('do-login').onclick = ()=>{
-    const e = document.getElementById('login-email').value.trim();
-    const p = document.getElementById('login-pass').value;
-    if(!e || !p){ showStatus('E-posta ve şifre gerekli.', false); return; }
-    // demo success
-    showStatus('Giriş başarılı (demo). Gerçek giriş için backend/ Firebase ekle.');
-    // istersen redirect: window.location.href = "/ana_sayfa.html";
-  };
-
-  document.getElementById('do-reset').onclick = ()=>{
-    const e = document.getElementById('reset-email').value.trim();
-    if(!e || !e.includes('@')){ showStatus('Geçerli e-posta girin.', false); return; }
-    showStatus('Sıfırlama kodu gönderildi (demo). Gerçek e-posta için backend gerekir.');
-  };
-
-  // not: burada cihaz başına tek hesap hakkı vb. kurallar backend tarafında uygulanır.
-</script>
+<!-- ===== ORTA GİRİŞ KUTUSU ===== -->
+<div class="container">
+  <h2>UNIXSTORM Giriş</h2>
+  <!-- Buraya giriş-kayıt sistemi gelecek -->
+  <button>Giriş</button>
+</div>
 
 </body>
 </html>
