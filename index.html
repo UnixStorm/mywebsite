@@ -2,92 +2,178 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>UNIXSTORM Giriş</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UNIXSTORM</title>
 
 <style>
-  body {
-    margin: 0;
-    padding: 0;
-    background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
-    background-size: cover;
-    font-family: Arial, sans-serif;
-  }
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: url("arkaplan.jpg") no-repeat center center fixed;
+        background-size: cover;
+    }
 
-  /* Üstteki yazı */
-  .ust-yazi {
-      position: absolute;
-      top: 20px;
-      width: 100%;
-      text-align: center;
-      color: #ffffff;
-      font-size: 20px;
-      font-weight: bold;
-      text-shadow: 0 0 8px cyan;
-      user-select: none;
-  }
+    .header {
+        text-align: center;
+        margin-top: 15px;
+        font-size: 20px;
+        color: #ff8000;
+        font-weight: bold;
+        text-shadow: 0 0 10px #ff8000;
+    }
 
-  /* Ortadaki giriş kutusu */
-  .container {
-    position: absolute;
-    top: 55%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 330px;
-    background: rgba(20,20,20,0.7);
-    padding: 25px;
-    border-radius: 15px;
-    box-shadow: 0 0 20px cyan;
-    text-align: center;
-    color: white;
-  }
+    .box {
+        width: 330px;
+        padding: 25px;
+        background: rgba(0, 0, 0, 0.55);
+        border-radius: 15px;
+        backdrop-filter: blur(6px);
+        margin: 90px auto;
+        color: white;
+        box-shadow: 0 0 15px aqua;
+        transition: 0.4s;
+    }
 
-  .container input {
-    width: 90%;
-    padding: 10px;
-    margin-top: 10px;
-    border-radius: 7px;
-    border: none;
-  }
+    .box h2 {
+        text-align: center;
+        margin-bottom: 20px;
+    }
 
-  .btn {
-    width: 95%;
-    padding: 12px;
-    margin-top: 15px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    font-size: 16px;
-    cursor: pointer;
-  }
+    .box input {
+        width: 100%;
+        padding: 10px;
+        margin: 6px 0;
+        border-radius: 7px;
+        border: none;
+        outline: none;
+    }
 
-  .kucuk-yazi {
-    margin-top: 10px;
-    font-size: 13px;
-    opacity: 0.8;
-  }
+    .btn {
+        width: 100%;
+        padding: 10px;
+        margin-top: 10px;
+        background: #007bff;
+        border: none;
+        color: white;
+        border-radius: 7px;
+    }
+
+    .link {
+        margin-top: 10px;
+        text-align: center;
+        color: #ccc;
+        cursor: pointer;
+        text-decoration: underline;
+    }
 </style>
-
 </head>
 <body>
 
-<div class="ust-yazi">
-  creater:𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 (𝐬𝐚𝐡𝐨) (9/A AMP)<br>
-  gardaşlarım:<br>
-  𝐈𝐧𝐟𝐚𝐳_𝐙𝐨𝐫𝐛𝐚 𝐯𝐞 𝐊𝐚𝐚𝐧_𝐙𝐨𝐫𝐛𝐚
+<div class="header">
+𝗕𝘂 𝘀𝗶𝘁𝗲 𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 𝘁𝗮𝗿𝗮𝗳ı𝗻𝗱𝗮𝗻 𝗸𝘂𝗿𝘂𝗹𝗺𝘂𝘀𝘁𝘂𝗿
 </div>
 
-<div class="container">
-    <h2>UNIXSTORM-KAYIT</h2>
+<div class="box" id="formBox">
 
-    <input type="text" placeholder="Kullanıcı adı">
-    <input type="email" placeholder="E-posta">
-    <input type="password" placeholder="Şifre">
+    <!-- KAYIT FORMU -->
+    <div id="registerForm">
+        <h2>UNIXSTORM – Kayıt Ol</h2>
+        <input type="text" id="regName" placeholder="Kullanıcı adı">
+        <input type="email" id="regEmail" placeholder="E-posta">
+        <input type="password" id="regPass" placeholder="Şifre">
+        <button class="btn" onclick="register()">Kayıt Ol</button>
 
-    <button class="btn">Kayıt Ol</button>
+        <div class="link" onclick="showLogin()">Hesabın var mı? Giriş yap</div>
+        <div class="link" onclick="showReset()">Şifremi unuttum</div>
+    </div>
 
-    <div class="kucuk-yazi">Hesabın var mı? Giriş yap</div>
+    <!-- GİRİŞ FORMU -->
+    <div id="loginForm" style="display:none;">
+        <h2>UNIXSTORM – Giriş Yap</h2>
+        <input type="email" id="logEmail" placeholder="E-posta">
+        <input type="password" id="logPass" placeholder="Şifre">
+        <button class="btn" onclick="login()">Giriş Yap</button>
+
+        <div class="link" onclick="showRegister()">Kayıt olmak istiyorum</div>
+        <div class="link" onclick="showReset()">Şifremi unuttum</div>
+    </div>
+
+    <!-- ŞİFRE RESET -->
+    <div id="resetForm" style="display:none;">
+        <h2>Şifre Yenile</h2>
+        <input type="email" id="resetEmail" placeholder="E-posta">
+        <button class="btn" onclick="resetPass()">Sıfırlama Maili Gönder</button>
+
+        <div class="link" onclick="showLogin()">Giriş sayfasına dön</div>
+    </div>
+
 </div>
+
+<!-- FIREBASE -->
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
+
+<script>
+const firebaseConfig = {
+    apiKey: "SENİNKİ",
+    authDomain: "SENİNKİ.firebaseapp.com",
+    projectId: "SENİNKİ",
+    storageBucket: "SENİNKİ.appspot.com",
+    messagingSenderId: "SENİNKİ",
+    appId: "SENİNKİ"
+};
+
+firebase.initializeApp(firebaseConfig);
+const auth = firebase.auth();
+
+function showLogin(){
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("resetForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "block";
+}
+
+function showRegister(){
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("resetForm").style.display = "none";
+    document.getElementById("registerForm").style.display = "block";
+}
+
+function showReset(){
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("resetForm").style.display = "block";
+}
+
+function register(){
+    let email = document.getElementById("regEmail").value;
+    let pass  = document.getElementById("regPass").value;
+
+    auth.createUserWithEmailAndPassword(email, pass).then(() => {
+        auth.currentUser.sendEmailVerification();
+        alert("Kayıt başarılı! Mailine doğrulama linki gönderildi.");
+    }).catch(e => alert(e.message));
+}
+
+function login(){
+    let email = document.getElementById("logEmail").value;
+    let pass  = document.getElementById("logPass").value;
+
+    auth.signInWithEmailAndPassword(email, pass).then(() => {
+        if(!auth.currentUser.emailVerified){
+            return alert("Mail doğrulanmamış! Lütfen mailini kontrol et.");
+        }
+        alert("Giriş başarılı!");
+    }).catch(e => alert(e.message));
+}
+
+function resetPass(){
+    let email = document.getElementById("resetEmail").value;
+
+    auth.sendPasswordResetEmail(email).then(() => {
+        alert("Sıfırlama maili gönderildi!");
+    }).catch(e => alert(e.message));
+}
+</script>
 
 </body>
 </html>
