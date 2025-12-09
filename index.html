@@ -12,7 +12,7 @@
     font-family: Arial, sans-serif;
   }
 
-  /* ======= ÜSTTE PARILTILI YAZI ======= */
+  /* TURUNCU NEON ÜST YAZI */
   .ust-yazi {
       position: absolute;
       top: 5%;
@@ -20,65 +20,139 @@
       text-align: center;
       font-size: 26px;
       font-weight: 700;
-      color: #ffffff;
-      text-shadow: 0 0 10px #fff, 0 0 20px cyan, 0 0 40px cyan;
-      animation: parilti 2.5s infinite ease-in-out;
-      letter-spacing: 1px;
+      color: #ff9100;
+      text-shadow: 0 0 10px #ff9100, 0 0 25px #ff7700;
       user-select: none;
       pointer-events: none;
       z-index: 10;
   }
 
-  @keyframes parilti {
-    0% { text-shadow: 0 0 10px #fff, 0 0 30px cyan; }
-    50% { text-shadow: 0 0 20px #fff, 0 0 60px cyan; }
-    100% { text-shadow: 0 0 10px #fff, 0 0 30px cyan; }
-  }
-
-  /* ===== SAĞ ÜSTTE KÜÇÜK YAZI ===== */
-  .kucuk-yazi {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      font-size: 10px;
-      opacity: 0.4;
-      color: white;
-      user-select: none;
-      z-index: 99999;
-  }
-
-  /* ====== ORTA KUTU ====== */
+  /* ORTA KUTU */
   .container {
       position: absolute;
-      top: 50%;
+      top: 52%;
       left: 50%;
       transform: translate(-50%, -50%);
       width: 350px;
       padding: 25px;
-      background: rgba(20,20,20,0.75);
+      background: rgba(0,0,0,0.65);
       border-radius: 15px;
-      box-shadow: 0 0 20px cyan;
+      box-shadow: 0 0 15px #ff9100;
       color: white;
       text-align: center;
-      z-index: 5;
   }
 
-  .container button {
-      width: 100%;
-      padding: 12px;
-      background: cyan;
+  input {
+      width: 90%;
+      padding: 10px;
+      margin: 8px 0;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+  }
+
+  button {
+      width: 95%;
+      padding: 10px;
+      margin-top: 10px;
+      background: #ff9100;
+      color: black;
+      font-weight: bold;
       border: none;
       border-radius: 8px;
-      font-size: 17px;
-      margin-top: 10px;
       cursor: pointer;
+      box-shadow: 0 0 10px #ff9100;
+  }
+
+  p.switch {
+      margin-top: 12px;
+      cursor: pointer;
+      color: #ff9100;
+  }
+
+  /* SAĞ ÜST KÖŞE YAZI */
+  .sag-yazi {
+      position: absolute;
+      top: 5px;
+      right: 10px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.4);
+      user-select: none;
+      pointer-events: none;
   }
 </style>
+
+<!-- FIREBASE -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { getAuth,
+           createUserWithEmailAndPassword,
+           signInWithEmailAndPassword,
+           sendPasswordResetEmail } 
+  from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
+    authDomain: "unixstorm-9dff8.firebaseapp.com",
+    projectId: "unixstorm-9dff8",
+    storageBucket: "unixstorm-9dff8.firebasestorage.app",
+    messagingSenderId: "787509821542",
+    appId: "1:787509821542:web:2b54b5bafee1207edeada7",
+    measurementId: "G-BQYS1575QZ"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  // === LOGIN ===
+  window.girisYap = function() {
+    let mail = document.getElementById("loginMail").value;
+    let sifre = document.getElementById("loginPass").value;
+
+    signInWithEmailAndPassword(auth, mail, sifre)
+      .then(() => {
+        alert("Giriş Başarılı!");
+        window.location.href = "anasayfa.html"; // GİRİŞTEN SONRA AÇILACAK SAYFA
+      })
+      .catch(err => alert(err.message));
+  };
+
+  // === KAYIT OL ===
+  window.kayitOl = function() {
+    let mail = document.getElementById("regMail").value;
+    let sifre = document.getElementById("regPass").value;
+
+    createUserWithEmailAndPassword(auth, mail, sifre)
+      .then(() => alert("Kayıt başarılı! Şimdi giriş yapabilirsiniz."))
+      .catch(err => alert(err.message));
+  };
+
+  // === ŞİFRE SIFIRLA ===
+  window.sifreSifirla = function() {
+    let email = prompt("Şifre sıfırlama için e-posta yaz:");
+    if (!email) return;
+
+    sendPasswordResetEmail(auth, email)
+      .then(() => alert("E-posta gönderildi! Postanı kontrol et."))
+      .catch(err => alert(err.message));
+  };
+
+  // EKRAN DEĞİŞTİRME
+  window.showLogin = () => {
+      document.getElementById("loginBox").style.display = "block";
+      document.getElementById("registerBox").style.display = "none";
+  };
+
+  window.showRegister = () => {
+      document.getElementById("loginBox").style.display = "none";
+      document.getElementById("registerBox").style.display = "block";
+  };
+</script>
 
 </head>
 <body>
 
-<!-- PARILTILI BAŞLIK -->
+<!-- ÜSTTE TURUNCU NEON YAZI -->
 <div class="ust-yazi">
   creater:𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌<br>
   gardaşlarım:<br>
@@ -86,15 +160,31 @@
   ༒𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀
 </div>
 
-<!-- SAĞ ÜST KÜÇÜK YAZI -->
-<div class="kucuk-yazi">
-  @bu site Şahin (9/A Amp) tarafından kurulmuştur
-</div>
+<!-- SAĞ ÜST BİLGİ YAZISI -->
+<div class="sag-yazi">@bu site Şahin (9/A Amp) tarafından kurulmuştur</div>
 
-<!-- GİRİŞ KUTUSU -->
+<!-- ORTA KUTU -->
 <div class="container">
-  <h2>UNIXSTORM Giriş</h2>
-  <button>Giriş Yap</button>
+
+  <!-- GİRİŞ FORMU -->
+  <div id="loginBox">
+    <h2>Giriş Yap</h2>
+    <input id="loginMail" type="email" placeholder="E-posta">
+    <input id="loginPass" type="password" placeholder="Şifre">
+    <button onclick="girisYap()">Giriş Yap</button>
+    <p class="switch" onclick="showRegister()">Hesabın yok mu? Kayıt ol</p>
+    <p class="switch" onclick="sifreSifirla()">Şifremi Unuttum</p>
+  </div>
+
+  <!-- KAYIT FORMU -->
+  <div id="registerBox" style="display:none;">
+    <h2>Kayıt Ol</h2>
+    <input id="regMail" type="email" placeholder="E-posta">
+    <input id="regPass" type="password" placeholder="Şifre">
+    <button onclick="kayitOl()">Kayıt Ol</button>
+    <p class="switch" onclick="showLogin()">Zaten hesabın var mı? Giriş yap</p>
+  </div>
+
 </div>
 
 </body>
