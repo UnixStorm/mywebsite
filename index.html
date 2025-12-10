@@ -265,39 +265,23 @@
   };
 
 </script>
-<!-- SES OYNATICI -->
 <audio id="bgAudio">
-  <source src="OLUM BUNE LAN AHAHAHAHAHAHAHAHAHAHHA RRAENE BASS BOOSTED #dalimsharma #gta5_fivem_tricks #lyunaff(_3ZX7gDqlKr4_).m4a" type="audio/mp4">
+    <source src="music.m4a" type="audio/mp4">
 </audio>
 
-<!-- BUTON -->
-<button id="audioBtn" 
-style="
-position: absolute;
-right: 20px;
-bottom: 20px;
-padding: 10px 16px;
-background: rgba(0,0,0,0.7);
-color: white;
-border-radius: 10px;
-border: none;
-font-size: 16px;
-backdrop-filter: blur(4px);
-">
-▶ Oynat
-</button>
+<button id="playBtn">▶ Oynat</button>
 
 <script>
-const audio = document.getElementById("bgAudio");
-const btn = document.getElementById("audioBtn");
+    const audio = document.getElementById("bgAudio");
+    const btn = document.getElementById("playBtn");
 
-btn.addEventListener("click", () => {
-    if (audio.paused) {
-        audio.play();
-        btn.textContent = "⏸ Dur";
-    } else {
-        audio.pause();
-        btn.textContent = "▶ Oynat";
-    }
-});
+    btn.onclick = () => {
+        if (audio.paused) {
+            audio.play();
+            btn.textContent = "⏸ Duraklat";
+        } else {
+            audio.pause();
+            btn.textContent = "▶ Oynat";
+        }
+    };
 </script>
