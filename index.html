@@ -6,205 +6,199 @@
 <title>UNIXSTORM</title>
 
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
-        background-size: cover;
-        font-family: "Arial";
-    }
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
+    background-size: cover;
+    font-family: "Arial";
+}
 
-    .yazi-kutu {
-        width: 100%;
-        text-align: center;
-        margin-top: 40px;
-    }
+/* üst yazı */
+.yazi-kutu {
+    width: 100%;
+    text-align: center;
+    margin-top: 40px;
+}
+.anaYazi {
+    font-size: 18px;
+    color: white;
+    font-weight: bold;
+    text-shadow: 0 0 6px white, 0 0 14px white;
+}
+.vip {
+    color: orange;
+    font-size: 17px;
+    text-shadow: 0 0 6px orange, 0 0 15px orange;
+    font-weight: bold;
+}
+.red {
+    color: red;
+    font-weight: bold;
+    text-shadow: 0 0 6px red, 0 0 15px red;
+}
 
-    .anaYazi {
-        font-size: 18px;
-        color: white;
-        font-weight: bold;
-        text-shadow: 0 0 6px white, 0 0 14px white;
-    }
+/* FORM KUTUSU */
+.center-box {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    padding: 22px;
+    background: rgba(0,0,0,0.70);
+    backdrop-filter: blur(5px);
+    border-radius: 12px;
+    box-shadow: 0 0 22px rgba(0,0,0,0.65);
+    text-align: center;
+    color: white;
+    transition: opacity 0.4s ease;
+}
 
-    .vip {
-        color: orange;
-        font-size: 17px;
-        text-shadow: 0 0 6px orange, 0 0 15px orange;
-        font-weight: bold;
-    }
+.center-box input {
+    width: 100%;
+    padding: 10px;
+    margin: 7px 0;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+}
 
-    .red {
-        color: red;
-        font-weight: bold;
-        text-shadow: 0 0 6px red, 0 0 15px red;
-    }
+.center-box button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 6px;
+    border: none;
+    border-radius: 6px;
+    background: #006CFF;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+}
 
-    /* FORM KUTUSU */
-    .center-box {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 300px;
-        padding: 22px;
-        background: rgba(0,0,0,0.70);
-        backdrop-filter: blur(5px);
-        border-radius: 12px;
-        box-shadow: 0 0 22px rgba(0,0,0,0.65);
-        text-align: center;
-        color: white;
-        overflow: visible;
-    }
+.link-btn {
+    margin-top: 8px;
+    display: block;
+    color: #ddd;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 14px;
+}
 
-    .center-box input {
-        width: 100%;
-        padding: 10px;
-        margin: 7px 0;
-        border-radius: 6px;
-        border: none;
-        outline: none;
-    }
+/* DURUM */
+#durum {
+    margin-top: 10px;
+    font-size: 14px;
+    min-height: 20px;
+    color: #fff;
+}
 
-    .center-box button {
-        width: 100%;
-        padding: 10px;
-        margin-top: 6px;
-        border: none;
-        border-radius: 6px;
-        background: #006CFF;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-    }
+/* TIKLAMAYI BLOKLAYAN ALAN */
+#blocker {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.0);
+  z-index: 9999;
+  display: none;
+  pointer-events: auto;
+}
 
-    .link-btn {
-        margin-top: 8px;
-        display: block;
-        color: #ddd;
-        cursor: pointer;
-        text-decoration: underline;
-        font-size: 14px;
-    }
-
-    #durum {
-        margin-top: 10px;
-        font-size: 14px;
-        min-height: 20px;
-        color: #fff;
-    }
-
-    /* overlay (işlem sırasında tıklamayı kapatmak için) */
-    #blocker {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.0);
-      z-index: 9999;
-      display: none;
-      pointer-events: auto;
-    }
+/* FORM GEÇİŞ BEKLEME YAZISI */
+#bekleAnim {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    display: none;
+    text-shadow: 0 0 8px white;
+}
 </style>
 </head>
 
 <body>
 
 <div class="yazi-kutu">
-    <div class="anaYazi">
-        𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ
-    </div>
-    <div style="margin-top: 6px;">
-        <span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span>
-        <span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span>
-    </div>
+  <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>
+  <div style="margin-top: 6px;">
+    <span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span>
+    <span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span>
+  </div>
 </div>
 
-<!-- FORM KUTUSU -->
-<div class="center-box">
+<div class="center-box" id="formBox">
 
-  <!-- Kayıt Formu -->
-  <div id="registerForm">
-    <h3>Kayıt Ol</h3>
+    <!-- BEKLEYİNİZ YAZISI -->
+    <div id="bekleAnim">Lütfen bekleyiniz...</div>
 
-    <input type="text" id="regName" placeholder="Kullanıcı adı">
-    <input type="email" id="regMail" placeholder="E-posta">
-    <input type="password" id="regPass" placeholder="Şifre">
+    <!-- Kayıt Formu -->
+    <div id="registerForm">
+        <h3>Kayıt Ol</h3>
+        <input type="text" id="regName" placeholder="Kullanıcı adı">
+        <input type="email" id="regMail" placeholder="E-posta">
+        <input type="password" id="regPass" placeholder="Şifre">
+        <input type="file" id="regPhoto" accept="image/*">
+        <button id="regBtn">Kayıt Ol</button>
 
-    <!-- PROFIL FOTOĞRAF YÜKLEME -->
-    <input type="file" id="regPhoto" accept="image/*">
+        <span class="link-btn" id="toLogin">Giriş yapın</span>
+        <span class="link-btn" id="toReset">Şifremi unuttum</span>
+    </div>
 
-    <button id="regBtn">Kayıt Ol</button>
+    <!-- Giriş -->
+    <div id="loginForm" style="display:none;">
+        <h3>Giriş Yap</h3>
+        <input type="email" id="loginMail" placeholder="E-posta">
+        <input type="password" id="loginPass" placeholder="Şifre">
+        <button id="loginBtn">Giriş Yap</button>
 
-    <span class="link-btn" id="toLogin">Giriş yapın</span>
-    <span class="link-btn" id="toReset">Şifremi unuttum</span>
-  </div>
+        <span class="link-btn" id="toRegisterFromLogin">Kayıt olmak istiyorum</span>
+        <span class="link-btn" id="toResetFromLogin">Şifremi unuttum</span>
+    </div>
 
-  <!-- Giriş Formu -->
-  <div id="loginForm" style="display:none;">
-    <h3>Giriş Yap</h3>
+    <!-- Reset -->
+    <div id="resetForm" style="display:none;">
+        <h3>Şifre Sıfırla</h3>
+        <input type="email" id="resetMail" placeholder="E-posta">
+        <button id="resetBtn">Sıfırlama linki gönder</button>
 
-    <input type="email" id="loginMail" placeholder="E-posta">
-    <input type="password" id="loginPass" placeholder="Şifre">
+        <span class="link-btn" id="toLoginFromReset">Girişe dön</span>
+    </div>
 
-    <button id="loginBtn">Giriş Yap</button>
-
-    <span class="link-btn" id="toRegisterFromLogin">Kayıt olmak istiyorum</span>
-    <span class="link-btn" id="toResetFromLogin">Şifremi unuttum</span>
-  </div>
-
-  <!-- Şifre Sıfırlama -->
-  <div id="resetForm" style="display:none;">
-    <h3>Şifre Sıfırla</h3>
-
-    <input type="email" id="resetMail" placeholder="E-posta">
-    <button id="resetBtn">Sıfırlama linki gönder</button>
-
-    <span class="link-btn" id="toLoginFromReset">Girişe dön</span>
-  </div>
-
-  <div id="durum"></div>
+    <div id="durum"></div>
 </div>
 
-<!-- overlay: işlem sırasında tıklanmayı engellemek için -->
-<div id="blocker" aria-hidden="true"></div>
+<div id="blocker"></div>
 
-<!-- --- FIREBASE --- -->
+<!-- FIREBASE -->
 <script type="module">
-/* Firebase imports */
+
+/* Firebase */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { 
+import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
-  sendPasswordResetEmail 
+  sendPasswordResetEmail
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-
 import {
-  getFirestore,
-  setDoc,
-  getDocs,
-  collection,
-  query,
-  where,
-  doc
+  getFirestore, setDoc, getDocs, collection, query, where, doc
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
 import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL
+  getStorage, ref, uploadBytes, getDownloadURL
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
 
-/* --- Config (senin verdiğin) --- */
+/* Config */
 const firebaseConfig = {
-    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
-    authDomain: "unixstorm-9dff8.firebaseapp.com",
-    projectId: "unixstorm-9dff8",
-    storageBucket: "unixstorm-9dff8.firebasestorage.app",
-    messagingSenderId: "787509821542",
-    appId: "1:787509821542:web:2b54b5bafee1207edeada7",
-    measurementId: "G-BQYS1575QZ"
+apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
+authDomain: "unixstorm-9dff8.firebaseapp.com",
+projectId: "unixstorm-9dff8",
+storageBucket: "unixstorm-9dff8.firebasestorage.app",
+messagingSenderId: "787509821542",
+appId: "1:787509821542:web:2b54b5bafee1207edeada7",
+measurementId: "G-BQYS1575QZ"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -212,192 +206,186 @@ const auth = getAuth(app);
 const db   = getFirestore(app);
 const storage = getStorage(app);
 
-/* Elemanlar */
 const durum = document.getElementById("durum");
 const blocker = document.getElementById("blocker");
-const regBtn = document.getElementById("regBtn");
-const loginBtn = document.getElementById("loginBtn");
-const resetBtn = document.getElementById("resetBtn");
+const bekleAnim = document.getElementById("bekleAnim");
+const formBox = document.getElementById("formBox");
 
-/* linkleri bağla (form geçişleri) */
+/* FORM GEÇİŞLERİ */
 document.getElementById("toLogin").onclick = ()=> formDegistir('login');
 document.getElementById("toReset").onclick = ()=> formDegistir('reset');
 document.getElementById("toRegisterFromLogin").onclick = ()=> formDegistir('register');
 document.getElementById("toResetFromLogin").onclick = ()=> formDegistir('reset');
 document.getElementById("toLoginFromReset").onclick = ()=> formDegistir('login');
 
-/* Form geçişi - hızlı ama tutarlı */
-function formDegistir(target) {
-  // hedef formu gösterirken durum temiz olsun
-  durum.textContent = "";
-  document.getElementById("registerForm").style.display = "none";
-  document.getElementById("loginForm").style.display = "none";
-  document.getElementById("resetForm").style.display = "none";
-  document.getElementById(target + "Form").style.display = "block";
+/* -------------------------
+     FORM GEÇİŞ ANİMASYONU
+------------------------- */
+async function formDegistir(target){
+
+    durum.textContent = "";
+    bekleAnim.style.display = "block";
+    blockUI();
+
+    formBox.style.opacity = "0.3";
+
+    await new Promise(r=>setTimeout(r,3000)); // 3 saniye bekleme
+
+    bekleAnim.style.display = "none";
+    formBox.style.opacity = "1";
+    unblockUI();
+
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("resetForm").style.display = "none";
+
+    document.getElementById(target + "Form").style.display = "block";
 }
 
-/* UI bloklama helper */
-function blockUI() {
-  blocker.style.display = "block";
-  blocker.style.pointerEvents = "auto";
-}
-function unblockUI() {
-  blocker.style.display = "none";
-  blocker.style.pointerEvents = "none";
-}
+/* UI blok */
+function blockUI(){ blocker.style.display="block"; }
+function unblockUI(){ blocker.style.display="none"; }
 
-/* ---------- KAYIT (register) ---------- */
+/* -------------------------
+     KAYIT
+------------------------- */
 regBtn.onclick = async function(){
-  const ad = document.getElementById("regName").value.trim();
-  const mail = document.getElementById("regMail").value.trim();
-  const pass = document.getElementById("regPass").value;
-  const foto = document.getElementById("regPhoto").files[0];
+    const ad = document.getElementById("regName").value.trim();
+    const mail = document.getElementById("regMail").value.trim();
+    const pass = document.getElementById("regPass").value;
+    const foto = document.getElementById("regPhoto").files[0];
 
-  if(!ad || !mail || !pass){
-    durum.textContent = "Lütfen tüm alanları doldurun.";
-    return;
-  }
+    if(!ad || !mail || !pass){ durum.textContent="Lütfen tüm alanları doldurun."; return; }
 
-  // göster: kontrol ediliyor (3s sabit)
-  blockUI();
-  durum.textContent = "Kontrol ediliyor...";
-  await new Promise(res => setTimeout(res, 3000)); // 3s
+    blockUI();
+    durum.textContent="Kontrol ediliyor...";
+    await new Promise(r=>setTimeout(r,3000));
 
-  try {
-    // kullanıcı adı kontrolü
-    const q = query(collection(db, "kullanicilar"), where("kullaniciAdi", "==", ad));
-    const snapshot = await getDocs(q);
+    try{
+        const q = query(collection(db,"kullanicilar"), where("kullaniciAdi","==",ad));
+        const snap = await getDocs(q);
+        if(!snap.empty){ durum.textContent="⚠ Bu kullanıcı adı zaten var!"; unblockUI(); return; }
 
-    if (!snapshot.empty) {
-      durum.textContent = "⚠ Bu kullanıcı adı zaten kullanılıyor!";
-      unblockUI();
-      return;
+        durum.textContent="Kayıt yapılıyor...";
+        const cred = await createUserWithEmailAndPassword(auth,mail,pass);
+
+        let photoURL="";
+        if(foto){
+            const sRef = ref(storage,"profilFoto/"+cred.user.uid);
+            await uploadBytes(sRef,foto);
+            photoURL = await getDownloadURL(sRef);
+        }
+
+        await setDoc(doc(db,"kullanicilar",cred.user.uid),{
+            kullaniciAdi:ad,
+            email:mail,
+            photoURL:photoURL,
+            createdAt:new Date().toISOString()
+        });
+
+        durum.textContent="✔ Hesap oluşturuldu, yönlendiriliyorsunuz...";
+        await new Promise(r=>setTimeout(r,5000));
+        location.href="ana_site.html";
+
+    }catch(e){
+        durum.textContent="Hata: " + e.message;
+        unblockUI();
     }
-
-    // kayıt işlemi
-    durum.textContent = "Kayıt yapılıyor...";
-    const cred = await createUserWithEmailAndPassword(auth, mail, pass);
-
-    let photoURL = "";
-    if (foto) {
-      const storageRef = ref(storage, "profilFoto/" + cred.user.uid);
-      await uploadBytes(storageRef, foto);
-      photoURL = await getDownloadURL(storageRef);
-    }
-
-    await setDoc(doc(db, "kullanicilar", cred.user.uid), {
-      kullaniciAdi: ad,
-      email: mail,
-      photoURL: photoURL,
-      createdAt: new Date().toISOString()
-    });
-
-    // başarı: 5s bekleyip yönlendir
-    durum.textContent = "✔ Hesap oluşturuldu, yönlendiriliyorsunuz...";
-    await new Promise(res => setTimeout(res, 5000)); // 5s
-    location.href = "ana_site.html";
-
-  } catch(e) {
-    // hata mesajı
-    durum.textContent = "Hata: " + (e.message || e.toString());
-    unblockUI();
-  }
 };
 
-/* ---------- GİRİŞ (login) ---------- */
+/* -------------------------
+     GİRİŞ
+------------------------- */
 loginBtn.onclick = async function(){
-  const mail = document.getElementById("loginMail").value.trim();
-  const pass = document.getElementById("loginPass").value;
+    const mail = loginMail.value.trim();
+    const pass = loginPass.value;
 
-  if(!mail || !pass){
-    durum.textContent = "Lütfen e-posta ve şifre girin.";
-    return;
-  }
+    if(!mail || !pass){ durum.textContent="Lütfen bilgileri girin."; return; }
 
-  blockUI();
-  durum.textContent = "Giriş yapılıyor...";
+    blockUI();
+    durum.textContent="Giriş yapılıyor...";
 
-  try {
-    await signInWithEmailAndPassword(auth, mail, pass);
-    // başarılı: 5s bekle sonra yönlendir
-    durum.textContent = "✔ Giriş başarılı, yönlendiriliyorsunuz...";
-    await new Promise(res => setTimeout(res, 5000)); // 5s
-    location.href = "ana_site.html";
-  } catch(e) {
-    durum.textContent = "Hata: " + (e.message || e.toString());
-    unblockUI();
-  }
-};
+    try{
+        await signInWithEmailAndPassword(auth,mail,pass);
+        durum.textContent="✔ Giriş başarılı, yönlendiriliyorsunuz...";
+        await new Promise(r=>setTimeout(r,5000));
+        location.href="ana_site.html";
 
-/* ---------- ŞİFRE SIFIRLAMA ---------- */
-resetBtn.onclick = async function(){
-  const mail = document.getElementById("resetMail").value.trim();
-  if(!mail){
-    durum.textContent = "Lütfen e-posta girin.";
-    return;
-  }
-
-  blockUI();
-  durum.textContent = "Kontrol ediliyor...";
-  await new Promise(res => setTimeout(res, 3000)); // 3s kontrol
-
-  try {
-    // (Opsiyonel) sistemde e-posta var mı diye sorgulayabiliriz:
-    const q = query(collection(db, "kullanicilar"), where("email", "==", mail));
-    const snapshot = await getDocs(q);
-    if (snapshot.empty) {
-      durum.textContent = "Bu e-posta ile kayıtlı kullanıcı bulunamadı.";
-      unblockUI();
-      return;
+    }catch(e){
+        durum.textContent="Hata: " + e.message;
+        unblockUI();
     }
-
-    await sendPasswordResetEmail(auth, mail);
-    durum.textContent = "✔ Sıfırlama linki gönderildi! E-postadaki linkten şifrenizi değiştirebilirsiniz.";
-    // kısa bekleme sonra aç
-    await new Promise(res => setTimeout(res, 4000));
-    unblockUI();
-  } catch(e) {
-    durum.textContent = "Hata: " + (e.message || e.toString());
-    unblockUI();
-  }
 };
 
-/* ---------- MÜZİK BUTONU ---------- */
-/* Müzik dosyan music.m4a olarak repoda olmalı (kullanıcı açınca çalar). */
-const audio = document.getElementById("bgm");
-const btn = document.getElementById("musicBtn");
-btn.onclick = () => {
-  if (audio.paused) {
-    audio.play().catch(()=>{ /* autoplay blocked - kullanıcı bastığı için genelde çalışır */ });
-    btn.textContent = "⏸ Durdur";
-  } else {
-    audio.pause();
-    btn.textContent = "▶ Oynat";
-  }
+/* -------------------------
+     ŞİFRE SIFIRLAMA
+------------------------- */
+resetBtn.onclick = async function(){
+    const mail = resetMail.value.trim();
+    if(!mail){ durum.textContent="E-posta girin."; return; }
+
+    blockUI();
+    durum.textContent="Kontrol ediliyor...";
+    await new Promise(r=>setTimeout(r,3000));
+
+    try{
+        const q = query(collection(db,"kullanicilar"), where("email","==",mail));
+        const snap = await getDocs(q);
+
+        if(snap.empty){
+            durum.textContent="Bu e-posta ile hesap bulunamadı.";
+            unblockUI();
+            return;
+        }
+
+        await sendPasswordResetEmail(auth,mail);
+
+        durum.textContent="✔ Sıfırlama linki gönderildi!";
+        await new Promise(r=>setTimeout(r,4000));
+        unblockUI();
+
+    }catch(e){
+        durum.textContent="Hata: "+e.message;
+        unblockUI();
+    }
 };
 
-/* Sayfa yüklendiğinde overlay kapalı olsun */
 unblockUI();
-
 </script>
 
-<!-- MÜZİK BUTONU -->
+
+<!-- Müzik -->
 <button id="musicBtn" style="
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 12px 20px;
-    font-size: 18px;
-    border: none;
-    border-radius: 10px;
-    background: rgba(0,0,0,0.6);
-    color: white;
-    cursor: pointer;
+position: fixed;
+bottom: 20px;
+right: 20px;
+padding: 12px 20px;
+font-size: 18px;
+border: none;
+border-radius: 10px;
+background: rgba(0,0,0,0.6);
+color: white;
+cursor: pointer;
 ">▶ Oynat</button>
 
 <audio id="bgm">
-    <source src="music.m4a" type="audio/mp4">
+  <source src="music.m4a" type="audio/mp4">
 </audio>
+
+<script>
+const audio = document.getElementById("bgm");
+const btn = document.getElementById("musicBtn");
+
+btn.onclick = () => {
+    if(audio.paused){
+        audio.play();
+        btn.textContent="⏸ Durdur";
+    } else {
+        audio.pause();
+        btn.textContent="▶ Oynat";
+    }
+};
+</script>
 
 </body>
 </html>
