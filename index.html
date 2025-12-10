@@ -225,7 +225,7 @@
       });
 
       durum.textContent = "✔ Hesap oluşturuldu, yönlendiriliyorsunuz...";
-      setTimeout(() => window.location.href = "ana_sayfa.html", 3000);
+      setTimeout(() => window.location.href = "ana_site.html", 3000);
 
     } catch (e) {
       durum.textContent = "Hata: " + e.message;
@@ -242,7 +242,7 @@
     try {
       await signInWithEmailAndPassword(auth, mail, pass);
       durum.textContent = "✔ Giriş başarılı! Yönlendiriliyorsunuz...";
-      setTimeout(() => window.location.href = "ana_sayfa.html", 2500);
+      setTimeout(() => window.location.href = "ana_site.html", 2500);
 
     } catch (e) {
       durum.textContent = "Hata: " + e.message;
