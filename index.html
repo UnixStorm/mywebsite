@@ -265,40 +265,31 @@
   };
 
 </script>
-<!-- Ses Oynatma Butonu -->
-<button id="soundBtn" style="
-    position: absolute;
-    bottom: 20px;
-    right: 20px;
-    padding: 10px 15px;
-    background: rgba(0,0,0,0.6);
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 14px;
-    cursor: pointer;
-">
-    🔊 Aç
-</button>
+<audio id="ses" src="OLUM BUNE LAN AHAHAHAHAHAHAHAHAHAHHA RRAENE BASS BOOSTED #dalimsharma #gta5_fivem_tricks #lyunaff(_3ZX7gDqlKr4_).m4a"></audio>
 
-<audio id="bgSound">
-    <source src="OLUM BUNE LAN AHAHAHAHAHAHAHAHAHAHHA RRAENE BASS BOOSTED #dalimsharma #gta5_fivem_tricks #lyunaff(_3ZX7gDqlKr4_).m4a" type="audio/mp4">
-</audio>
+<button id="sesBtn" style="
+ position: absolute;
+ bottom: 20px;
+ right: 20px;
+ background: rgba(0,0,0,0.6);
+ color: white;
+ border: none;
+ padding: 8px 14px;
+ border-radius: 8px;
+ font-size: 14px;
+">▶ Oynat</button>
 
 <script>
-    const btn = document.getElementById("soundBtn");
-    const audio = document.getElementById("bgSound");
-    let playing = false;
+  const audio = document.getElementById("ses");
+  const btn = document.getElementById("sesBtn");
 
-    btn.addEventListener("click", () => {
-        if (!playing) {
-            audio.play();
-            btn.textContent = "⏸ Dur";
-            playing = true;
-        } else {
-            audio.pause();
-            btn.textContent = "🔊 Aç";
-            playing = false;
-        }
-    });
+  btn.onclick = () => {
+    if (audio.paused) {
+      audio.play();
+      btn.textContent = "⏸ Dur";
+    } else {
+      audio.pause();
+      btn.textContent = "▶ Oynat";
+    }
+  };
 </script>
