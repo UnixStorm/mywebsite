@@ -147,14 +147,15 @@ body {
     <div id="durum"></div>
 </div>
 
-<!-- Firebase -->
 <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword } 
         from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    import { getDatabase, ref, set }
+        from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
     const firebaseConfig = {
-        apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
+        apiKey: "XXXX",
         authDomain: "unixstorm-9dff8.firebaseapp.com",
         projectId: "unixstorm-9dff8",
         storageBucket: "unixstorm-9dff8.firebasestorage.app",
@@ -164,8 +165,10 @@ body {
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getDatabase(app);
 
     window.kayitOl = function () {
+        const kullanici = document.getElementById("kullanici").value;
         const mail = document.getElementById("email").value;
         const sifre = document.getElementById("sifre").value;
         const durum = document.getElementById("durum");
@@ -175,11 +178,21 @@ body {
         durum.classList.add("yavasYazi");
 
         createUserWithEmailAndPassword(auth, mail, sifre)
-        .then(() => {
+        .then((sonuc) => {
+
+            // Kullanıcı ID çekiyoruz
+            const uid = sonuc.user.uid;
+
+            // Kullanıcı adını veritabanına kaydediyoruz
+            set(ref(db, "kullanicilar/" + uid), {
+                kullaniciAdi: kullanici,
+                email: mail
+            });
+
             durum.innerHTML = "✔ Kayıt başarılı! Yönlendiriliyorsunuz...";
-            
+
             setTimeout(() => {
-                window.location.href = "anasayfa.html";  // Buraya yönlenecek
+                window.location.href = "anasayfa.html";
             }, 5000);
         })
         .catch((hata) => {
