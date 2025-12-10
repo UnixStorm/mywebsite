@@ -2,70 +2,66 @@
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UNIXSTORM</title>
 
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    background-image: url("3cc68b3f22ff5463843e82b661033950.jpg");
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-</style>
 
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
+        background-size: cover;
+        font-family: "Arial";
+    }
+
+    .yazi-kutu {
+        width: 100%;
+        text-align: center;
+        margin-top: 40px; /* yazıyı aşağı indirttim */
+    }
+
+    /* Beyaz neon yazı */
+    .anaYazi {
+        font-size: 18px;     /* biraz büyüttüm */
+        color: white;
+        font-weight: bold;
+        text-shadow: 0 0 6px white, 0 0 14px white;
+    }
+
+    /* vip_üyeler turuncu */
+    .vip {
+        color: orange;
+        font-size: 17px;
+        text-shadow: 0 0 6px orange, 0 0 15px orange;
+        font-weight: bold;
+    }
+
+    /* KAAN & İNFAZ kırmızı neon */
+    .red {
+        color: red;
+        font-weight: bold;
+        text-shadow: 0 0 6px red, 0 0 15px red;
+    }
+
+</style>
 </head>
+
 <body>
+
+<div class="yazi-kutu">
+
+    <div class="anaYazi">
+        𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ
+    </div>
+
+    <div style="margin-top: 6px;">
+        <span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span>
+        <span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span>
+    </div>
+
+</div>
 
 </body>
 </html>
-<style>
-/* Genel yazı kutusu */
-.top-text-box {
-  position: absolute;
-  top: 40px;          /* Yukarıdan mesafe – istersen değiştir */
-  left: 50%;
-  transform: translateX(-50%);
-  text-align: center;
-  color: white;
-  font-family: "Times New Roman", serif;
-  width: 90%;
-}
-
-/* Beyaz neon */
-.neon-white {
-  font-size: 20px;
-  font-weight: 600;
-  color: #ffffff;
-  text-shadow: 0 0 8px #fff, 0 0 15px #ffffffaa;
-}
-
-/* Turuncu neon (vip_üyeler kısmı) */
-.neon-orange {
-  font-size: 18px;
-  font-weight: 600;
-  color: #ff7b00;
-  text-shadow: 0 0 6px #ff7b00, 0 0 14px #ff7b00aa;
-}
-
-/* Kırmızı neon (isimler) */
-.neon-red {
-  font-size: 18px;
-  font-weight: 600;
-  color: #ff0000;
-  text-shadow: 0 0 6px #ff0000, 0 0 14px #ff0000aa;
-}
-</style>
-
-<div class="top-text-box">
-  <div class="neon-white">
-    𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ
-  </div>
-
-  <div class="neon-orange" style="margin-top: 8px;">
-    𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 =
-    <span class="neon-red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span>
-  </div>
-</div>
