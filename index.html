@@ -265,23 +265,36 @@
   };
 
 </script>
-<audio id="bgAudio">
+<button id="musicBtn" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    cursor: pointer;
+">
+▶ Oynat
+</button>
+
+<audio id="bgm">
     <source src="music.m4a" type="audio/mp4">
 </audio>
 
-<button id="playBtn">▶ Oynat</button>
-
 <script>
-    const audio = document.getElementById("bgAudio");
-    const btn = document.getElementById("playBtn");
+let audio = document.getElementById("bgm");
+let btn = document.getElementById("musicBtn");
 
-    btn.onclick = () => {
-        if (audio.paused) {
-            audio.play();
-            btn.textContent = "⏸ Duraklat";
-        } else {
-            audio.pause();
-            btn.textContent = "▶ Oynat";
-        }
-    };
+btn.onclick = () => {
+    if (audio.paused) {
+        audio.play();
+        btn.textContent = "⏸ Durdur";
+    } else {
+        audio.pause();
+        btn.textContent = "▶ Oynat";
+    }
+};
 </script>
