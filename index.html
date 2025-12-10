@@ -6,6 +6,7 @@
 <title>UNIXSTORM</title>
 
 <style>
+
     body {
         margin: 0;
         padding: 0;
@@ -72,7 +73,7 @@
         margin-top: 6px;
         border: none;
         border-radius: 6px;
-        background: #006CFF; /* Mavi */
+        background: #006CFF;
         color: white;
         font-weight: bold;
         cursor: pointer;
@@ -93,6 +94,7 @@
         min-height: 20px;
         color: #fff;
     }
+
 </style>
 </head>
 
@@ -108,6 +110,7 @@
     </div>
 </div>
 
+<!-- FORM KUTUSU -->
 <div class="center-box">
 
   <!-- Kayıt Formu -->
@@ -118,6 +121,9 @@
     <input type="email" id="regMail" placeholder="E-posta">
     <input type="password" id="regPass" placeholder="Şifre">
 
+    <!-- PROFIL FOTOĞRAF YÜKLEME -->
+    <input type="file" id="regPhoto">
+
     <button onclick="kayitOl()">Kayıt Ol</button>
 
     <span class="link-btn" onclick="formDegistir('login')">Giriş yapın</span>
@@ -127,6 +133,7 @@
   <!-- Giriş Formu -->
   <div id="loginForm" style="display:none;">
     <h3>Giriş Yap</h3>
+
     <input type="email" id="loginMail" placeholder="E-posta">
     <input type="password" id="loginPass" placeholder="Şifre">
 
@@ -139,8 +146,9 @@
   <!-- Şifre Sıfırlama -->
   <div id="resetForm" style="display:none;">
     <h3>Şifre Sıfırla</h3>
+
     <input type="email" id="resetMail" placeholder="E-posta">
-    <button onclick="sifreSifirla()">Gönder</button>
+    <button onclick="sifreSifirla()">Sıfırlama linki gönder</button>
 
     <span class="link-btn" onclick="formDegistir('login')">Girişe dön</span>
   </div>
@@ -148,27 +156,35 @@
   <div id="durum"></div>
 </div>
 
-<!-- FIREBASE -->
+<!-- --- FIREBASE --- -->
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import {
-    getAuth,
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail
-  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-  import {
-    getFirestore,
-    setDoc,
-    doc,
-    collection,
-    query,
-    where,
-    getDocs
-  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { 
+  getAuth,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  sendPasswordResetEmail 
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-  const firebaseConfig = {
+import {
+  getFirestore,
+  setDoc,
+  getDocs,
+  collection,
+  query,
+  where,
+  doc
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
+
+const firebaseConfig = {
     apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
     authDomain: "unixstorm-9dff8.firebaseapp.com",
     projectId: "unixstorm-9dff8",
@@ -176,94 +192,143 @@
     messagingSenderId: "787509821542",
     appId: "1:787509821542:web:2b54b5bafee1207edeada7",
     measurementId: "G-BQYS1575QZ"
-  };
+};
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db   = getFirestore(app);
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db   = getFirestore(app);
+const storage = getStorage(app);
 
-  const durum = document.getElementById("durum");
+const durum = document.getElementById("durum");
 
-  /* FORM GEÇİŞİ */
-  window.formDegistir = function(target){
-    document.getElementById("registerForm").style.display = "none";
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("resetForm").style.display = "none";
-    document.getElementById(target + "Form").style.display = "block";
-  };
+/* FORM GEÇİŞİ + BEKLETME */
+window.formDegistir = function(target){
+    durum.textContent = "Lütfen bekleyiniz...";
+    setTimeout(() => {
+        durum.textContent = "";
 
-  /* ---- KULLANICI ADI KONTROLÜ ---- */
-  async function kullaniciAdiVarMi(ad){
-    const q = query(collection(db, "kullanicilar"), where("kullaniciAdi", "==", ad));
-    const snap = await getDocs(q);
-    return !snap.empty;
-  }
+        document.getElementById("registerForm").style.display = "none";
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("resetForm").style.display = "none";
 
-  /* ---------------- KAYIT OL ---------------- */
-  window.kayitOl = async function(){
-    const ad = document.getElementById("regName").value.trim();
+        document.getElementById(target + "Form").style.display = "block";
+    }, 3000);
+};
+
+/* KAYIT OL */
+window.kayitOl = async function(){
+    const ad = document.getElementById("regName").value;
     const mail = document.getElementById("regMail").value;
     const pass = document.getElementById("regPass").value;
-
-    if(ad === "") return durum.textContent = "Kullanıcı adı boş olamaz.";
+    const foto = document.getElementById("regPhoto").files[0];
 
     durum.textContent = "Kontrol ediliyor...";
 
-    if(await kullaniciAdiVarMi(ad)){
-      durum.textContent = "❌ Bu kullanıcı adı zaten kullanılıyor!";
-      return;
-    }
-
-    durum.textContent = "Kayıt yapılıyor...";
-
     try {
-      const cred = await createUserWithEmailAndPassword(auth, mail, pass);
 
-      await setDoc(doc(db, "kullanicilar", cred.user.uid), {
-        kullaniciAdi: ad,
-        email: mail,
-        createdAt: new Date().toISOString()
-      });
+        /* KULLANICI ADI KONTROL */
+        const q = query(collection(db, "kullanicilar"), where("kullaniciAdi", "==", ad));
+        const snapshot = await getDocs(q);
 
-      durum.textContent = "✔ Kayıt başarılı! Yönlendiriliyorsunuz...";
-      setTimeout(() => location.href = "anasayfa.html", 1500);
+        if (!snapshot.empty) {
+            durum.textContent = "⚠ Bu kullanıcı adı zaten kullanılıyor!";
+            return;
+        }
 
-    } catch(e){
-      durum.textContent = "Hata: " + e.message;
+        durum.textContent = "Kayıt yapılıyor...";
+
+        /* Firebase Authentication */
+        const cred = await createUserWithEmailAndPassword(auth, mail, pass);
+
+        let photoURL = "";
+
+        if (foto) {
+            const storageRef = ref(storage, "profilFoto/" + cred.user.uid);
+            await uploadBytes(storageRef, foto);
+            photoURL = await getDownloadURL(storageRef);
+        }
+
+        /* Firestore Kaydı */
+        await setDoc(doc(db, "kullanicilar", cred.user.uid), {
+            kullaniciAdi: ad,
+            email: mail,
+            photoURL: photoURL,
+            createdAt: new Date().toISOString()
+        });
+
+        durum.textContent = "✔ Hesap oluşturuldu, yönlendiriliyorsunuz...";
+        setTimeout(() => location.href = "ana_site.html", 2000);
+
+    } catch(e) {
+        durum.textContent = "Hata: " + e.message;
     }
-  };
+};
 
-  /* ---------------- GİRİŞ ---------------- */
-  window.girisYap = async function(){
+/* GİRİŞ */
+window.girisYap = async function(){
     const mail = document.getElementById("loginMail").value;
     const pass = document.getElementById("loginPass").value;
 
     durum.textContent = "Giriş yapılıyor...";
 
     try {
-      await signInWithEmailAndPassword(auth, mail, pass);
-      durum.textContent = "✔ Giriş başarılı!";
-      setTimeout(() => location.href = "anasayfa.html", 1500);
+        await signInWithEmailAndPassword(auth, mail, pass);
+        durum.textContent = "✔ Giriş başarılı, yönlendiriliyorsunuz...";
+        setTimeout(() => location.href = "ana_site.html", 1500);
 
     } catch(e){
-      durum.textContent = "Hata: " + e.message;
+        durum.textContent = "Hata: " + e.message;
     }
-  };
+};
 
-  /* ŞİFRE RESET */
-  window.sifreSifirla = async function(){
+/* ŞİFRE SIFIRLAMA */
+window.sifreSifirla = async function(){
     const mail = document.getElementById("resetMail").value;
+
     durum.textContent = "Gönderiliyor...";
 
     try {
-      await sendPasswordResetEmail(auth, mail);
-      durum.textContent = "✔ Sıfırlama maili gönderildi!";
+        await sendPasswordResetEmail(auth, mail);
+        durum.textContent = "✔ Sıfırlama maili gönderildi!";
     } catch(e){
-      durum.textContent = "Hata: " + e.message;
+        durum.textContent = "Hata: " + e.message;
     }
-  };
+};
 
 </script>
 
+<!-- MÜZİK BUTONU -->
+<button id="musicBtn" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    cursor: pointer;
+">▶ Oynat</button>
+
+<audio id="bgm">
+    <source src="music.mp4" type="audio/mp4">
+</audio>
+
+<script>
+let audio = document.getElementById("bgm");
+let btn = document.getElementById("musicBtn");
+
+btn.onclick = () => {
+    if (audio.paused) {
+        audio.play();
+        btn.textContent = "⏸ Durdur";
+    } else {
+        audio.pause();
+        btn.textContent = "▶ Oynat";
+    }
+};
+</script>
+
 </body>
-    </html>
+</html>
