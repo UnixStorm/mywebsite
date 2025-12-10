@@ -9,170 +9,163 @@
     body {
         margin: 0;
         font-family: Arial, sans-serif;
-        background: url("arkaplan.jpg") no-repeat center center fixed;
+        background-image: url('https://raw.githubusercontent.com/UnixStorm/web-sitem/refs/heads/main/3cc68b3f22ff5463843e82b661033950.jpg');
         background-size: cover;
+        background-position: center;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
     }
 
+    /* Üst Yazılar */
     .header {
+        margin-top: 20px;
         text-align: center;
-        margin-top: 15px;
-        font-size: 20px;
-        color: #ff8000;
+        color: white;
+        font-size: 24px;
         font-weight: bold;
-        text-shadow: 0 0 10px #ff8000;
+        text-shadow: 0 0 15px white;
     }
 
-    .box {
+    .vip {
+        margin-top: 5px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .vip .name1 { 
+        color: orange; 
+        text-shadow: 0 0 10px orange;
+    }
+    .vip .name2 { 
+        color: red; 
+        text-shadow: 0 0 10px red;
+    }
+
+    /* Kutu */
+    .card {
         width: 330px;
         padding: 25px;
-        background: rgba(0, 0, 0, 0.55);
-        border-radius: 15px;
+        background: rgba(0, 0, 0, 0.6);
         backdrop-filter: blur(6px);
-        margin: 90px auto;
-        color: white;
-        box-shadow: 0 0 15px aqua;
-        transition: 0.4s;
+        border-radius: 12px;
+        margin-top: 40px;
+        box-shadow: 0 0 25px cyan;
+        transition: 0.4s ease;
     }
 
-    .box h2 {
+    .card h2 {
         text-align: center;
+        color: white;
         margin-bottom: 20px;
     }
 
-    .box input {
+    input {
         width: 100%;
         padding: 10px;
-        margin: 6px 0;
-        border-radius: 7px;
+        margin-top: 10px;
+        border-radius: 6px;
         border: none;
         outline: none;
     }
 
-    .btn {
+    button {
         width: 100%;
-        padding: 10px;
-        margin-top: 10px;
+        padding: 12px;
         background: #007bff;
         border: none;
         color: white;
-        border-radius: 7px;
+        margin-top: 15px;
+        border-radius: 6px;
+        font-size: 16px;
+        cursor: pointer;
     }
 
-    .link {
+    button:hover {
+        background: #0069d9;
+    }
+
+    a {
+        display: block;
         margin-top: 10px;
         text-align: center;
-        color: #ccc;
-        cursor: pointer;
-        text-decoration: underline;
+        color: white;
+        text-decoration: none;
     }
+
+    a:hover { text-decoration: underline; }
+
 </style>
 </head>
 <body>
 
-<div class="header">
-𝗕𝘂 𝘀𝗶𝘁𝗲 𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 𝘁𝗮𝗿𝗮𝗳ı𝗻𝗱𝗮𝗻 𝗸𝘂𝗿𝘂𝗹𝗺𝘂𝘀𝘁𝘂𝗿
+<!-- Üst Yazı -->
+<div class="header">[𝐁𝐮 𝐒𝐢𝐭𝐞𝐲𝐢 𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 (𝐒𝐀𝐇𝐎) 𝐊𝐮𝐫𝐦𝐮𝐬𝐭𝐮𝐫]</div>
+
+<!-- VIP Yazı -->
+<div class="vip">
+    𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = 
+    <span class="name1">𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span> 
+    and 
+    <span class="name2">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀</span>
 </div>
 
-<div class="box" id="formBox">
+<!-- Kayıt / Giriş Paneli -->
+<div class="card" id="formBox">
 
-    <!-- KAYIT FORMU -->
-    <div id="registerForm">
-        <h2>UNIXSTORM – Kayıt Ol</h2>
-        <input type="text" id="regName" placeholder="Kullanıcı adı">
-        <input type="email" id="regEmail" placeholder="E-posta">
-        <input type="password" id="regPass" placeholder="Şifre">
-        <button class="btn" onclick="register()">Kayıt Ol</button>
+    <h2 id="formTitle">Kayıt Ol</h2>
 
-        <div class="link" onclick="showLogin()">Hesabın var mı? Giriş yap</div>
-        <div class="link" onclick="showReset()">Şifremi unuttum</div>
+    <div id="registerFields">
+        <input type="text" placeholder="Kullanıcı adı">
+        <input type="email" placeholder="E-posta">
     </div>
 
-    <!-- GİRİŞ FORMU -->
-    <div id="loginForm" style="display:none;">
-        <h2>UNIXSTORM – Giriş Yap</h2>
-        <input type="email" id="logEmail" placeholder="E-posta">
-        <input type="password" id="logPass" placeholder="Şifre">
-        <button class="btn" onclick="login()">Giriş Yap</button>
+    <input type="password" placeholder="Şifre">
 
-        <div class="link" onclick="showRegister()">Kayıt olmak istiyorum</div>
-        <div class="link" onclick="showReset()">Şifremi unuttum</div>
-    </div>
+    <button id="actionBtn">Kayıt Ol</button>
 
-    <!-- ŞİFRE RESET -->
-    <div id="resetForm" style="display:none;">
-        <h2>Şifre Yenile</h2>
-        <input type="email" id="resetEmail" placeholder="E-posta">
-        <button class="btn" onclick="resetPass()">Sıfırlama Maili Gönder</button>
-
-        <div class="link" onclick="showLogin()">Giriş sayfasına dön</div>
-    </div>
-
+    <a href="#" id="toggleLogin">Hesabın var mı? Giriş yap</a>
+    <a href="#" id="forgotPass">Şifremi unuttum</a>
 </div>
-
-<!-- FIREBASE -->
-<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/9.17.1/firebase-auth-compat.js"></script>
 
 <script>
-const firebaseConfig = {
-    apiKey: "SENİNKİ",
-    authDomain: "SENİNKİ.firebaseapp.com",
-    projectId: "SENİNKİ",
-    storageBucket: "SENİNKİ.appspot.com",
-    messagingSenderId: "SENİNKİ",
-    appId: "SENİNKİ"
-};
+    const formTitle = document.getElementById("formTitle");
+    const registerFields = document.getElementById("registerFields");
+    const actionBtn = document.getElementById("actionBtn");
+    const toggleLogin = document.getElementById("toggleLogin");
+    const forgotPass = document.getElementById("forgotPass");
 
-firebase.initializeApp(firebaseConfig);
-const auth = firebase.auth();
+    let mode = "register"; // register / login / reset
 
-function showLogin(){
-    document.getElementById("registerForm").style.display = "none";
-    document.getElementById("resetForm").style.display = "none";
-    document.getElementById("loginForm").style.display = "block";
-}
-
-function showRegister(){
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("resetForm").style.display = "none";
-    document.getElementById("registerForm").style.display = "block";
-}
-
-function showReset(){
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("registerForm").style.display = "none";
-    document.getElementById("resetForm").style.display = "block";
-}
-
-function register(){
-    let email = document.getElementById("regEmail").value;
-    let pass  = document.getElementById("regPass").value;
-
-    auth.createUserWithEmailAndPassword(email, pass).then(() => {
-        auth.currentUser.sendEmailVerification();
-        alert("Kayıt başarılı! Mailine doğrulama linki gönderildi.");
-    }).catch(e => alert(e.message));
-}
-
-function login(){
-    let email = document.getElementById("logEmail").value;
-    let pass  = document.getElementById("logPass").value;
-
-    auth.signInWithEmailAndPassword(email, pass).then(() => {
-        if(!auth.currentUser.emailVerified){
-            return alert("Mail doğrulanmamış! Lütfen mailini kontrol et.");
+    toggleLogin.onclick = () => {
+        if (mode === "register") {
+            mode = "login";
+            formTitle.innerText = "Giriş Yap";
+            registerFields.style.display = "none";
+            actionBtn.innerText = "Giriş Yap";
+            toggleLogin.innerText = "Hesabın yok mu? Kayıt ol";
+            forgotPass.style.display = "block";
+        } else {
+            mode = "register";
+            formTitle.innerText = "Kayıt Ol";
+            registerFields.style.display = "block";
+            actionBtn.innerText = "Kayıt Ol";
+            toggleLogin.innerText = "Hesabın var mı? Giriş yap";
+            forgotPass.style.display = "block";
         }
-        alert("Giriş başarılı!");
-    }).catch(e => alert(e.message));
-}
+    };
 
-function resetPass(){
-    let email = document.getElementById("resetEmail").value;
-
-    auth.sendPasswordResetEmail(email).then(() => {
-        alert("Sıfırlama maili gönderildi!");
-    }).catch(e => alert(e.message));
-}
+    forgotPass.onclick = () => {
+        mode = "reset";
+        formTitle.innerText = "Şifre Sıfırla";
+        registerFields.style.display = "none";
+        actionBtn.innerText = "Sıfırlama Maili Gönder";
+        forgotPass.style.display = "none";
+        toggleLogin.innerText = "Geri dön";
+    };
 </script>
 
 </body>
