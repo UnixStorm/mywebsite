@@ -65,203 +65,210 @@
 
 </body>
 </html>
-<!-- KUTU TASARIMI -->
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>UNIXSTORM Giriş</title>
+
 <style>
-  .center-box {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    padding: 22px;
-    background: rgba(0,0,0,0.70);
-    backdrop-filter: blur(5px);
-    border-radius: 12px;
-    box-shadow: 0 0 22px rgba(0,0,0,0.65);
-    text-align: center;
-    color: white;
-  }
+    body {
+        margin: 0;
+        padding: 0;
+        background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
+        background-size: cover;
+        font-family: Arial, sans-serif;
+    }
 
-  .center-box input {
-    width: 100%;
-    padding: 10px;
-    margin: 7px 0;
-    border-radius: 6px;
-    border: none;
-    outline: none;
-  }
+    /* ORTADAKİ ANA KUTU */
+    .box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 330px;
+        padding: 25px;
+        background: rgba(0,0,0,0.70);
+        backdrop-filter: blur(6px);
+        border-radius: 14px;
+        box-shadow: 0 0 25px rgba(0,0,0,0.8);
+        animation: fade 0.7s ease;
+        text-align: center;
+    }
 
-  .center-box button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 6px;
-    border: none;
-    border-radius: 6px;
-    background: #006CFF;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-  }
+    @keyframes fade {
+        from { opacity: 0; transform: translate(-50%, -48%); }
+        to   { opacity: 1; transform: translate(-50%, -50%); }
+    }
 
-  .link-btn {
-    margin-top: 8px;
-    display: block;
-    color: #ddd;
-    cursor: pointer;
-    text-decoration: underline;
-    font-size: 14px;
-  }
+    h2 {
+        color: white;
+        margin-bottom: 20px;
+        text-shadow: 0 0 10px #00aaff;
+    }
 
-  #durum {
-    margin-top: 10px;
-    font-size: 14px;
-    min-height: 20px;
-    color: #fff;
-  }
+    input {
+        width: 100%;
+        padding: 12px;
+        margin: 8px 0;
+        border-radius: 6px;
+        border: none;
+        outline: none;
+        background: rgba(255,255,255,0.85);
+    }
+
+    .btn {
+        width: 100%;
+        padding: 12px;
+        margin-top: 10px;
+        background: #007bff;
+        border: none;
+        border-radius: 6px;
+        color: white;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .btn:hover {
+        background: #0a84ff;
+    }
+
+    a {
+        color: #e0e0e0;
+        display: block;
+        margin-top: 10px;
+        font-size: 14px;
+        text-decoration: none;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
 </style>
+</head>
+<body>
 
-<!-- --- FORM KUTUSU --- -->
-<div class="center-box">
+<!-- ANA KUTU -->
+<div class="box" id="formBox">
 
-  <!-- Kayıt Formu -->
-  <div id="registerForm">
-    <h3>Kayıt Ol</h3>
-    <input type="text" id="regName" placeholder="Kullanıcı adı">
-    <input type="email" id="regMail" placeholder="E-posta">
-    <input type="password" id="regPass" placeholder="Şifre">
-    <button onclick="kayitOl()">Kayıt Ol</button>
+    <h2 id="formTitle">Giriş Yap</h2>
 
-    <span class="link-btn" onclick="formDegistir('login')">Hesabınız var mı? Giriş yapın</span>
-    <span class="link-btn" onclick="formDegistir('reset')">Şifremi unuttum</span>
-  </div>
+    <div id="loginForm">
+        <input id="loginEmail" type="email" placeholder="E-posta">
+        <input id="loginPassword" type="password" placeholder="Şifre">
+        <button class="btn" id="loginBtn">Giriş Yap</button>
 
-  <!-- Giriş Formu -->
-  <div id="loginForm" style="display:none;">
-    <h3>Giriş Yap</h3>
-    <input type="email" id="loginMail" placeholder="E-posta">
-    <input type="password" id="loginPass" placeholder="Şifre">
-    <button onclick="girisYap()">Giriş Yap</button>
+        <a id="goRegister">Kayıt olmak istiyorum</a>
+        <a id="goReset">Şifremi unuttum</a>
+    </div>
 
-    <span class="link-btn" onclick="formDegistir('register')">Kayıt olmak istiyorum</span>
-    <span class="link-btn" onclick="formDegistir('reset')">Şifremi unuttum</span>
-  </div>
+    <div id="registerForm" style="display:none;">
+        <input id="regUser" type="text" placeholder="Kullanıcı adı">
+        <input id="regEmail" type="email" placeholder="E-posta">
+        <input id="regPassword" type="password" placeholder="Şifre">
+        <button class="btn" id="registerBtn">Kayıt Ol</button>
 
-  <!-- Şifre Sıfırlama Formu -->
-  <div id="resetForm" style="display:none;">
-    <h3>Şifre Sıfırla</h3>
-    <input type="email" id="resetMail" placeholder="E-posta">
-    <button onclick="sifreSifirla()">Sıfırlama Linkini Gönder</button>
+        <a id="goLogin1">Giriş yapmak istiyorum</a>
+    </div>
 
-    <span class="link-btn" onclick="formDegistir('login')">Girişe dön</span>
-  </div>
+    <div id="resetForm" style="display:none;">
+        <input id="resetEmail" type="email" placeholder="E-posta">
+        <button class="btn" id="resetBtn">Şifre Sıfırlama Maili Gönder</button>
 
-  <div id="durum"></div>
+        <a id="goLogin2">Geri dön</a>
+    </div>
+
 </div>
 
-<!-- --- FIREBASE --- -->
+
+
+
+<!-- FIREBASE -->
 <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { 
+        getAuth, 
+        signInWithEmailAndPassword, 
+        createUserWithEmailAndPassword,
+        sendPasswordResetEmail 
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { 
-    getAuth, 
-    createUserWithEmailAndPassword,
-    signInWithEmailAndPassword,
-    sendPasswordResetEmail
-  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
+        authDomain: "unixstorm-9dff8.firebaseapp.com",
+        projectId: "unixstorm-9dff8",
+        storageBucket: "unixstorm-9dff8.firebasestorage.app",
+        messagingSenderId: "787509821542",
+        appId: "1:787509821542:web:2b54b5bafee1207edeada7",
+        measurementId: "G-BQYS1575QZ"
+    };
 
-  import {
-    getFirestore,
-    setDoc,
-    doc
-  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-  /* --- Firebase Config (senin verdiğin) --- */
-  const firebaseConfig = {
-    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
-    authDomain: "unixstorm-9dff8.firebaseapp.com",
-    projectId: "unixstorm-9dff8",
-    storageBucket: "unixstorm-9dff8.firebasestorage.app",
-    messagingSenderId: "787509821542",
-    appId: "1:787509821542:web:2b54b5bafee1207edeada7",
-    measurementId: "G-BQYS1575QZ"
-  };
+    /* FORM GEÇİŞLERİ */
+    document.getElementById("goRegister").onclick = () => {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("registerForm").style.display = "block";
+        document.getElementById("resetForm").style.display = "none";
+        document.getElementById("formTitle").innerText = "Kayıt Ol";
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db   = getFirestore(app);
+    document.getElementById("goLogin1").onclick =
+    document.getElementById("goLogin2").onclick = () => {
+        document.getElementById("loginForm").style.display = "block";
+        document.getElementById("registerForm").style.display = "none";
+        document.getElementById("resetForm").style.display = "none";
+        document.getElementById("formTitle").innerText = "Giriş Yap";
+    };
 
-  const durum = document.getElementById("durum");
+    document.getElementById("goReset").onclick = () => {
+        document.getElementById("loginForm").style.display = "none";
+        document.getElementById("registerForm").style.display = "none";
+        document.getElementById("resetForm").style.display = "block";
+        document.getElementById("formTitle").innerText = "Şifre Sıfırla";
+    };
 
-  /* -------------------- FORM GEÇİŞİ -------------------- */
-  window.formDegistir = function(target){
-    durum.textContent = "Lütfen bekleyiniz...";
-    setTimeout(() => {
-      durum.textContent = "";
-      document.getElementById("registerForm").style.display = "none";
-      document.getElementById("loginForm").style.display = "none";
-      document.getElementById("resetForm").style.display = "none";
+    /* GİRİŞ */
+    document.getElementById("loginBtn").onclick = () => {
+        const email = document.getElementById("loginEmail").value;
+        const pass = document.getElementById("loginPassword").value;
 
-      if(target === "register") document.getElementById("registerForm").style.display = "block";
-      if(target === "login")    document.getElementById("loginForm").style.display = "block";
-      if(target === "reset")    document.getElementById("resetForm").style.display = "block";
-    }, 1500);
-  };
+        signInWithEmailAndPassword(auth, email, pass)
+            .then(() => {
+                alert("Giriş başarılı! Yönlendiriliyorsunuz...");
+                setTimeout(() => {
+                    window.location.href = "ana_site.html";
+                }, 2000);
+            })
+            .catch(err => alert("Hata: " + err.message));
+    };
 
-  /* -------------------- KAYIT OL -------------------- */
-  window.kayitOl = async function () {
-    const ad   = document.getElementById("regName").value;
-    const mail = document.getElementById("regMail").value;
-    const pass = document.getElementById("regPass").value;
+    /* KAYIT */
+    document.getElementById("registerBtn").onclick = () => {
+        const email = document.getElementById("regEmail").value;
+        const pass = document.getElementById("regPassword").value;
 
-    durum.textContent = "Kayıt yapılıyor...";
+        createUserWithEmailAndPassword(auth, email, pass)
+            .then(() => {
+                alert("Hesap oluşturuldu! Yönlendiriliyorsunuz...");
+                setTimeout(() => {
+                    window.location.href = "ana_site.html";
+                }, 2500);
+            })
+            .catch(err => alert("Hata: " + err.message));
+    };
 
-    try {
-      const cred = await createUserWithEmailAndPassword(auth, mail, pass);
+    /* ŞİFREMİ UNUTTUM */
+    document.getElementById("resetBtn").onclick = () => {
+        const email = document.getElementById("resetEmail").value;
 
-      await setDoc(doc(db, "kullanicilar", cred.user.uid), {
-        kullaniciAdi: ad,
-        email: mail,
-        createdAt: new Date().toISOString()
-      });
-
-      durum.textContent = "✔ Hesap oluşturuldu, yönlendiriliyorsunuz...";
-      setTimeout(() => window.location.href = "anasayfa.html", 3000);
-
-    } catch (e) {
-      durum.textContent = "Hata: " + e.message;
-    }
-  };
-
-  /* -------------------- GİRİŞ YAP -------------------- */
-  window.girisYap = async function () {
-    const mail = document.getElementById("loginMail").value;
-    const pass = document.getElementById("loginPass").value;
-
-    durum.textContent = "Giriş yapılıyor...";
-
-    try {
-      await signInWithEmailAndPassword(auth, mail, pass);
-      durum.textContent = "✔ Giriş başarılı! Yönlendiriliyorsunuz...";
-      setTimeout(() => window.location.href = "anasayfa.html", 2500);
-
-    } catch (e) {
-      durum.textContent = "Hata: " + e.message;
-    }
-  };
-
-  /* -------------------- ŞİFRE SIFIRLAMA -------------------- */
-  window.sifreSifirla = async function () {
-    const mail = document.getElementById("resetMail").value;
-
-    durum.textContent = "E-posta gönderiliyor...";
-
-    try {
-      await sendPasswordResetEmail(auth, mail);
-      durum.textContent = "✔ Sıfırlama linki gönderildi!";
-
-    } catch (e) {
-      durum.textContent = "Hata: " + e.message;
-    }
-  };
-
+        sendPasswordResetEmail(auth, email)
+            .then(() => alert("Sıfırlama maili gönderildi!"))
+            .catch(err => alert("Hata: " + err.message));
+    };
 </script>
+
+</body>
+</html>
