@@ -265,3 +265,40 @@
   };
 
 </script>
+<!-- Ses Oynatma Butonu -->
+<button id="soundBtn" style="
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    padding: 10px 15px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+">
+    🔊 Aç
+</button>
+
+<audio id="bgSound">
+    <source src="OLUM BUNE LAN AHAHAHAHAHAHAHAHAHAHHA RRAENE BASS BOOSTED #dalimsharma #gta5_fivem_tricks #lyunaff(_3ZX7gDqlKr4_).m4a" type="audio/mp4">
+</audio>
+
+<script>
+    const btn = document.getElementById("soundBtn");
+    const audio = document.getElementById("bgSound");
+    let playing = false;
+
+    btn.addEventListener("click", () => {
+        if (!playing) {
+            audio.play();
+            btn.textContent = "⏸ Dur";
+            playing = true;
+        } else {
+            audio.pause();
+            btn.textContent = "🔊 Aç";
+            playing = false;
+        }
+    });
+</script>
