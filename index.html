@@ -25,36 +25,36 @@ body {
 
 <style>
 
-    /* Üstteki mesaj kutusu */
-    .top-box {
-        width: calc(100% - 40px);
-        margin: 20px;
-        padding: 15px;
-        background: rgba(0,0,0,0.55);
-        border-radius: 10px;
-        color: white;
-        font-family: Arial, sans-serif;
-        text-align: center;
-        backdrop-filter: blur(3px);
-    }
+    body {
+    margin: 0;
+    padding: 0;
+    background: url("arka.jpg") no-repeat center/cover;
+    height: 100vh;
+    display: flex;
+    justify-content: center;   /* Ortalar */
+    align-items: center;       /* Ortalar */
+    font-family: Arial;
+}
 
-    .line1 {
-        font-size: 18px;
-        font-weight: bold;
-        color: white; /* Beyaz */
-        text-shadow: 0 0 10px white;
-    }
+/* Kutu tamamen ortalı dursun */
+.kutu {
+    width: 300px;
+    background: rgba(0, 0, 0, 0.55);
+    padding: 25px;
+    border-radius: 13px;
+    text-align: center;
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: white;
+    position: relative;
+}
 
-    .line2 {
-        margin-top: 5px;
-        font-size: 17px;
-        font-weight: bold;
-        background: linear-gradient(to right, orange, red);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        text-shadow: 0 0 10px orange;
-    }
-
+/* BAŞLIĞI YUKARIYA ALIYORUZ */
+.kutu h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 24px;
+}
 </style>
 </head>
 
