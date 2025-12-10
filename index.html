@@ -6,6 +6,7 @@
 <title>UNIXSTORM</title>
 
 <style>
+
     body {
         margin: 0;
         padding: 0;
@@ -40,6 +41,60 @@
         font-weight: bold;
         text-shadow: 0 0 6px red, 0 0 15px red;
     }
+
+    /* FORM KUTUSU */
+    .center-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 300px;
+        padding: 22px;
+        background: rgba(0,0,0,0.70);
+        backdrop-filter: blur(5px);
+        border-radius: 12px;
+        box-shadow: 0 0 22px rgba(0,0,0,0.65);
+        text-align: center;
+        color: white;
+    }
+
+    .center-box input {
+        width: 100%;
+        padding: 10px;
+        margin: 7px 0;
+        border-radius: 6px;
+        border: none;
+        outline: none;
+    }
+
+    .center-box button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 6px;
+        border: none;
+        border-radius: 6px;
+        background: #006CFF;  /* MAVİ TUTULDU */
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+    }
+
+    .link-btn {
+        margin-top: 8px;
+        display: block;
+        color: #ddd;
+        cursor: pointer;
+        text-decoration: underline;
+        font-size: 14px;
+    }
+
+    #durum {
+        margin-top: 10px;
+        font-size: 14px;
+        min-height: 20px;
+        color: #fff;
+    }
+
 </style>
 </head>
 
@@ -49,53 +104,25 @@
     <div class="anaYazi">
         𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ
     </div>
-
     <div style="margin-top: 6px;">
         <span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span>
         <span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span>
     </div>
 </div>
 
-</body>
-</html>
-
-<style>
-  .center-box {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 300px;
-    padding: 22px;
-    background: rgba(0,0,0,0.70);
-    backdrop-filter: blur(5px);
-    border-radius: 12px;
-    box-shadow: 0 0 22px rgba(0,0,0,0.65);
-    text-align: center;
-    color: white;
-  }
-
-  .center-box input {
-    width: 100%;
-    padding: 10px;
-    margin: 7px 0;
-    border-radius: 6px;
-    border: none;
-    outline: none;
-  }
-</style>
-
+<!-- FORM KUTUSU -->
 <div class="center-box">
 
   <!-- Kayıt Formu -->
   <div id="registerForm">
     <h3>Kayıt Ol</h3>
+
     <input type="text" id="regName" placeholder="Kullanıcı adı">
     <input type="email" id="regMail" placeholder="E-posta">
     <input type="password" id="regPass" placeholder="Şifre">
 
-    <!-- 🔥 PROFİL FOTOĞRAFI EKLENDİ -->
-    <input type="file" id="regPhoto" accept="image/*">
+    <!-- PROFIL FOTOĞRAF YÜKLEME -->
+    <input type="file" id="regPhoto">
 
     <button onclick="kayitOl()">Kayıt Ol</button>
 
@@ -108,19 +135,31 @@
     <h3>Giriş Yap</h3>
     <input type="email" id="loginMail" placeholder="E-posta">
     <input type="password" id="loginPass" placeholder="Şifre">
+
     <button onclick="girisYap()">Giriş Yap</button>
 
     <span class="link-btn" onclick="formDegistir('register')">Kayıt olmak istiyorum</span>
     <span class="link-btn" onclick="formDegistir('reset')">Şifremi unuttum</span>
   </div>
 
+  <!-- Şifre Sıfırlama -->
+  <div id="resetForm" style="display:none;">
+    <h3>Şifre Sıfırla</h3>
+    <input type="email" id="resetMail" placeholder="E-posta">
+    <button onclick="sifreSifirla()">Sıfırlama Linki Gönder</button>
+
+    <span class="link-btn" onclick="formDegistir('login')">Girişe dön</span>
+  </div>
+
   <div id="durum"></div>
 </div>
 
+<!-- --- FIREBASE --- -->
 <script type="module">
+
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { 
-    getAuth, 
+  import {
+    getAuth,
     createUserWithEmailAndPassword,
     signInWithEmailAndPassword,
     sendPasswordResetEmail
@@ -132,19 +171,11 @@
     doc
   } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-  import {
-    getStorage,
-    ref,
-    uploadBytes,
-    getDownloadURL
-  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
-
-
   const firebaseConfig = {
     apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
     authDomain: "unixstorm-9dff8.firebaseapp.com",
     projectId: "unixstorm-9dff8",
-    storageBucket: "unixstorm-9dff8.appspot.com",
+    storageBucket: "unixstorm-9dff8.firebasestorage.app",
     messagingSenderId: "787509821542",
     appId: "1:787509821542:web:2b54b5bafee1207edeada7",
     measurementId: "G-BQYS1575QZ"
@@ -153,43 +184,75 @@
   const app = initializeApp(firebaseConfig);
   const auth = getAuth(app);
   const db   = getFirestore(app);
-  const storage = getStorage(app);
 
   const durum = document.getElementById("durum");
 
-  /* ------------ KAYIT OL + PROFİL FOTOĞRAFI ------------ */
-  window.kayitOl = async function () {
-    const ad   = document.getElementById("regName").value;
+  /* FORM GEÇİŞİ */
+  window.formDegistir = function(target){
+    document.getElementById("registerForm").style.display = "none";
+    document.getElementById("loginForm").style.display = "none";
+    document.getElementById("resetForm").style.display = "none";
+    document.getElementById(target + "Form").style.display = "block";
+  };
+
+  /* KAYIT OL */
+  window.kayitOl = async function(){
+    const ad = document.getElementById("regName").value;
     const mail = document.getElementById("regMail").value;
     const pass = document.getElementById("regPass").value;
-    const foto = document.getElementById("regPhoto").files[0];
 
     durum.textContent = "Kayıt yapılıyor...";
 
     try {
       const cred = await createUserWithEmailAndPassword(auth, mail, pass);
-      const uid = cred.user.uid;
 
-      let fotoURL = "";
-
-      if (foto) {
-        const yol = ref(storage, "profil_fotolari/" + uid + ".jpg");
-        await uploadBytes(yol, foto);
-        fotoURL = await getDownloadURL(yol);
-      }
-
-      await setDoc(doc(db, "kullanicilar", uid), {
+      await setDoc(doc(db, "kullanicilar", cred.user.uid), {
         kullaniciAdi: ad,
         email: mail,
-        profilFoto: fotoURL,
         createdAt: new Date().toISOString()
       });
 
       durum.textContent = "✔ Hesap oluşturuldu, yönlendiriliyorsunuz...";
-      setTimeout(() => window.location.href = "anasayfa.html", 3000);
+      setTimeout(() => location.href = "anasayfa.html", 2000);
 
-    } catch (e) {
+    } catch(e) {
       durum.textContent = "Hata: " + e.message;
     }
   };
-                 </script>
+
+  /* GİRİŞ */
+  window.girisYap = async function(){
+    const mail = document.getElementById("loginMail").value;
+    const pass = document.getElementById("loginPass").value;
+
+    durum.textContent = "Giriş yapılıyor...";
+
+    try {
+      await signInWithEmailAndPassword(auth, mail, pass);
+      durum.textContent = "✔ Giriş başarılı!";
+      setTimeout(() => location.href = "anasayfa.html", 1500);
+
+    } catch(e){
+      durum.textContent = "Hata: " + e.message;
+    }
+  };
+
+  /* ŞİFRE SIFIRLAMA */
+  window.sifreSifirla = async function(){
+    const mail = document.getElementById("resetMail").value;
+
+    durum.textContent = "Gönderiliyor...";
+
+    try {
+      await sendPasswordResetEmail(auth, mail);
+      durum.textContent = "✔ Sıfırlama maili gönderildi!";
+
+    } catch(e){
+      durum.textContent = "Hata: " + e.message;
+    }
+  };
+
+</script>
+
+</body>
+</html>
