@@ -95,6 +95,7 @@ body {
         backdrop-filter: blur(6px);
         border: 1px solid rgba(255,255,255,0.2);
         color: white;
+        transition: 0.4s ease;
     }
 
     input {
@@ -116,7 +117,13 @@ body {
         margin-top: 8px;
     }
 
-    a { color: white; font-size: 14px; cursor: pointer; display: block; margin-top: 10px; }
+    a {
+        color: white;
+        font-size: 14px;
+        cursor: pointer;
+        display: block;
+        margin-top: 10px;
+    }
 
     #durum {
         margin-top: 10px;
@@ -136,17 +143,18 @@ body {
         <input type="email" id="girisMail" placeholder="E-posta">
         <input type="password" id="girisSifre" placeholder="Şifre">
         <button onclick="girisYap()">Giriş Yap</button>
-        <a onclick="showRegister()">Kayıt olmak istiyorum</a>
-        <a onclick="showReset()">Şifremi unuttum</a>
+        <a onclick="animasyonluGecis('register')">Kayıt olmak istiyorum</a>
+        <a onclick="animasyonluGecis('reset')">Şifremi unuttum</a>
     </div>
 
     <!-- Kayıt Formu -->
     <div id="registerForm" style="display:none;">
         <h3>KAYIT OL</h3>
+        <input type="text" id="kayitKullaniciAdi" placeholder="Kullanıcı adı">
         <input type="email" id="kayitMail" placeholder="E-posta">
         <input type="password" id="kayitSifre" placeholder="Şifre">
         <button onclick="kayitOl()">Kayıt Ol</button>
-        <a onclick="showLogin()">Zaten hesabım var</a>
+        <a onclick="animasyonluGecis('login')">Zaten hesabım var</a>
     </div>
 
     <!-- Şifre Sıfırlama Formu -->
@@ -154,7 +162,7 @@ body {
         <h3>ŞİFRE SIFIRLA</h3>
         <input type="email" id="resetMail" placeholder="E-posta">
         <button onclick="sifremiSifirla()">Sıfırlama linki gönder</button>
-        <a onclick="showLogin()">Girişe dön</a>
+        <a onclick="animasyonluGecis('login')">Girişe dön</a>
     </div>
 
     <div id="durum"></div>
@@ -166,6 +174,8 @@ body {
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail }
         from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+    import { getFirestore, setDoc, doc }
+        from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
     const firebaseConfig = {
         apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
@@ -178,39 +188,51 @@ body {
 
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
+    const db = getFirestore(app);
 
 
-    // ----------- FORM GEÇİŞLERİ --------------
-    window.showLogin = () => {
-        document.getElementById("loginForm").style.display = "block";
-        document.getElementById("registerForm").style.display = "none";
-        document.getElementById("resetForm").style.display = "none";
+    /* ------------------- ANİMASYONLU GEÇİŞ ------------------- */
+
+    window.animasyonluGecis = function(target) {
+        const durum = document.getElementById("durum");
+        durum.style.display = "block";
+        durum.innerHTML = "Lütfen bekleyiniz...";
+
+        setTimeout(() => {
+            durum.style.display = "none";
+
+            document.getElementById("loginForm").style.display = "none";
+            document.getElementById("registerForm").style.display = "none";
+            document.getElementById("resetForm").style.display = "none";
+
+            if (target === "login") document.getElementById("loginForm").style.display = "block";
+            if (target === "register") document.getElementById("registerForm").style.display = "block";
+            if (target === "reset") document.getElementById("resetForm").style.display = "block";
+
+        }, 3000); // 3 saniye gecikme
     };
 
-    window.showRegister = () => {
-        document.getElementById("loginForm").style.display = "none";
-        document.getElementById("registerForm").style.display = "block";
-        document.getElementById("resetForm").style.display = "none";
-    };
 
-    window.showReset = () => {
-        document.getElementById("loginForm").style.display = "none";
-        document.getElementById("registerForm").style.display = "none";
-        document.getElementById("resetForm").style.display = "block";
-    };
+    /* ------------------- KAYIT ------------------- */
 
-
-    // ----------- KAYIT --------------
     window.kayitOl = function() {
         const mail = document.getElementById("kayitMail").value;
         const sifre = document.getElementById("kayitSifre").value;
-        const durum = document.getElementById("durum");
+        const kullaniciAdi = document.getElementById("kayitKullaniciAdi").value;
 
+        const durum = document.getElementById("durum");
         durum.style.display = "block";
         durum.innerHTML = "Kayıt yapılıyor...";
 
         createUserWithEmailAndPassword(auth, mail, sifre)
-        .then(() => {
+        .then(async (result) => {
+
+            // Kullanıcı adı Firestore'a kaydediliyor
+            await setDoc(doc(db, "kullanicilar", result.user.uid), {
+                kullaniciAdi: kullaniciAdi,
+                email: mail
+            });
+
             durum.innerHTML = "✔ Kayıt başarılı! Yönlendiriliyorsun...";
             setTimeout(() => window.location.href = "anasayfa.html", 3000);
         })
@@ -218,7 +240,8 @@ body {
     };
 
 
-    // ----------- GİRİŞ --------------
+    /* ------------------- GİRİŞ ------------------- */
+
     window.girisYap = function() {
         const mail = document.getElementById("girisMail").value;
         const sifre = document.getElementById("girisSifre").value;
@@ -236,7 +259,8 @@ body {
     };
 
 
-    // ----------- ŞİFRE SIFIRLAMA --------------
+    /* ------------------- ŞİFRE SIFIRLAMA ------------------- */
+
     window.sifremiSifirla = function() {
         const mail = document.getElementById("resetMail").value;
         const durum = document.getElementById("durum");
@@ -245,9 +269,7 @@ body {
         durum.innerHTML = "E-posta gönderiliyor...";
 
         sendPasswordResetEmail(auth, mail)
-        .then(() => {
-            durum.innerHTML = "✔ Sıfırlama linki gönderildi!";
-        })
+        .then(() => durum.innerHTML = "✔ Sıfırlama linki gönderildi!")
         .catch(e => durum.innerHTML = "Hata: " + e.message);
     };
 
