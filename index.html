@@ -73,7 +73,7 @@ body {
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>UNIXSTORM KAYIT</title>
+<title>UNIXSTORM KAYIT / GİRİŞ</title>
 <style>
     body {
         margin: 0;
@@ -88,7 +88,7 @@ body {
 
     .kutu {
         width: 300px;
-        background: rgba(0, 0, 0, 0.55);
+        background: rgba(0,0,0,0.55);
         padding: 25px;
         border-radius: 10px;
         text-align: center;
@@ -116,6 +116,14 @@ body {
         font-weight: bold;
     }
 
+    .altlink {
+        margin-top: 10px;
+        color: white;
+        font-size: 13px;
+        cursor: pointer;
+        text-decoration: underline;
+    }
+
     #durum {
         margin-top: 10px;
         color: white;
@@ -136,59 +144,132 @@ body {
 <body>
 
 <div class="kutu">
-    <h3 style="color:white;">UNIXSTORM-KAYIT</h3>
 
-    <input type="text" id="kullanici" placeholder="Kullanıcı adı">
-    <input type="email" id="email" placeholder="E-posta">
-    <input type="password" id="sifre" placeholder="Şifre">
+    <h3 style="color:white;" id="baslik">UNIXSTORM-KAYIT</h3>
 
-    <button onclick="kayitOl()">Kayıt Ol</button>
+    <div id="kayitFormu">
+        <input type="text" id="kullanici" placeholder="Kullanıcı adı">
+        <input type="email" id="email" placeholder="E-posta">
+        <input type="password" id="sifre" placeholder="Şifre">
+        <button onclick="kayitOl()">Kayıt Ol</button>
+        <div class="altlink" onclick="girisEkrani()">Hesabın var mı? Giriş yap</div>
+    </div>
+
+    <div id="girisFormu" style="display:none;">
+        <input type="email" id="girisEmail" placeholder="E-posta">
+        <input type="password" id="girisSifre" placeholder="Şifre">
+        <button onclick="girisYap()">Giriş Yap</button>
+        <div class="altlink" onclick="kayitEkrani()">Kayıt olmak istiyorum</div>
+        <div class="altlink" onclick="sifremiUnuttumEkrani()">Şifremi unuttum</div>
+    </div>
+
+    <div id="sifremiUnuttumFormu" style="display:none;">
+        <input type="email" id="resetMail" placeholder="E-posta adresiniz">
+        <button onclick="sifreSifirla()">Sıfırlama Linki Gönder</button>
+        <div class="altlink" onclick="girisEkrani()">Geri dön</div>
+    </div>
 
     <div id="durum"></div>
 </div>
 
 <!-- Firebase -->
 <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword } 
-        from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-    // ⚠ BURASI FIREBASE'DEN BİREBİR İNGİLİZCE OLMALI
-    const firebaseConfig = {
-        apiKey: "SENİN_API_KEY",
-        authDomain: "unixstorm-9dff8.firebaseapp.com",
-        projectId: "unixstorm-9dff8",
-        storageBucket: "unixstorm-9dff8.firebasestorage.app",
-        messagingSenderId: "787509821542",
-        appId: "1:787509821542:web:2b54b5bafee1207edeada7",
-        measurementId: "G-BQYS1575QZ"
-    };
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { 
+    getAuth, 
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail
+} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
+const firebaseConfig = {
+    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
+    authDomain: "unixstorm-9dff8.firebaseapp.com",
+    projectId: "unixstorm-9dff8",
+    storageBucket: "unixstorm-9dff8.firebasestorage.app",
+    messagingSenderId: "787509821542",
+    appId: "1:787509821542:web:2b54b5bafee1207edeada7"
+};
 
-    window.kayitOl = function () {
-        const mail = document.getElementById("email").value;
-        const sifre = document.getElementById("sifre").value;
-        const durum = document.getElementById("durum");
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
 
+window.kayitEkrani = function() {
+    document.getElementById("baslik").innerHTML = "UNIXSTORM-KAYIT";
+    document.getElementById("kayitFormu").style.display = "block";
+    document.getElementById("girisFormu").style.display = "none";
+    document.getElementById("sifremiUnuttumFormu").style.display = "none";
+};
+
+window.girisEkrani = function() {
+    document.getElementById("baslik").innerHTML = "UNIXSTORM-GİRİŞ";
+    document.getElementById("kayitFormu").style.display = "none";
+    document.getElementById("girisFormu").style.display = "block";
+    document.getElementById("sifremiUnuttumFormu").style.display = "none";
+};
+
+window.sifremiUnuttumEkrani = function() {
+    document.getElementById("baslik").innerHTML = "ŞİFRE SIFIRLAMA";
+    document.getElementById("kayitFormu").style.display = "none";
+    document.getElementById("girisFormu").style.display = "none";
+    document.getElementById("sifremiUnuttumFormu").style.display = "block";
+};
+
+window.kayitOl = function () {
+    const mail = document.getElementById("email").value;
+    const sifre = document.getElementById("sifre").value;
+    const durum = document.getElementById("durum");
+
+    durum.style.display = "block";
+    durum.innerHTML = "Kayıt yapılıyor...";
+    durum.classList.add("yavasYazi");
+
+    createUserWithEmailAndPassword(auth, mail, sifre)
+    .then(() => {
+        durum.innerHTML = "✔ Kayıt başarılı! Yönlendiriliyorsunuz...";
+        setTimeout(() => { window.location.href = "anasayfa.html"; }, 3000);
+    })
+    .catch((hata) => {
+        durum.innerHTML = "Hata: " + hata.message;
+    });
+};
+
+window.girisYap = function() {
+    const mail = document.getElementById("girisEmail").value;
+    const sifre = document.getElementById("girisSifre").value;
+    const durum = document.getElementById("durum");
+
+    durum.style.display = "block";
+    durum.innerHTML = "Giriş yapılıyor...";
+    durum.classList.add("yavasYazi");
+
+    signInWithEmailAndPassword(auth, mail, sifre)
+    .then(() => {
+        durum.innerHTML = "✔ Giriş başarılı! Yönlendiriliyorsunuz...";
+        setTimeout(() => { window.location.href = "anasayfa.html"; }, 3000);
+    })
+    .catch((hata) => {
+        durum.innerHTML = "Hata: " + hata.message;
+    });
+};
+
+window.sifreSifirla = function() {
+    const mail = document.getElementById("resetMail").value;
+    const durum = document.getElementById("durum");
+
+    sendPasswordResetEmail(auth, mail)
+    .then(() => {
         durum.style.display = "block";
-        durum.innerHTML = "Kayıt yapılıyor...";
-        durum.classList.add("yavasYazi");
+        durum.innerHTML = "✔ Sıfırlama linki e-postanıza gönderildi!";
+    })
+    .catch((hata) => {
+        durum.style.display = "block";
+        durum.innerHTML = "Hata: " + hata.message;
+    });
+};
 
-        createUserWithEmailAndPassword(auth, mail, sifre)
-        .then(() => {
-            durum.innerHTML = "✔ Kayıt başarılı! Yönlendiriliyorsunuz...";
-            
-            setTimeout(() => {
-                window.location.href = "anasayfa.html";
-            }, 5000);
-        })
-        .catch((hata) => {
-            durum.innerHTML = "Hata: " + hata.message;
-        });
-    };
 </script>
 
 </body>
-</html>
+</html>        
