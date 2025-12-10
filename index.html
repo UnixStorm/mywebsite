@@ -65,3 +65,201 @@
 
 </body>
 </html>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>UNIXSTORM</title>
+
+<style>
+  body{
+    margin:0;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:rgba(0,0,0,0.6);
+    font-family: Arial, sans-serif;
+  }
+
+  /* --- KUTU TASARIMI --- */
+  .auth-box{
+    width:330px;
+    padding:22px;
+    background: rgba(0,0,0,0.55);
+    border-radius:14px;
+    backdrop-filter: blur(6px);
+    box-shadow:0 0 18px rgba(0,0,0,0.7),
+               0 0 14px rgba(0,230,255,0.15);
+    color:white;
+    text-align:center;
+  }
+
+  .auth-box h3{
+    margin:0 0 14px;
+    font-size:22px;
+    letter-spacing:1px;
+    text-shadow:0 0 8px rgba(0,230,255,.4);
+  }
+
+  .auth-box input{
+    width:90%;
+    padding:11px;
+    margin:8px auto;
+    border:none;
+    border-radius:8px;
+    outline:none;
+  }
+
+  .auth-box button{
+    width:94%;
+    padding:11px;
+    background:#0077ff;
+    border:none;
+    border-radius:8px;
+    margin-top:10px;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    box-shadow:0 0 10px rgba(0,120,255,0.5);
+  }
+
+  .auth-box a{
+    display:block;
+    margin-top:10px;
+    color:#fff;
+    text-decoration:underline;
+    cursor:pointer;
+    font-size:14px;
+  }
+
+  #durum{
+    margin-top:12px;
+    min-height:22px;
+    font-size:14px;
+    color:white;
+    text-shadow:0 0 6px rgba(255,255,255,0.4);
+  }
+</style>
+</head>
+
+<body>
+
+<div class="auth-box">
+  
+  <!-- GİRİŞ FORMU YERİNE KAYIT FORMU AÇIK BAŞLAR -->
+  <div id="registerForm">
+    <h3>KAYIT OL</h3>
+    <input id="regUser" type="text" placeholder="Kullanıcı adı">
+    <input id="regMail" type="email" placeholder="E-posta">
+    <input id="regPass" type="password" placeholder="Şifre">
+    <button onclick="kayitOl()">Kayıt Ol</button>
+    <a onclick="gecis('login')">Zaten hesabım var</a>
+    <a onclick="gecis('reset')">Şifremi unuttum</a>
+  </div>
+
+  <div id="loginForm" style="display:none;">
+    <h3>GİRİŞ YAP</h3>
+    <input id="loginMail" type="email" placeholder="E-posta">
+    <input id="loginPass" type="password" placeholder="Şifre">
+    <button onclick="girisYap()">Giriş Yap</button>
+    <a onclick="gecis('register')">Kayıt olmak istiyorum</a>
+    <a onclick="gecis('reset')">Şifremi unuttum</a>
+  </div>
+
+  <div id="resetForm" style="display:none;">
+    <h3>ŞİFRE SIFIRLA</h3>
+    <input id="resetMail" type="email" placeholder="E-posta">
+    <button onclick="sifirla()">Sıfırlama linki gönder</button>
+    <a onclick="gecis('login')">Girişe dön</a>
+  </div>
+
+  <div id="durum"></div>
+</div>
+
+
+<!-- FIREBASE -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+  import { 
+    getAuth, 
+    createUserWithEmailAndPassword, 
+    signInWithEmailAndPassword,
+    sendPasswordResetEmail 
+  } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+  const firebaseConfig = {
+    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
+    authDomain: "unixstorm-9dff8.firebaseapp.com",
+    projectId: "unixstorm-9dff8",
+    storageBucket: "unixstorm-9dff8.firebasestorage.app",
+    messagingSenderId: "787509821542",
+    appId: "1:787509821542:web:2b54b5bafee1207edeada7"
+  };
+
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+
+  const durum = document.getElementById("durum");
+
+  /* FORM GEÇİŞİ */
+  window.gecis = (hangisi)=>{
+    durum.innerHTML = "Lütfen bekleyiniz...";
+    setTimeout(()=>{
+      durum.innerHTML = "";
+      document.getElementById("loginForm").style.display="none";
+      document.getElementById("registerForm").style.display="none";
+      document.getElementById("resetForm").style.display="none";
+      document.getElementById(hangisi+"Form").style.display="block";
+    },1200);
+  }
+
+  /* KAYIT */
+  window.kayitOl = async ()=>{
+    const mail = regMail.value;
+    const pass = regPass.value;
+
+    durum.innerHTML = "Kayıt yapılıyor...";
+
+    try{
+      await createUserWithEmailAndPassword(auth, mail, pass);
+      durum.innerHTML = "✔ Kayıt başarılı, yönlendiriliyorsun...";
+      setTimeout(()=>{ window.location.href="ana_site.html"; }, 5000);
+    }catch(e){
+      durum.innerHTML = "Hata: "+e.message;
+    }
+  }
+
+  /* GİRİŞ */
+  window.girisYap = async ()=>{
+    const mail = loginMail.value;
+    const pass = loginPass.value;
+
+    durum.innerHTML = "Giriş yapılıyor...";
+
+    try{
+      await signInWithEmailAndPassword(auth, mail, pass);
+      durum.innerHTML = "✔ Giriş başarılı, yönlendiriliyorsun...";
+      setTimeout(()=>{ window.location.href="ana_site.html"; }, 5000);
+    }catch(e){
+      durum.innerHTML = "Hata: "+e.message;
+    }
+  }
+
+  /* ŞİFRE SIFIRLA */
+  window.sifirla = async ()=>{
+    const mail = resetMail.value;
+    durum.innerHTML = "E-posta gönderiliyor...";
+
+    try{
+      await sendPasswordResetEmail(auth, mail);
+      durum.innerHTML = "✔ Sıfırlama maili gönderildi!";
+    }catch(e){
+      durum.innerHTML = "Hata: "+e.message;
+    }
+  }
+</script>
+
+</body>
+</html>
