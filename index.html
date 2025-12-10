@@ -6,7 +6,6 @@
 <title>UNIXSTORM</title>
 
 <style>
-
     body {
         margin: 0;
         padding: 0;
@@ -96,6 +95,15 @@
         color: #fff;
     }
 
+    /* overlay (işlem sırasında tıklamayı kapatmak için) */
+    #blocker {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.0);
+      z-index: 9999;
+      display: none;
+      pointer-events: auto;
+    }
 </style>
 </head>
 
@@ -125,10 +133,10 @@
     <!-- PROFIL FOTOĞRAF YÜKLEME -->
     <input type="file" id="regPhoto" accept="image/*">
 
-    <button onclick="kayitOl()">Kayıt Ol</button>
+    <button id="regBtn">Kayıt Ol</button>
 
-    <span class="link-btn" onclick="formDegistir('login')">Giriş yapın</span>
-    <span class="link-btn" onclick="formDegistir('reset')">Şifremi unuttum</span>
+    <span class="link-btn" id="toLogin">Giriş yapın</span>
+    <span class="link-btn" id="toReset">Şifremi unuttum</span>
   </div>
 
   <!-- Giriş Formu -->
@@ -138,10 +146,10 @@
     <input type="email" id="loginMail" placeholder="E-posta">
     <input type="password" id="loginPass" placeholder="Şifre">
 
-    <button onclick="girisYap()">Giriş Yap</button>
+    <button id="loginBtn">Giriş Yap</button>
 
-    <span class="link-btn" onclick="formDegistir('register')">Kayıt olmak istiyorum</span>
-    <span class="link-btn" onclick="formDegistir('reset')">Şifremi unuttum</span>
+    <span class="link-btn" id="toRegisterFromLogin">Kayıt olmak istiyorum</span>
+    <span class="link-btn" id="toResetFromLogin">Şifremi unuttum</span>
   </div>
 
   <!-- Şifre Sıfırlama -->
@@ -149,17 +157,20 @@
     <h3>Şifre Sıfırla</h3>
 
     <input type="email" id="resetMail" placeholder="E-posta">
-    <button onclick="sifreSifirla()">Sıfırlama linki gönder</button>
+    <button id="resetBtn">Sıfırlama linki gönder</button>
 
-    <span class="link-btn" onclick="formDegistir('login')">Girişe dön</span>
+    <span class="link-btn" id="toLoginFromReset">Girişe dön</span>
   </div>
 
   <div id="durum"></div>
 </div>
 
-<!-- FIREBASE -->
-<script type="module">
+<!-- overlay: işlem sırasında tıklanmayı engellemek için -->
+<div id="blocker" aria-hidden="true"></div>
 
+<!-- --- FIREBASE --- -->
+<script type="module">
+/* Firebase imports */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import { 
   getAuth,
@@ -185,6 +196,7 @@ import {
   getDownloadURL
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
 
+/* --- Config (senin verdiğin) --- */
 const firebaseConfig = {
     apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
     authDomain: "unixstorm-9dff8.firebaseapp.com",
@@ -200,96 +212,172 @@ const auth = getAuth(app);
 const db   = getFirestore(app);
 const storage = getStorage(app);
 
+/* Elemanlar */
 const durum = document.getElementById("durum");
+const blocker = document.getElementById("blocker");
+const regBtn = document.getElementById("regBtn");
+const loginBtn = document.getElementById("loginBtn");
+const resetBtn = document.getElementById("resetBtn");
 
-/* FORM GEÇİŞİ */
-window.formDegistir = function(target){
-    durum.textContent = "Lütfen bekleyiniz...";
-    setTimeout(() => {
-        durum.textContent = "";
+/* linkleri bağla (form geçişleri) */
+document.getElementById("toLogin").onclick = ()=> formDegistir('login');
+document.getElementById("toReset").onclick = ()=> formDegistir('reset');
+document.getElementById("toRegisterFromLogin").onclick = ()=> formDegistir('register');
+document.getElementById("toResetFromLogin").onclick = ()=> formDegistir('reset');
+document.getElementById("toLoginFromReset").onclick = ()=> formDegistir('login');
 
-        document.getElementById("registerForm").style.display = "none";
-        document.getElementById("loginForm").style.display = "none";
-        document.getElementById("resetForm").style.display = "none";
+/* Form geçişi - hızlı ama tutarlı */
+function formDegistir(target) {
+  // hedef formu gösterirken durum temiz olsun
+  durum.textContent = "";
+  document.getElementById("registerForm").style.display = "none";
+  document.getElementById("loginForm").style.display = "none";
+  document.getElementById("resetForm").style.display = "none";
+  document.getElementById(target + "Form").style.display = "block";
+}
 
-        document.getElementById(target + "Form").style.display = "block";
-    }, 1500);
-};
+/* UI bloklama helper */
+function blockUI() {
+  blocker.style.display = "block";
+  blocker.style.pointerEvents = "auto";
+}
+function unblockUI() {
+  blocker.style.display = "none";
+  blocker.style.pointerEvents = "none";
+}
 
-/* KAYIT OL */
-window.kayitOl = async function(){
-    const ad = regName.value;
-    const mail = regMail.value;
-    const pass = regPass.value;
-    const foto = regPhoto.files[0];
+/* ---------- KAYIT (register) ---------- */
+regBtn.onclick = async function(){
+  const ad = document.getElementById("regName").value.trim();
+  const mail = document.getElementById("regMail").value.trim();
+  const pass = document.getElementById("regPass").value;
+  const foto = document.getElementById("regPhoto").files[0];
 
-    durum.textContent = "Kontrol ediliyor...";
+  if(!ad || !mail || !pass){
+    durum.textContent = "Lütfen tüm alanları doldurun.";
+    return;
+  }
 
-    try {
+  // göster: kontrol ediliyor (3s sabit)
+  blockUI();
+  durum.textContent = "Kontrol ediliyor...";
+  await new Promise(res => setTimeout(res, 3000)); // 3s
 
-        const q = query(collection(db, "kullanicilar"), where("kullaniciAdi", "==", ad));
-        const snapshot = await getDocs(q);
+  try {
+    // kullanıcı adı kontrolü
+    const q = query(collection(db, "kullanicilar"), where("kullaniciAdi", "==", ad));
+    const snapshot = await getDocs(q);
 
-        if (!snapshot.empty) {
-            durum.textContent = "⚠ Bu kullanıcı adı zaten kullanılıyor!";
-            return;
-        }
-
-        durum.textContent = "Kayıt yapılıyor...";
-
-        const cred = await createUserWithEmailAndPassword(auth, mail, pass);
-
-        let photoURL = "";
-
-        if (foto) {
-            const storageRef = ref(storage, "profilFoto/" + cred.user.uid);
-            await uploadBytes(storageRef, foto);
-            photoURL = await getDownloadURL(storageRef);
-        }
-
-        await setDoc(doc(db, "kullanicilar", cred.user.uid), {
-            kullaniciAdi: ad,
-            email: mail,
-            photoURL: photoURL,
-            createdAt: new Date().toISOString()
-        });
-
-        durum.textContent = "✔ Hesap oluşturuldu, yönlendiriliyorsunuz...";
-        setTimeout(() => location.href = "ana_site.html", 2000);
-
-    } catch(e) {
-        durum.textContent = "Hata: " + e.message;
+    if (!snapshot.empty) {
+      durum.textContent = "⚠ Bu kullanıcı adı zaten kullanılıyor!";
+      unblockUI();
+      return;
     }
-};
 
-window.girisYap = async function(){
-    const mail = loginMail.value;
-    const pass = loginPass.value;
+    // kayıt işlemi
+    durum.textContent = "Kayıt yapılıyor...";
+    const cred = await createUserWithEmailAndPassword(auth, mail, pass);
 
-    durum.textContent = "Giriş yapılıyor...";
-
-    try {
-        await signInWithEmailAndPassword(auth, mail, pass);
-        durum.textContent = "✔ Giriş başarılı, yönlendiriliyorsunuz...";
-        setTimeout(() => location.href = "ana_site.html", 1500);
-
-    } catch(e){
-        durum.textContent = "Hata: " + e.message;
+    let photoURL = "";
+    if (foto) {
+      const storageRef = ref(storage, "profilFoto/" + cred.user.uid);
+      await uploadBytes(storageRef, foto);
+      photoURL = await getDownloadURL(storageRef);
     }
+
+    await setDoc(doc(db, "kullanicilar", cred.user.uid), {
+      kullaniciAdi: ad,
+      email: mail,
+      photoURL: photoURL,
+      createdAt: new Date().toISOString()
+    });
+
+    // başarı: 5s bekleyip yönlendir
+    durum.textContent = "✔ Hesap oluşturuldu, yönlendiriliyorsunuz...";
+    await new Promise(res => setTimeout(res, 5000)); // 5s
+    location.href = "ana_site.html";
+
+  } catch(e) {
+    // hata mesajı
+    durum.textContent = "Hata: " + (e.message || e.toString());
+    unblockUI();
+  }
 };
 
-window.sifreSifirla = async function(){
-    const mail = resetMail.value;
+/* ---------- GİRİŞ (login) ---------- */
+loginBtn.onclick = async function(){
+  const mail = document.getElementById("loginMail").value.trim();
+  const pass = document.getElementById("loginPass").value;
 
-    durum.textContent = "Gönderiliyor...";
+  if(!mail || !pass){
+    durum.textContent = "Lütfen e-posta ve şifre girin.";
+    return;
+  }
 
-    try {
-        await sendPasswordResetEmail(auth, mail);
-        durum.textContent = "✔ Sıfırlama maili gönderildi!";
-    } catch(e){
-        durum.textContent = "Hata: " + e.message;
+  blockUI();
+  durum.textContent = "Giriş yapılıyor...";
+
+  try {
+    await signInWithEmailAndPassword(auth, mail, pass);
+    // başarılı: 5s bekle sonra yönlendir
+    durum.textContent = "✔ Giriş başarılı, yönlendiriliyorsunuz...";
+    await new Promise(res => setTimeout(res, 5000)); // 5s
+    location.href = "ana_site.html";
+  } catch(e) {
+    durum.textContent = "Hata: " + (e.message || e.toString());
+    unblockUI();
+  }
+};
+
+/* ---------- ŞİFRE SIFIRLAMA ---------- */
+resetBtn.onclick = async function(){
+  const mail = document.getElementById("resetMail").value.trim();
+  if(!mail){
+    durum.textContent = "Lütfen e-posta girin.";
+    return;
+  }
+
+  blockUI();
+  durum.textContent = "Kontrol ediliyor...";
+  await new Promise(res => setTimeout(res, 3000)); // 3s kontrol
+
+  try {
+    // (Opsiyonel) sistemde e-posta var mı diye sorgulayabiliriz:
+    const q = query(collection(db, "kullanicilar"), where("email", "==", mail));
+    const snapshot = await getDocs(q);
+    if (snapshot.empty) {
+      durum.textContent = "Bu e-posta ile kayıtlı kullanıcı bulunamadı.";
+      unblockUI();
+      return;
     }
+
+    await sendPasswordResetEmail(auth, mail);
+    durum.textContent = "✔ Sıfırlama linki gönderildi! E-postadaki linkten şifrenizi değiştirebilirsiniz.";
+    // kısa bekleme sonra aç
+    await new Promise(res => setTimeout(res, 4000));
+    unblockUI();
+  } catch(e) {
+    durum.textContent = "Hata: " + (e.message || e.toString());
+    unblockUI();
+  }
 };
+
+/* ---------- MÜZİK BUTONU ---------- */
+/* Müzik dosyan music.m4a olarak repoda olmalı (kullanıcı açınca çalar). */
+const audio = document.getElementById("bgm");
+const btn = document.getElementById("musicBtn");
+btn.onclick = () => {
+  if (audio.paused) {
+    audio.play().catch(()=>{ /* autoplay blocked - kullanıcı bastığı için genelde çalışır */ });
+    btn.textContent = "⏸ Durdur";
+  } else {
+    audio.pause();
+    btn.textContent = "▶ Oynat";
+  }
+};
+
+/* Sayfa yüklendiğinde overlay kapalı olsun */
+unblockUI();
 
 </script>
 
@@ -310,21 +398,6 @@ window.sifreSifirla = async function(){
 <audio id="bgm">
     <source src="music.m4a" type="audio/mp4">
 </audio>
-
-<script>
-let audio = document.getElementById("bgm");
-let btn = document.getElementById("musicBtn");
-
-btn.onclick = () => {
-    if (audio.paused) {
-        audio.play();
-        btn.textContent = "⏸ Durdur";
-    } else {
-        audio.pause();
-        btn.textContent = "▶ Oynat";
-    }
-};
-</script>
 
 </body>
 </html>
