@@ -73,235 +73,119 @@ body {
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
-<title>UNIXSTORM</title>
+<title>UNIXSTORM KAYIT</title>
 <style>
-body {
-    margin: 0;
-    background: url('arkaplan.jpg') no-repeat center center fixed;
-    background-size: cover;
-    font-family: Arial, sans-serif;
-}
+    body {
+        margin: 0;
+        padding: 0;
+        background: url("arka.jpg") no-repeat center/cover;
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-family: Arial;
+    }
 
-/* KUTU */
-.auth-box {
-    width: 340px;
-    padding: 25px;
-    background: rgba(0,0,0,0.70);
-    backdrop-filter: blur(6px);
-    border-radius: 15px;
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 2px solid #00eaff;
-}
+    .kutu {
+        width: 300px;
+        background: rgba(0, 0, 0, 0.55);
+        padding: 25px;
+        border-radius: 10px;
+        text-align: center;
+        backdrop-filter: blur(6px);
+        border: 1px solid rgba(255,255,255,0.2);
+    }
 
-.auth-box h2 {
-    color: white;
-    margin-bottom: 15px;
-}
+    input {
+        width: 90%;
+        padding: 10px;
+        margin: 8px 0;
+        border-radius: 5px;
+        border: none;
+    }
 
-.auth-box input {
-    width: 90%;
-    padding: 10px;
-    margin: 7px 0;
-    border-radius: 7px;
-    border: none;
-}
+    button {
+        width: 95%;
+        padding: 10px;
+        margin-top: 10px;
+        background: #0068ff;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-weight: bold;
+    }
 
-.auth-box button {
-    width: 95%;
-    padding: 10px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 7px;
-    margin-top: 10px;
-    cursor: pointer;
-}
+    #durum {
+        margin-top: 10px;
+        color: white;
+        font-size: 14px;
+        display: none;
+    }
 
-.switch {
-    font-size: 13px;
-    color: white;
-    margin-top: 10px;
-}
+    .yavasYazi {
+        animation: fade 1s infinite alternate;
+    }
 
-.switch span {
-    color: #00eaff;
-    cursor: pointer;
-}
-
-.reset {
-    font-size: 12px;
-}
-
-/* Yükleme animasyonu */
-.loader {
-  margin: 10px auto;
-  width: 25px;
-  height: 25px;
-  border: 4px solid white;
-  border-top-color: transparent;
-  border-radius: 50%;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+    @keyframes fade {
+        from { opacity: 0.3; }
+        to { opacity: 1; }
+    }
 </style>
 </head>
-
 <body>
 
-<div class="auth-box" id="authBox">
+<div class="kutu">
+    <h3 style="color:white;">UNIXSTORM-KAYIT</h3>
 
-    <h2 id="formTitle">UNIXSTORM-KAYIT</h2>
+    <input type="text" id="kullanici" placeholder="Kullanıcı adı">
+    <input type="email" id="email" placeholder="E-posta">
+    <input type="password" id="sifre" placeholder="Şifre">
 
-    <div id="registerForm">
-        <input type="text" id="username" placeholder="Kullanıcı adı">
-        <input type="email" id="email" placeholder="E-posta">
-        <input type="password" id="password" placeholder="Şifre">
-        <button onclick="register()">Kayıt Ol</button>
-        <p class="switch">Hesabın var mı? <span onclick="showLogin()">Giriş yap</span></p>
-    </div>
+    <button onclick="kayitOl()">Kayıt Ol</button>
 
-    <div id="loginForm" style="display:none;">
-        <input type="email" id="loginEmail" placeholder="E-posta">
-        <input type="password" id="loginPassword" placeholder="Şifre">
-        <button onclick="login()">Giriş Yap</button>
-        <p class="switch">
-            Hesabın yok mu? <span onclick="showRegister()">Kayıt ol</span><br>
-            <span onclick="showReset()" class="reset">Şifremi Unuttum</span>
-        </p>
-    </div>
-
-    <div id="resetForm" style="display:none;">
-        <input type="email" id="resetEmail" placeholder="E-posta">
-        <button onclick="resetPassword()">Sıfırlama Bağlantısı Gönder</button>
-        <p class="switch"><span onclick="showLogin()">Giriş ekranına dön</span></p>
-    </div>
-
-    <div id="successMessage" style="display:none; color:white; text-align:center; font-size:17px;">
-        <p>Giriş başarılı, yönlendiriliyorsunuz...</p>
-        <div class="loader"></div>
-    </div>
-
+    <div id="durum"></div>
 </div>
 
-
-
-
-<!-- FIREBASE -->
+<!-- Firebase -->
 <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword } 
+        from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
-// Firebase importları
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-import { getAuth, 
-         createUserWithEmailAndPassword, 
-         signInWithEmailAndPassword,
-         sendPasswordResetEmail,
-         sendEmailVerification } 
-from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
+    const firebaseConfig = {
+        apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
+        authDomain: "unixstorm-9dff8.firebaseapp.com",
+        projectId: "unixstorm-9dff8",
+        storageBucket: "unixstorm-9dff8.firebasestorage.app",
+        messagingSenderId: "787509821542",
+        appId: "1:787509821542:web:2b54b5bafee1207edeada7"
+    };
 
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
 
-// ⚠️ BURAYA KENDİ CONFIGİNİ KOYACAKSIN
-const firebaseConfig = {
-    apiKey: "SENİN_API_KEY",
-    authDomain: "SENİN_AUTHDOMAIN",
-    projectId: "SENİN_PROJECT_ID",
-    storageBucket: "SENİN_STORAGE_BUCKET",
-    messagingSenderId: "SENİN_ID",
-    appId: "SENİN_APPID"
-};
+    window.kayitOl = function () {
+        const mail = document.getElementById("email").value;
+        const sifre = document.getElementById("sifre").value;
+        const durum = document.getElementById("durum");
 
+        durum.style.display = "block";
+        durum.innerHTML = "Kayıt yapılıyor...";
+        durum.classList.add("yavasYazi");
 
-
-
-// Firebase başlat
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-
-
-// FORM GEÇİŞLERİ
-function showLogin() {
-    document.getElementById("registerForm").style.display = "none";
-    document.getElementById("loginForm").style.display = "block";
-    document.getElementById("resetForm").style.display = "none";
-    document.getElementById("successMessage").style.display = "none";
-    document.getElementById("formTitle").innerText = "UNIXSTORM-GİRİŞ";
-}
-
-function showRegister() {
-    document.getElementById("registerForm").style.display = "block";
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("resetForm").style.display = "none";
-    document.getElementById("successMessage").style.display = "none";
-    document.getElementById("formTitle").innerText = "UNIXSTORM-KAYIT";
-}
-
-function showReset() {
-    document.getElementById("registerForm").style.display = "none";
-    document.getElementById("loginForm").style.display = "none";
-    document.getElementById("resetForm").style.display = "block";
-    document.getElementById("successMessage").style.display = "none";
-    document.getElementById("formTitle").innerText = "Şifre Sıfırlama";
-}
-
-
-
-// KAYIT
-window.register = () => {
-    const email = document.getElementById("email").value;
-    const pass = document.getElementById("password").value;
-
-    createUserWithEmailAndPassword(auth, email, pass)
-    .then(userCredential => {
-
-        sendEmailVerification(userCredential.user);
-
-        document.getElementById("registerForm").style.display = "none";
-        document.getElementById("successMessage").style.display = "block";
-
-        setTimeout(() => {
-            window.location.href = "ana_site.html";
-        }, 5000);
-    })
-    .catch(error => alert(error.message));
-}
-
-
-
-// GİRİŞ YAP
-window.login = () => {
-    const email = document.getElementById("loginEmail").value;
-    const pass = document.getElementById("loginPassword").value;
-
-    signInWithEmailAndPassword(auth, email, pass)
-    .then(() => {
-        document.getElementById("loginForm").style.display = "none";
-        document.getElementById("successMessage").style.display = "block";
-
-        setTimeout(() => {
-            window.location.href = "ana_site.html";
-        }, 5000);
-    })
-    .catch(error => alert(error.message));
-}
-
-
-
-// ŞİFRE SIFIRLAMA
-window.resetPassword = () => {
-    const email = document.getElementById("resetEmail").value;
-
-    sendPasswordResetEmail(auth, email)
-    .then(() => alert("Sıfırlama linki gönderildi"))
-    .catch(error => alert(error.message));
-}
-
+        createUserWithEmailAndPassword(auth, mail, sifre)
+        .then(() => {
+            durum.innerHTML = "✔ Kayıt başarılı! Yönlendiriliyorsunuz...";
+            
+            setTimeout(() => {
+                window.location.href = "anasayfa.html";  // Buraya yönlenecek
+            }, 5000);
+        })
+        .catch((hata) => {
+            durum.innerHTML = "Hata: " + hata.message;
+        });
+    };
 </script>
 
 </body>
