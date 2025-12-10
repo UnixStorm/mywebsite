@@ -1,319 +1,177 @@
 <!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>UNIXSTORM</title>
 
-<style>
-  /* --- GENEL --- */
-  :root {
-    --box-w: 320px;
-    --glass: rgba(0,0,0,0.55);
-    --accent-blue: #005CFF;
-    --orange: #ff8c00;
-    --red: #ff3b3b;
-  }
-  html,body{height:100%;margin:0;font-family:Arial, Helvetica, sans-serif}
+<html lang="tr">  
+<head>  
+<meta charset="UTF-8">  
+<title>UNIXSTORM</title>  
+<style>  
+    body {  
+        margin: 0;  
+        padding: 0;  
+        background: url("arka.jpg") no-repeat center/cover;  
+        height: 100vh;  
+        display: flex;  
+        justify-content: center;  
+        align-items: center;  
+        font-family: Arial;  
+    }  .kutu {  
+    width: 300px;  
+    background: rgba(0, 0, 0, 0.55);  
+    padding: 25px;  
+    border-radius: 13px;  
+    text-align: center;  
+    backdrop-filter: blur(6px);  
+    border: 1px solid rgba(255,255,255,0.2);  
+    color: white;  
+}  
 
-  body {
-    background: url('3cc68b3f22ff5463843e82b661033950.jpg') no-repeat center center fixed;
-    background-size: cover;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    min-height:100vh;
-    position:relative;
-  }
+input {  
+    width: 90%;  
+    padding: 10px;  
+    margin: 8px 0;  
+    border-radius: 5px;  
+    border: none;  
+}  
 
-  /* --- ÜST YAZI KUTUSU --- */
-  #unix-info {
-    position: absolute;
-    top: 3.5rem; /* ~3-4 cm */
-    left: 50%;
-    transform: translateX(-50%);
-    width: calc(100% - 40px);
-    max-width:720px;
-    padding: 14px 18px;
-    background: rgba(0,0,0,0.55);
-    border-radius: 12px;
-    color: #fff;
-    text-align:center;
-    backdrop-filter: blur(4px);
-    box-shadow: 0 6px 24px rgba(0,0,0,0.6), 0 0 12px rgba(0,0,0,0.4);
-    animation: fadeIn 1s ease forwards;
-    font-family: "Times New Roman", serif;
-    line-height:1.2;
-    z-index: 20;
-  }
+button {  
+    width: 95%;  
+    padding: 10px;  
+    background: #005CFF;  
+    color: white;  
+    border: none;  
+    border-radius: 5px;  
+    cursor: pointer;  
+    margin-top: 8px;  
+}  
 
-  #unix-info .big {
-    display:block;
-    font-size:20px;
-    font-weight:700;
-    text-shadow: 0 0 8px rgba(255,255,255,0.25);
-  }
-  #unix-info .sub {
-    display:block;
-    margin-top:6px;
-    font-size:14px;
-    font-weight:600;
-  }
+a { color: white; font-size: 14px; cursor: pointer; display: block; margin-top: 10px; }  
 
-  /* renk spanları */
-  .orange { color: var(--orange); }
-  .red    { color: var(--red); }
+#durum {  
+    margin-top: 10px;  
+    color: #fff;  
+    font-size: 14px;  
+    display: none;  
+}
 
-  @keyframes fadeIn {
-    0% { opacity:0; transform: translateX(-50%) translateY(-10px); }
-    100% { opacity:1; transform: translateX(-50%) translateY(0); }
-  }
+</style>  
+</head>  
+<body>  <div class="kutu">  <!-- Giriş Formu -->  
+<div id="loginForm">  
+    <h3>UNIXSTORM - GİRİŞ</h3>  
+    <input type="email" id="girisMail" placeholder="E-posta">  
+    <input type="password" id="girisSifre" placeholder="Şifre">  
+    <button onclick="girisYap()">Giriş Yap</button>  
+    <a onclick="showRegister()">Kayıt olmak istiyorum</a>  
+    <a onclick="showReset()">Şifremi unuttum</a>  
+</div>  
 
-  /* --- KUTU (GİRİŞ/KAYIT) --- */
-  .container {
-    width: calc(var(--box-w) + 40px);
-    max-width: 92%;
-    display:flex;
-    gap:18px;
-    align-items:center;
-    justify-content:center;
-    z-index: 10;
-  }
+<!-- Kayıt Formu -->  
+<div id="registerForm" style="display:none;">  
+    <h3>KAYIT OL</h3>  
+    <input type="email" id="kayitMail" placeholder="E-posta">  
+    <input type="password" id="kayitSifre" placeholder="Şifre">  
+    <button onclick="kayitOl()">Kayıt Ol</button>  
+    <a onclick="showLogin()">Zaten hesabım var</a>  
+</div>  
 
-  /* Soldaki küçük bilgi kutusu (isteğe bağlı gösterim) */
-  .info-small {
-    width: 220px;
-    max-width: 35%;
-    min-width:180px;
-    padding:18px;
-    background: linear-gradient(180deg, rgba(0,0,0,0.55), rgba(0,0,0,0.45));
-    border-radius:12px;
-    color:white;
-    text-align:center;
-    backdrop-filter: blur(6px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.6);
-    font-weight:700;
-    font-size:13px;
-  }
+<!-- Şifre Sıfırlama Formu -->  
+<div id="resetForm" style="display:none;">  
+    <h3>ŞİFRE SIFIRLA</h3>  
+    <input type="email" id="resetMail" placeholder="E-posta">  
+    <button onclick="sifremiSifirla()">Sıfırlama linki gönder</button>  
+    <a onclick="showLogin()">Girişe dön</a>  
+</div>  
 
-  .auth-box {
-    width: var(--box-w);
-    min-height: 300px;
-    padding: 20px;
-    background: linear-gradient(180deg, rgba(0,0,0,0.60), rgba(0,0,0,0.45));
-    border-radius:14px;
-    color:white;
-    text-align:center;
-    backdrop-filter: blur(6px);
-    border: 1px solid rgba(0,230,255,0.08);
-    box-shadow: 0 8px 24px rgba(0,0,0,0.6), 0 0 12px rgba(0,230,255,0.06);
-  }
+<div id="durum"></div>
 
-  .auth-box h3 { margin:0 0 12px 0; font-size:22px; letter-spacing:1px; }
-  .auth-box input {
-    width: 92%;
-    padding:12px;
-    margin:8px auto;
-    display:block;
-    border-radius:8px;
-    border: none;
-    outline:none;
-    box-sizing:border-box;
-  }
-
-  .auth-box button {
-    width:94%;
-    padding:11px;
-    margin-top:10px;
-    background: var(--accent-blue);
-    color:#fff;
-    border:none;
-    border-radius:8px;
-    font-weight:700;
-    cursor:pointer;
-  }
-
-  .auth-box a {
-    color:#fff;
-    margin-top:10px;
-    display:block;
-    text-decoration:underline;
-    cursor:pointer;
-    font-size:14px;
-  }
-
-  #durum {
-    margin-top:12px;
-    color:#fff;
-    min-height:22px;
-    font-size:14px;
-  }
-
-  /* küçük ekranlarda satır içi değil, üst üste */
-  @media (max-width:880px){
-    .container { flex-direction:column-reverse; gap:18px; }
-    .info-small { max-width:90%; width:90%; }
-    .auth-box { width: 92%; }
-    #unix-info { left:50%; width:92%; top:2.6rem; }
-  }
-
-</style>
-</head>
-<body>
-
-  <!-- ÜST YAZI -->
-  <div id="unix-info" aria-hidden="false">
-    <span class="big">
-      <span style="color:#ffffff">𝐁𝐮 𝐬𝐢𝐭𝐞 </span>
-      <span class="orange">𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷</span>
-      <span class="red"> (𝐒𝐚𝐡𝐢𝐧)</span>
-    </span>
-    <span class="sub">ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</span>
-    <div style="height:8px;"></div>
-    <div>
-      <span class="orange" style="font-weight:700">𝗩𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 =</span>
-      <span class="red" style="font-weight:700"> 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀 &nbsp;& 𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀</span>
-    </div>
-  </div>
-
-  <!-- ORTA KUTULAR -->
-  <div class="container">
-    <div class="info-small" aria-hidden="true">
-      <!-- isteğe bağlı küçük sol kutu (eski tasarımın hissi) -->
-      <div style="margin-bottom:6px; font-size:15px; font-weight:800; text-shadow:0 0 8px rgba(255,255,255,0.12)">
-        Bu site <span style="display:inline-block;color:#fff;font-weight:900">𖣘UNIXSTORM🇹🇷</span> tarafından kurulmuştur.
-      </div>
-      <div style="margin-top:6px; font-weight:800; color:var(--orange); text-shadow:0 0 8px rgba(255,140,0,0.2)">
-        vip_uyeler🔱 =
-      </div>
-      <div style="color:var(--red); font-weight:800; margin-top:6px">INFAZ ZORBA & KAAN ZORBA</div>
-    </div>
-
-    <div class="auth-box" role="region" aria-label="Kullanıcı işlemleri">
-      <!-- Giriş Formu -->
-      <div id="loginForm">
-        <h3>UNIXSTORM - GİRİŞ</h3>
-        <input type="email" id="girisMail" placeholder="E-posta" autocomplete="email">
-        <input type="password" id="girisSifre" placeholder="Şifre" autocomplete="current-password">
-        <button onclick="girisYap()">Giriş Yap</button>
-        <a onclick="animasyonluGecis('register')">Kayıt olmak istiyorum</a>
-        <a onclick="animasyonluGecis('reset')">Şifremi unuttum</a>
-      </div>
-
-      <!-- Kayıt Formu -->
-      <div id="registerForm" style="display:none;">
-        <h3>KAYIT OL</h3>
-        <input type="text" id="kayitKullaniciAdi" placeholder="Kullanıcı adı">
-        <input type="email" id="kayitMail" placeholder="E-posta" autocomplete="email">
-        <input type="password" id="kayitSifre" placeholder="Şifre" autocomplete="new-password">
-        <button onclick="kayitOl()">Kayıt Ol</button>
-        <a onclick="animasyonluGecis('login')">Zaten hesabım var</a>
-      </div>
-
-      <!-- Şifre Sıfırlama -->
-      <div id="resetForm" style="display:none;">
-        <h3>ŞİFRE SIFIRLA</h3>
-        <input type="email" id="resetMail" placeholder="E-posta" autocomplete="email">
-        <button onclick="sifremiSifirla()">Sıfırlama linki gönder</button>
-        <a onclick="animasyonluGecis('login')">Girişe dön</a>
-      </div>
-
-      <div id="durum" aria-live="polite" role="status"></div>
-    </div>
-  </div>
-
-<!-- Firebase + İşlevler -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } 
-    from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-  import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
-  // --- buraya kendi konfigürünü koy (sen verdin ben örnekle bıraktım) ---
-  const firebaseConfig = {
-    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
-    authDomain: "unixstorm-9dff8.firebaseapp.com",
-    projectId: "unixstorm-9dff8",
-    storageBucket: "unixstorm-9dff8.firebasestorage.app",
-    messagingSenderId: "787509821542",
-    appId: "1:787509821542:web:2b54b5bafee1207edeada7"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-
-  const durumEl = document.getElementById('durum');
-
-  // Animasyonlu geçiş: önce "Lütfen bekleyiniz..." gösterir sonra form değiştirir
-  window.animasyonluGecis = function(target) {
-    durumEl.style.display = 'block';
-    durumEl.textContent = 'Lütfen bekleyiniz...';
-    // küçük görsel bekleme (3s)
-    setTimeout(() => {
-      // gizle durum ve formları switchle
-      durumEl.style.display = 'none';
-      document.getElementById("loginForm").style.display = 'none';
-      document.getElementById("registerForm").style.display = 'none';
-      document.getElementById("resetForm").style.display = 'none';
-
-      if (target === 'login') document.getElementById("loginForm").style.display = 'block';
-      if (target === 'register') document.getElementById("registerForm").style.display = 'block';
-      if (target === 'reset') document.getElementById("resetForm").style.display = 'block';
-    }, 3000);
-  };
-
-  // Kayıt (kullanıcıadı Firestore'a kaydeder)
-  window.kayitOl = async function() {
-    const mail = document.getElementById('kayitMail').value;
-    const sifre = document.getElementById('kayitSifre').value;
-    const kullaniciAdi = document.getElementById('kayitKullaniciAdi').value;
-    durumEl.style.display = 'block';
-    durumEl.textContent = 'Kayıt yapılıyor...';
-    try {
-      const cred = await createUserWithEmailAndPassword(auth, mail, sifre);
-      // firestore kaydı
-      await setDoc(doc(db, 'kullanicilar', cred.user.uid), {
-        kullaniciAdi: kullaniciAdi || '',
-        email: mail,
-        createdAt: new Date().toISOString()
-      });
-      durumEl.textContent = '✔ Kayıt başarılı! Yönlendiriliyorsun...';
-      setTimeout(() => { window.location.href = 'anasayfa.html'; }, 3000);
-    } catch (e) {
-      durumEl.textContent = 'Hata: ' + e.message;
-    }
-  };
-
-  // Giriş
-  window.girisYap = async function() {
-    const mail = document.getElementById('girisMail').value;
-    const sifre = document.getElementById('girisSifre').value;
-    durumEl.style.display = 'block';
-    durumEl.textContent = 'Giriş yapılıyor...';
-    try {
-      await signInWithEmailAndPassword(auth, mail, sifre);
-      durumEl.textContent = '✔ Giriş başarılı! Yönlendiriliyorsun...';
-      setTimeout(() => { window.location.href = 'anasayfa.html'; }, 2500);
-    } catch (e) {
-      durumEl.textContent = 'Hata: ' + e.message;
-    }
-  };
-
-  // Şifre sıfırlama
-  window.sifremiSifirla = async function() {
-    const mail = document.getElementById('resetMail').value;
-    durumEl.style.display = 'block';
-    durumEl.textContent = 'E-posta gönderiliyor...';
-    try {
-      await sendPasswordResetEmail(auth, mail);
-      durumEl.textContent = '✔ Sıfırlama linki gönderildi!';
-    } catch (e) {
-      durumEl.textContent = 'Hata: ' + e.message;
-    }
-  };
-
-</script>
-
-</body>
-</html>
+</div>  <!-- Firebase -->  <script type="module">  
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";  
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail }  
+        from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";  
+  
+    const firebaseConfig = {  
+        apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",  
+        authDomain: "unixstorm-9dff8.firebaseapp.com",  
+        projectId: "unixstorm-9dff8",  
+        storageBucket: "unixstorm-9dff8.firebasestorage.app",  
+        messagingSenderId: "787509821542",  
+        appId: "1:787509821542:web:2b54b5bafee1207edeada7"  
+    };  
+  
+    const app = initializeApp(firebaseConfig);  
+    const auth = getAuth(app);  
+  
+  
+    // ----------- FORM GEÇİŞLERİ --------------  
+    window.showLogin = () => {  
+        document.getElementById("loginForm").style.display = "block";  
+        document.getElementById("registerForm").style.display = "none";  
+        document.getElementById("resetForm").style.display = "none";  
+    };  
+  
+    window.showRegister = () => {  
+        document.getElementById("loginForm").style.display = "none";  
+        document.getElementById("registerForm").style.display = "block";  
+        document.getElementById("resetForm").style.display = "none";  
+    };  
+  
+    window.showReset = () => {  
+        document.getElementById("loginForm").style.display = "none";  
+        document.getElementById("registerForm").style.display = "none";  
+        document.getElementById("resetForm").style.display = "block";  
+    };  
+  
+  
+    // ----------- KAYIT --------------  
+    window.kayitOl = function() {  
+        const mail = document.getElementById("kayitMail").value;  
+        const sifre = document.getElementById("kayitSifre").value;  
+        const durum = document.getElementById("durum");  
+  
+        durum.style.display = "block";  
+        durum.innerHTML = "Kayıt yapılıyor...";  
+  
+        createUserWithEmailAndPassword(auth, mail, sifre)  
+        .then(() => {  
+            durum.innerHTML = "✔ Kayıt başarılı! Yönlendiriliyorsun...";  
+            setTimeout(() => window.location.href = "anasayfa.html", 3000);  
+        })  
+        .catch(h => durum.innerHTML = "Hata: " + h.message);  
+    };  
+  
+  
+    // ----------- GİRİŞ --------------  
+    window.girisYap = function() {  
+        const mail = document.getElementById("girisMail").value;  
+        const sifre = document.getElementById("girisSifre").value;  
+        const durum = document.getElementById("durum");  
+  
+        durum.style.display = "block";  
+        durum.innerHTML = "Giriş yapılıyor...";  
+  
+        signInWithEmailAndPassword(auth, mail, sifre)  
+        .then(() => {  
+            durum.innerHTML = "✔ Giriş başarılı!";  
+            setTimeout(() => window.location.href = "anasayfa.html", 2500);  
+        })  
+        .catch(e => durum.innerHTML = "Hata: " + e.message);  
+    };  
+  
+  
+    // ----------- ŞİFRE SIFIRLAMA --------------  
+    window.sifremiSifirla = function() {  
+        const mail = document.getElementById("resetMail").value;  
+        const durum = document.getElementById("durum");  
+  
+        durum.style.display = "block";  
+        durum.innerHTML = "E-posta gönderiliyor...";  
+  
+        sendPasswordResetEmail(auth, mail)  
+        .then(() => {  
+            durum.innerHTML = "✔ Sıfırlama linki gönderildi!";  
+        })  
+        .catch(e => durum.innerHTML = "Hata: " + e.message);  
+    };  
+  
+</script>  </body>  
+</html> 
