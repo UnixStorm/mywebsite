@@ -1,171 +1,315 @@
 <!DOCTYPE html>
 <html lang="tr">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>UNIXSTORM</title>
 
+<!-- Firebase SDK (modular) -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.16.0/firebase-app.js";
+  import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendEmailVerification, sendPasswordResetEmail, signOut } from "https://www.gstatic.com/firebasejs/10.16.0/firebase-auth.js";
+  import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.16.0/firebase-firestore.js";
+
+  // --- Buraya kendi firebaseConfig koy (seninki ile değiştir) ---
+  const firebaseConfig = {
+    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
+    authDomain: "unixstorm-9dff8.firebaseapp.com",
+    projectId: "unixstorm-9dff8",
+    storageBucket: "unixstorm-9dff8.firebasestorage.app",
+    messagingSenderId: "787509821542",
+    appId: "1:787509821542:web:2b54b5bafee1207edeada7",
+    measurementId: "G-BQYS1575QZ"
+  };
+  const app = initializeApp(firebaseConfig);
+  const auth = getAuth(app);
+  const db = getFirestore(app);
+
+  // expose to window for usage from UI handlers
+  window._auth = auth;
+  window._firebaseFns = {
+    createUserWithEmailAndPassword,
+    signInWithEmailAndPassword,
+    sendEmailVerification,
+    sendPasswordResetEmail,
+    signOut,
+    doc,
+    setDoc
+  };
+</script>
+
 <style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-        background-image: url('https://raw.githubusercontent.com/UnixStorm/web-sitem/refs/heads/main/3cc68b3f22ff5463843e82b661033950.jpg');
-        background-size: cover;
-        background-position: center;
-        height: 100vh;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: center;
-    }
+  :root{
+    --card-w: 360px;
+    --accent: #00e6ff;
+  }
+  html,body{height:100%;margin:0;font-family:Inter, system-ui, Arial, sans-serif;}
+  body{
+    /* <-- GITHUB RAW BACKGROUND: senin repo dosya linki buraya --> */
+    background-image: url('https://raw.githubusercontent.com/UnixStorm/web-sitem/main/3cc68b3f22ff5463843e82b661033950.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    color:#fff;
+  }
 
-    /* Üst Yazılar */
-    .header {
-        margin-top: 20px;
-        text-align: center;
-        color: white;
-        font-size: 24px;
-        font-weight: bold;
-        text-shadow: 0 0 15px white;
-    }
+  /* Üst başlık ve vip */
+  .top {
+    margin-top:18px;
+    text-align:center;
+    z-index:10;
+    pointer-events:none;
+  }
+  .title {
+    color:#ffffff;
+    font-weight:700;
+    font-size:18px;
+    text-shadow: 0 0 12px rgba(255,255,255,0.5);
+    margin-bottom:6px;
+  }
+  .vip {
+    font-weight:800;
+    font-size:20px;
+    /* yarısı turuncu yarısı kırmızı */
+    background: linear-gradient(90deg,#ffb347,#ff3d3d);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    filter: drop-shadow(0 4px 14px rgba(255,100,0,0.35));
+  }
 
-    .vip {
-        margin-top: 5px;
-        text-align: center;
-        font-size: 18px;
-        font-weight: bold;
-    }
+  /* Card */
+  .card-wrap { width:100%; display:flex; justify-content:center; margin-top:34px; }
+  .card {
+    width:var(--card-w);
+    max-width:92%;
+    background: rgba(10,10,10,0.72);
+    border-radius:16px;
+    padding:22px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.6), 0 0 36px rgba(0,230,255,0.16) inset;
+    backdrop-filter: blur(6px);
+    transition: all .45s ease;
+    transform-origin:center;
+  }
+  .card.big { width:420px; padding:28px; }
+  .card h2 { margin:0 0 10px 0; text-align:center; font-size:20px; letter-spacing:0.5px; }
+  .field { margin-top:10px; }
+  input[type="text"], input[type="email"], input[type="password"]{
+    width:100%; padding:12px 14px; border-radius:8px; border:none; outline:none;
+    font-size:15px; box-sizing:border-box;
+  }
+  .btn {
+    margin-top:14px; width:100%; display:inline-block;
+    background: linear-gradient(180deg,#1e90ff,#007bff);
+    color:white; padding:12px; border-radius:8px; border:none; cursor:pointer; font-size:16px;
+    box-shadow: 0 6px 20px rgba(0,123,255,0.25);
+  }
+  .linkrow { margin-top:12px; text-align:center; color:#d6d6d6; font-size:14px; }
+  .linkrow a { color:#d6d6d6; text-decoration:underline; cursor:pointer; display:block; }
+  .small { font-size:12px; color:#cfcfcf; margin-top:8px; text-align:center; }
 
-    .vip .name1 { 
-        color: orange; 
-        text-shadow: 0 0 10px orange;
-    }
-    .vip .name2 { 
-        color: red; 
-        text-shadow: 0 0 10px red;
-    }
+  /* toast */
+  .toast {
+    position:fixed; left:50%; transform:translateX(-50%); bottom:28px; background:rgba(0,0,0,0.75);
+    color:white; padding:10px 14px; border-radius:8px; display:none;
+  }
 
-    /* Kutu */
-    .card {
-        width: 330px;
-        padding: 25px;
-        background: rgba(0, 0, 0, 0.6);
-        backdrop-filter: blur(6px);
-        border-radius: 12px;
-        margin-top: 40px;
-        box-shadow: 0 0 25px cyan;
-        transition: 0.4s ease;
-    }
-
-    .card h2 {
-        text-align: center;
-        color: white;
-        margin-bottom: 20px;
-    }
-
-    input {
-        width: 100%;
-        padding: 10px;
-        margin-top: 10px;
-        border-radius: 6px;
-        border: none;
-        outline: none;
-    }
-
-    button {
-        width: 100%;
-        padding: 12px;
-        background: #007bff;
-        border: none;
-        color: white;
-        margin-top: 15px;
-        border-radius: 6px;
-        font-size: 16px;
-        cursor: pointer;
-    }
-
-    button:hover {
-        background: #0069d9;
-    }
-
-    a {
-        display: block;
-        margin-top: 10px;
-        text-align: center;
-        color: white;
-        text-decoration: none;
-    }
-
-    a:hover { text-decoration: underline; }
-
+  /* responsive */
+  @media (max-width:420px){
+    .vip{ font-size:16px;}
+    .title{font-size:16px;}
+  }
 </style>
 </head>
 <body>
 
-<!-- Üst Yazı -->
-<div class="header">[𝐁𝐮 𝐒𝐢𝐭𝐞𝐲𝐢 𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 (𝐒𝐀𝐇𝐎) 𝐊𝐮𝐫𝐦𝐮𝐬𝐭𝐮𝐫]</div>
+  <div class="top">
+    <div class="title">[𝐁𝐮 𝐒𝐢𝐭𝐞𝐲𝐢 𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 (𝐒𝐀𝐇𝐎) 𝐊𝐮𝐫𝐦𝐮𝐬𝐭𝐮𝐫]</div>
+    <div class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = <span style="color:transparent;background:linear-gradient(90deg,#ffc65b,#ff3d3d);-webkit-background-clip:text">INFAZ ZORBA</span> and <span style="color:transparent;background:linear-gradient(90deg,#ff3d3d,#ff6060);-webkit-background-clip:text">KAAN ZORBA</span></div>
+  </div>
 
-<!-- VIP Yazı -->
-<div class="vip">
-    𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = 
-    <span class="name1">𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span> 
-    and 
-    <span class="name2">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀</span>
-</div>
+  <div class="card-wrap">
+    <div class="card" id="card">
+      <h2 id="formTitle">UNIXSTORM — Kayıt Ol</h2>
 
-<!-- Kayıt / Giriş Paneli -->
-<div class="card" id="formBox">
+      <div id="registerGroup">
+        <div class="field"><input id="username" type="text" placeholder="Kullanıcı adı (her şey serbest)"></div>
+        <div class="field"><input id="email" type="email" placeholder="E-posta (kod/link gönderilecek)"></div>
+      </div>
 
-    <h2 id="formTitle">Kayıt Ol</h2>
+      <div class="field"><input id="password" type="password" placeholder="Şifre"></div>
 
-    <div id="registerFields">
-        <input type="text" placeholder="Kullanıcı adı">
-        <input type="email" placeholder="E-posta">
+      <button id="actionBtn" class="btn">Kayıt Ol</button>
+
+      <div class="linkrow">
+        <a id="toggleMode">Hesabın var mı? Giriş yap</a>
+        <a id="forgotLink">Şifremi unuttum</a>
+      </div>
+
+      <div class="small" id="note">Not: Kayıt olunca doğrulama e-postası gelecek. Doğruladıktan sonra giriş yapabilirsiniz.</div>
     </div>
+  </div>
 
-    <input type="password" placeholder="Şifre">
-
-    <button id="actionBtn">Kayıt Ol</button>
-
-    <a href="#" id="toggleLogin">Hesabın var mı? Giriş yap</a>
-    <a href="#" id="forgotPass">Şifremi unuttum</a>
-</div>
+  <div class="toast" id="toast"></div>
 
 <script>
-    const formTitle = document.getElementById("formTitle");
-    const registerFields = document.getElementById("registerFields");
-    const actionBtn = document.getElementById("actionBtn");
-    const toggleLogin = document.getElementById("toggleLogin");
-    const forgotPass = document.getElementById("forgotPass");
+/* ---------- UI kontrol ---------- */
+const card = document.getElementById('card');
+const formTitle = document.getElementById('formTitle');
+const registerGroup = document.getElementById('registerGroup');
+const usernameInput = document.getElementById('username');
+const emailInput = document.getElementById('email');
+const passwordInput = document.getElementById('password');
+const actionBtn = document.getElementById('actionBtn');
+const toggleModeLink = document.getElementById('toggleMode');
+const forgotLink = document.getElementById('forgotLink');
+const note = document.getElementById('note');
+const toast = document.getElementById('toast');
 
-    let mode = "register"; // register / login / reset
+let mode = 'register'; // register | login | reset
 
-    toggleLogin.onclick = () => {
-        if (mode === "register") {
-            mode = "login";
-            formTitle.innerText = "Giriş Yap";
-            registerFields.style.display = "none";
-            actionBtn.innerText = "Giriş Yap";
-            toggleLogin.innerText = "Hesabın yok mu? Kayıt ol";
-            forgotPass.style.display = "block";
-        } else {
-            mode = "register";
-            formTitle.innerText = "Kayıt Ol";
-            registerFields.style.display = "block";
-            actionBtn.innerText = "Kayıt Ol";
-            toggleLogin.innerText = "Hesabın var mı? Giriş yap";
-            forgotPass.style.display = "block";
-        }
-    };
+function showToast(txt, time=3000){
+  toast.innerText = txt;
+  toast.style.display = 'block';
+  setTimeout(()=> toast.style.display='none', time);
+}
 
-    forgotPass.onclick = () => {
-        mode = "reset";
-        formTitle.innerText = "Şifre Sıfırla";
-        registerFields.style.display = "none";
-        actionBtn.innerText = "Sıfırlama Maili Gönder";
-        forgotPass.style.display = "none";
-        toggleLogin.innerText = "Geri dön";
-    };
+/* Toggle between register and login */
+toggleModeLink.addEventListener('click', (e)=>{
+  e.preventDefault();
+  if(mode === 'register'){
+    // go login
+    mode = 'login';
+    formTitle.innerText = 'Giriş Yap';
+    registerGroup.style.display = 'none';
+    actionBtn.innerText = 'Giriş Yap';
+    toggleModeLink.innerText = 'Hesabın yok mu? Kayıt ol';
+    note.style.display = 'none';
+    forgotLink.style.display = 'block';
+    card.classList.add('big'); // subtle size change
+  } else {
+    mode = 'register';
+    formTitle.innerText = 'UNIXSTORM — Kayıt Ol';
+    registerGroup.style.display = 'block';
+    actionBtn.innerText = 'Kayıt Ol';
+    toggleModeLink.innerText = 'Hesabın var mı? Giriş yap';
+    note.style.display = 'block';
+    forgotLink.style.display = 'block';
+    card.classList.remove('big');
+  }
+});
+
+/* Forgot flow: switch to reset mode (email only) */
+forgotLink.addEventListener('click', (e)=>{
+  e.preventDefault();
+  mode = 'reset';
+  formTitle.innerText = 'Şifre Sıfırla';
+  registerGroup.style.display = 'none';
+  passwordInput.style.display = 'none';
+  actionBtn.innerText = 'Sıfırlama E-postası Gönder';
+  forgotLink.style.display = 'none';
+  toggleModeLink.innerText = 'Geri dön';
+  note.style.display = 'none';
+  card.classList.add('big');
+});
+
+/* If toggle shows "Geri dön" -> reset back to register */
+toggleModeLink.addEventListener('click', (e)=>{ /* handled above; ensures "Geri dön" also works */
+  if(toggleModeLink.innerText === 'Geri dön'){
+    // reset to register
+    mode = 'register';
+    formTitle.innerText = 'UNIXSTORM — Kayıt Ol';
+    registerGroup.style.display = 'block';
+    passwordInput.style.display = 'block';
+    actionBtn.innerText = 'Kayıt Ol';
+    toggleModeLink.innerText = 'Hesabın var mı? Giriş yap';
+    forgotLink.style.display = 'block';
+    note.style.display = 'block';
+    card.classList.remove('big');
+  }
+});
+
+/* ---------- Firebase actions (uses modular functions exposed on window) ---------- */
+async function doRegister(email, password, username){
+  try{
+    const { createUserWithEmailAndPassword } = window._firebaseFns;
+    const userCred = await createUserWithEmailAndPassword(window._auth, email, password);
+    // send verification:
+    await window._firebaseFns.sendEmailVerification(userCred.user);
+    // save basic profile to Firestore (username)
+    try{
+      await window._firebaseFns.setDoc(window._firebaseFns.doc(window._firebaseFns.firestore||window.db || window._firebaseFns.doc, 'users', userCred.user.uid), { username, email, createdAt: new Date().toISOString() });
+    }catch(e){
+      // if saving fails, ignore; not critical
+    }
+    showToast('Kayıt başarılı. E-posta doğrulama gönderildi.');
+  }catch(err){
+    console.error(err);
+    showToast(err.message || 'Kayıt hatası');
+  }
+}
+
+async function doLogin(email, password){
+  try{
+    const { signInWithEmailAndPassword } = window._firebaseFns;
+    const cred = await signInWithEmailAndPassword(window._auth, email, password);
+    // check emailVerified
+    if(!cred.user.emailVerified){
+      showToast('E-posta doğrulanmamış. Lütfen e-postanı kontrol et.');
+      await window._firebaseFns.sendEmailVerification(cred.user);
+      return;
+    }
+    // success -> redirect or show success
+    showToast('Giriş başarılı. Yönlendiriliyorsunuz...');
+    // redirect to main site (protected), for now go to home or a placeholder
+    setTimeout(()=> { window.location.href = './main.html'; }, 1200);
+  }catch(err){
+    console.error(err);
+    showToast(err.message || 'Giriş hatası');
+  }
+}
+
+async function doReset(email){
+  try{
+    const { sendPasswordResetEmail } = window._firebaseFns;
+    await sendPasswordResetEmail(window._auth, email);
+    showToast('Şifre sıfırlama e-postası gönderildi. Gelen linkle sıfırlayabilirsin.');
+    // go back to register after a sec
+    setTimeout(()=> location.reload(), 1500);
+  }catch(err){
+    console.error(err);
+    showToast(err.message || 'Sıfırlama hatası');
+  }
+}
+
+/* Hook action button */
+actionBtn.addEventListener('click', async ()=>{
+  const email = emailInput.value.trim();
+  const pw = passwordInput.value;
+  const username = usernameInput.value.trim();
+
+  if(mode === 'register'){
+    if(!username){ showToast('Kullanıcı adı boş olamaz'); return; }
+    if(!email){ showToast('E-posta gir'); return; }
+    if(!pw || pw.length < 6){ showToast('Şifre en az 6 karakter'); return; }
+    await doRegister(email, pw, username);
+  } else if(mode === 'login'){
+    if(!email){ showToast('E-posta gir'); return; }
+    if(!pw){ showToast('Şifre gir'); return; }
+    await doLogin(email, pw);
+  } else if(mode === 'reset'){
+    if(!email){ showToast('E-posta gir'); return; }
+    await doReset(email);
+  }
+});
+
+/* small defensive: ensure email field visible on login */
+(function init(){
+  registerGroup.style.display = 'block';
+  forgotLink.style.display = 'block';
+})();
 </script>
 
 </body>
