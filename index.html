@@ -6,7 +6,6 @@
 <title>UNIXSTORM</title>
 
 <style>
-
     body {
         margin: 0;
         padding: 0;
@@ -73,7 +72,7 @@
         margin-top: 6px;
         border: none;
         border-radius: 6px;
-        background: #006CFF;  /* MAVİ TUTULDU */
+        background: #006CFF; /* Mavi */
         color: white;
         font-weight: bold;
         cursor: pointer;
@@ -94,7 +93,6 @@
         min-height: 20px;
         color: #fff;
     }
-
 </style>
 </head>
 
@@ -110,7 +108,6 @@
     </div>
 </div>
 
-<!-- FORM KUTUSU -->
 <div class="center-box">
 
   <!-- Kayıt Formu -->
@@ -121,12 +118,9 @@
     <input type="email" id="regMail" placeholder="E-posta">
     <input type="password" id="regPass" placeholder="Şifre">
 
-    <!-- PROFIL FOTOĞRAF YÜKLEME -->
-    <input type="file" id="regPhoto">
-
     <button onclick="kayitOl()">Kayıt Ol</button>
 
-    <span class="link-btn" onclick="formDegistir('login')">Hesabınız var mı? Giriş yapın</span>
+    <span class="link-btn" onclick="formDegistir('login')">Giriş yapın</span>
     <span class="link-btn" onclick="formDegistir('reset')">Şifremi unuttum</span>
   </div>
 
@@ -146,7 +140,7 @@
   <div id="resetForm" style="display:none;">
     <h3>Şifre Sıfırla</h3>
     <input type="email" id="resetMail" placeholder="E-posta">
-    <button onclick="sifreSifirla()">Sıfırlama Linki Gönder</button>
+    <button onclick="sifreSifirla()">Gönder</button>
 
     <span class="link-btn" onclick="formDegistir('login')">Girişe dön</span>
   </div>
@@ -154,9 +148,8 @@
   <div id="durum"></div>
 </div>
 
-<!-- --- FIREBASE --- -->
+<!-- FIREBASE -->
 <script type="module">
-
   import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
   import {
     getAuth,
@@ -168,7 +161,11 @@
   import {
     getFirestore,
     setDoc,
-    doc
+    doc,
+    collection,
+    query,
+    where,
+    getDocs
   } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
   const firebaseConfig = {
@@ -195,11 +192,27 @@
     document.getElementById(target + "Form").style.display = "block";
   };
 
-  /* KAYIT OL */
+  /* ---- KULLANICI ADI KONTROLÜ ---- */
+  async function kullaniciAdiVarMi(ad){
+    const q = query(collection(db, "kullanicilar"), where("kullaniciAdi", "==", ad));
+    const snap = await getDocs(q);
+    return !snap.empty;
+  }
+
+  /* ---------------- KAYIT OL ---------------- */
   window.kayitOl = async function(){
-    const ad = document.getElementById("regName").value;
+    const ad = document.getElementById("regName").value.trim();
     const mail = document.getElementById("regMail").value;
     const pass = document.getElementById("regPass").value;
+
+    if(ad === "") return durum.textContent = "Kullanıcı adı boş olamaz.";
+
+    durum.textContent = "Kontrol ediliyor...";
+
+    if(await kullaniciAdiVarMi(ad)){
+      durum.textContent = "❌ Bu kullanıcı adı zaten kullanılıyor!";
+      return;
+    }
 
     durum.textContent = "Kayıt yapılıyor...";
 
@@ -212,15 +225,15 @@
         createdAt: new Date().toISOString()
       });
 
-      durum.textContent = "✔ Hesap oluşturuldu, yönlendiriliyorsunuz...";
-      setTimeout(() => location.href = "anasayfa.html", 2000);
+      durum.textContent = "✔ Kayıt başarılı! Yönlendiriliyorsunuz...";
+      setTimeout(() => location.href = "anasayfa.html", 1500);
 
-    } catch(e) {
+    } catch(e){
       durum.textContent = "Hata: " + e.message;
     }
   };
 
-  /* GİRİŞ */
+  /* ---------------- GİRİŞ ---------------- */
   window.girisYap = async function(){
     const mail = document.getElementById("loginMail").value;
     const pass = document.getElementById("loginPass").value;
@@ -237,16 +250,14 @@
     }
   };
 
-  /* ŞİFRE SIFIRLAMA */
+  /* ŞİFRE RESET */
   window.sifreSifirla = async function(){
     const mail = document.getElementById("resetMail").value;
-
     durum.textContent = "Gönderiliyor...";
 
     try {
       await sendPasswordResetEmail(auth, mail);
       durum.textContent = "✔ Sıfırlama maili gönderildi!";
-
     } catch(e){
       durum.textContent = "Hata: " + e.message;
     }
@@ -255,4 +266,4 @@
 </script>
 
 </body>
-</html>
+    </html>
