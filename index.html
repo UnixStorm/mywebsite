@@ -20,14 +20,13 @@
 
     #durum { margin-top: 10px; font-size: 14px; min-height: 22px; color: #fff; }
 
-    /* Tıklamaları engelleyen overlay */
-    #kilit { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 9999; display: none; pointer-events: auto; }
+    #kilit { position: fixed; inset: 0; background: rgba(0,0,0,0.30); z-index: 9999; display: none; }
 </style>
 </head>
 
 <body>
 
-<div id="kilit" aria-hidden="true"></div>
+<div id="kilit"></div>
 
 <div class="yazi-kutu">
     <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>
@@ -91,59 +90,28 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getFirestore(app);
 
-/* element referansları - kesin ve güvenli */
 const durum = document.getElementById("durum");
 const kilit = document.getElementById("kilit");
 
-const regNameEl = document.getElementById("regName");
-const regMailEl = document.getElementById("regMail");
-const regPassEl = document.getElementById("regPass");
-const regBtnEl  = document.getElementById("regBtn");
-
-const loginMailEl = document.getElementById("loginMail");
-const loginPassEl = document.getElementById("loginPass");
-const loginBtnEl  = document.getElementById("loginBtn");
-
-const resetMailEl = document.getElementById("resetMail");
-const resetBtnEl  = document.getElementById("resetBtn");
-
-const toLogin = document.getElementById("toLogin");
-const toReset = document.getElementById("toReset");
-const toRegisterFromLogin = document.getElementById("toRegisterFromLogin");
-const toResetFromLogin = document.getElementById("toResetFromLogin");
-const toLoginFromReset = document.getElementById("toLoginFromReset");
-
-function kilitle(){ kilit.style.display = "block"; }
-function ac(){ kilit.style.display = "none"; }
-
-/* form geçişleri */
-function formDegistir(target){
-    durum.textContent = "forma geçiş yapılıyor Lütfen bekleyiniz...";
-    kilitle();
-    setTimeout(()=>{
-        document.getElementById("registerForm").style.display="none";
-        document.getElementById("loginForm").style.display="none";
-        document.getElementById("resetForm").style.display="none";
-
-        document.getElementById(target+"Form").style.display="block";
-        durum.textContent = "";
-        ac();
-    },3000);
+function show(target){
+    document.getElementById("registerForm").style.display="none";
+    document.getElementById("loginForm").style.display="none";
+    document.getElementById("resetForm").style.display="none";
+    document.getElementById(target+"Form").style.display="block";
+    durum.textContent = "";
 }
-toLogin && (toLogin.onclick = ()=> formDegistir("login"));
-toReset && (toReset.onclick = ()=> formDegistir("reset"));
-toRegisterFromLogin && (toRegisterFromLogin.onclick = ()=> formDegistir("register"));
-toResetFromLogin && (toResetFromLogin.onclick = ()=> formDegistir("reset"));
-toLoginFromReset && (toLoginFromReset.onclick = ()=> formDegistir("login"));
 
-/* yardımcı: bekleme (ms) */
-const sleep = ms => new Promise(r=>setTimeout(r,ms));
+document.getElementById("toLogin").onclick = ()=> show("login");
+document.getElementById("toReset").onclick = ()=> show("reset");
+document.getElementById("toRegisterFromLogin").onclick = ()=> show("register");
+document.getElementById("toResetFromLogin").onclick = ()=> show("reset");
+document.getElementById("toLoginFromReset").onclick = ()=> show("login");
 
-/* --- KAYIT OL --- */
-regBtnEl.onclick = async () => {
-    const ad   = regNameEl.value.trim();
-    const mail = regMailEl.value.trim();
-    const pass = regPassEl.value;
+/* --- KAYIT --- */
+document.getElementById("regBtn").onclick = async () => {
+    const ad   = regName.value.trim();
+    const mail = regMail.value.trim();
+    const pass = regPass.value;
 
     if(!ad || !mail || !pass){
         durum.textContent = "Lütfen tüm alanları doldurun.";
@@ -151,41 +119,31 @@ regBtnEl.onclick = async () => {
     }
 
     try {
-        kilitle();
-        durum.textContent = "Kayıt oluşturuluyor... lütfen bekleyin";
+        kilit.style.display="block";
+        durum.textContent = "Kayıt yapılıyor...";
 
-        // 5s süs beklemesi (isteğiniz)
-        await sleep(5000);
-
-        // firebase kayıt
-        console.log("Kayıt isteği gönderiliyor:", mail);
         const cred = await createUserWithEmailAndPassword(auth, mail, pass);
 
-        // firestore kaydı
         await setDoc(doc(db,"kullanicilar",cred.user.uid),{
             kullaniciAdi: ad,
             email: mail,
             createdAt: new Date().toISOString()
         });
 
-        // işlem başarılı -> overlay kapat, kullanıcıyı bilgilendir, yönlendir
-        ac();
-        durum.textContent = "✔ Kayıt başarılı! Yönlendiriliyorsunuz...";
-        console.log("Kayıt başarılı, yönlendiriliyor...");
-        setTimeout(()=> { location.href = "ana_site.html"; }, 2500);
+        durum.textContent = "✔ Kayıt başarılı! Yönlendiriliyor...";
+        setTimeout(()=> location.href="ana_site.html", 1500);
 
     } catch(err){
-        console.error("Kayıt hatası:", err);
-        ac();
-        // Daha kullanıcı dostu hata
-        durum.textContent = "Hata: " + (err && err.message ? err.message : String(err));
+        durum.textContent = "Hata: " + err.message;
+    } finally {
+        kilit.style.display="none";
     }
 };
 
-/* --- GİRİŞ YAP --- */
-loginBtnEl.onclick = async () => {
-    const mail = loginMailEl.value.trim();
-    const pass = loginPassEl.value;
+/* --- GİRİŞ --- */
+document.getElementById("loginBtn").onclick = async () => {
+    const mail = loginMail.value.trim();
+    const pass = loginPass.value;
 
     if(!mail || !pass){
         durum.textContent = "Lütfen bilgileri girin.";
@@ -193,44 +151,41 @@ loginBtnEl.onclick = async () => {
     }
 
     try {
-        kilitle();
-        durum.textContent = "Giriş bilgileri kontrol ediliyor...";
-        await sleep(3000);
+        kilit.style.display="block";
+        durum.textContent = "Giriş yapılıyor...";
 
         await signInWithEmailAndPassword(auth, mail, pass);
 
-        ac();
-        durum.textContent = "✔ Giriş başarılı! Yönlendiriliyorsunuz...";
-        setTimeout(()=> location.href="ana_site.html", 3000);
+        durum.textContent = "✔ Giriş başarılı!";
+        setTimeout(()=> location.href="ana_site.html", 1500);
 
     } catch(err){
-        console.error("Giriş hatası:", err);
-        ac();
-        durum.textContent = "Hata: " + (err && err.message ? err.message : String(err));
+        durum.textContent = "Hata: " + err.message;
+    } finally {
+        kilit.style.display="none";
     }
 };
 
-/* --- ŞİFRE RESET --- */
-resetBtnEl.onclick = async () => {
-    const mail = resetMailEl.value.trim();
+/* --- RESET --- */
+document.getElementById("resetBtn").onclick = async ()=> {
+    const mail = resetMail.value.trim();
+
     if(!mail){
-        durum.textContent = "Lütfen e-posta girin.";
+        durum.textContent="E-posta girin.";
         return;
     }
 
     try{
-        kilitle();
-        durum.textContent = "İstek hazırlanıyor...";
-        await sleep(3000);
+        kilit.style.display="block";
+        durum.textContent="Gönderiliyor...";
 
         await sendPasswordResetEmail(auth, mail);
-        ac();
-        durum.textContent = "✔ Sıfırlama linki gönderildi!";
 
+        durum.textContent="✔ Link gönderildi!";
     }catch(err){
-        console.error("Reset hatası:", err);
-        ac();
-        durum.textContent = "Hata: " + (err && err.message ? err.message : String(err));
+        durum.textContent="Hata: " + err.message;
+    } finally {
+        kilit.style.display="none";
     }
 };
 </script>
