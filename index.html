@@ -1,12 +1,11 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNIXSTORM</title>
+<!DOCTYPE html>  
+<html lang="tr">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>UNIXSTORM</title>  
 
 <style>
-
     body {
         margin: 0;
         padding: 0;
@@ -15,101 +14,87 @@
         background-size: cover;
         font-family: "Arial";
     }
-
     .yazi-kutu {
         width: 100%;
         text-align: center;
         margin-top: 28px;
     }
-
     .anaYazi {
         font-size: 18px;
         color: white;
         font-weight: bold;
         text-shadow: 0 0 6px white, 0 0 14px white;
     }
-
     .vip {
         color: orange;
         font-size: 17px;
         text-shadow: 0 0 6px orange, 0 0 15px orange;
         font-weight: bold;
     }
-
     .red {
         color: red;
         font-weight: bold;
         text-shadow: 0 0 6px red, 0 0 15px red;
     }
-
-.center-box {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 280px;
-    padding: 18px;
-    background: rgba(0,0,0,0.78);
-    backdrop-filter: blur(5px);
-    border-radius: 12px;
-    box-shadow: 0 0 22px rgba(0,0,0,0.65);
-    text-align: center;
-    color: white;
-}
-
-.center-box h3 { margin: 0 0 12px 0; font-size: 22px; }
-
-.center-box input {
-    width: 100%;
-    padding: 10px;
-    margin: 6px 0;
-    border-radius: 8px;
-    border: none;
-    outline: none;
-    box-sizing: border-box;
-    font-size: 15px;
-}
-
-.center-box button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 8px;
-    border: none;
-    border-radius: 8px;
-    background: #006CFF;
-    color: white;
-    font-weight: bold;
-    cursor: pointer;
-    font-size: 16px;
-}
-
-.link-btn {
-    margin-top: 8px;
-    display: block;
-    color: #ddd;
-    cursor: pointer;
-    text-decoration: underline;
-    font-size: 14px;
-}
-
-#durum {
-    margin-top: 10px;
-    font-size: 14px;
-    min-height: 22px;
-    color: #fff;
-}
-
-#blocker {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.0);
-  z-index: 9999;
-  display: none;
-  pointer-events: none;
-}
-
-.hidden { display: none; }
-
+    .center-box {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 280px;
+        padding: 18px;
+        background: rgba(0,0,0,0.78);
+        backdrop-filter: blur(5px);
+        border-radius: 12px;
+        box-shadow: 0 0 22px rgba(0,0,0,0.65);
+        text-align: center;
+        color: white;
+    }
+    .center-box h3 { margin: 0 0 12px 0; font-size: 22px; }
+    .center-box input {
+        width: 100%;
+        padding: 10px;
+        margin: 6px 0;
+        border-radius: 8px;
+        border: none;
+        outline: none;
+        box-sizing: border-box;
+        font-size: 15px;
+    }
+    .center-box button {
+        width: 100%;
+        padding: 10px;
+        margin-top: 8px;
+        border: none;
+        border-radius: 8px;
+        background: #006CFF;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 16px;
+    }
+    .link-btn {
+        margin-top: 8px;
+        display: block;
+        color: #ddd;
+        cursor: pointer;
+        text-decoration: underline;
+        font-size: 14px;
+    }
+    #durum {
+        margin-top: 10px;
+        font-size: 14px;
+        min-height: 22px;
+        color: #fff;
+    }
+    #blocker {
+        position: fixed;
+        inset: 0;
+        background: rgba(0,0,0,0.0);
+        z-index: 9999;
+        display: none;
+        pointer-events: none;
+    }
 </style>
 </head>
 <body>
@@ -156,7 +141,7 @@
     <div id="durum"></div>
 </div>
 
-<div id="blocker" aria-hidden="true"></div>
+<div id="blocker"></div>
 
 <script type="module">
 
@@ -178,13 +163,6 @@ import {
   doc
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-storage.js";
-
 const firebaseConfig = {
     apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
     authDomain: "unixstorm-9dff8.firebaseapp.com",
@@ -198,7 +176,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getFirestore(app);
-const storage = getStorage(app);
 
 const durum = document.getElementById("durum");
 const blocker = document.getElementById("blocker");
@@ -206,11 +183,13 @@ const blocker = document.getElementById("blocker");
 function blockUI(){ blocker.style.display="block"; blocker.style.pointerEvents="auto"; }
 function unblockUI(){ blocker.style.display="none"; blocker.style.pointerEvents="none"; }
 
-function withTimeout(p, ms){
-  return Promise.race([
-    p,
-    new Promise((_,rej)=>setTimeout(()=>rej(new Error("İşlem zaman aşımına uğradı.")), ms))
-  ]);
+function toBase64(file){
+  return new Promise((resolve,reject)=>{
+    const reader=new FileReader();
+    reader.onload=()=>resolve(reader.result);
+    reader.onerror=()=>reject("Base64 hatası");
+    reader.readAsDataURL(file);
+  });
 }
 
 async function formDegistir(target){
@@ -233,8 +212,6 @@ document.getElementById("toRegisterFromLogin").onclick = ()=> formDegistir('regi
 document.getElementById("toResetFromLogin").onclick = ()=> formDegistir('reset');
 document.getElementById("toLoginFromReset").onclick = ()=> formDegistir('login');
 
-
-// ✔ FOTOĞRAF ZORUNLU **BURADA**
 document.getElementById("regBtn").onclick = async function(){
 
   const ad   = document.getElementById("regName").value.trim();
@@ -246,7 +223,6 @@ document.getElementById("regBtn").onclick = async function(){
     durum.textContent="Lütfen tüm alanları doldurun.";
     return;
   }
-
   if(!foto){
     durum.textContent="⚠ Profil fotoğrafı zorunludur!";
     return;
@@ -258,7 +234,7 @@ document.getElementById("regBtn").onclick = async function(){
     await new Promise(r=>setTimeout(r,3000));
 
     const q = query(collection(db,"kullanicilar"), where("kullaniciAdi","==",ad));
-    const sp = await withTimeout(getDocs(q),6000);
+    const sp = await getDocs(q);
 
     if(!sp.empty){
       durum.textContent="⚠ Bu kullanıcı adı zaten var!";
@@ -267,18 +243,17 @@ document.getElementById("regBtn").onclick = async function(){
     }
 
     durum.textContent="Kayıt yapılıyor...";
-    const cred = await withTimeout(createUserWithEmailAndPassword(auth,mail,pass),6000);
 
-    const r = ref(storage,"profilFoto/"+cred.user.uid);
-    await withTimeout(uploadBytes(r,foto),6000);
-    const photoURL = await withTimeout(getDownloadURL(r),6000);
+    const base64Foto = await toBase64(foto);
 
-    await withTimeout(setDoc(doc(db,"kullanicilar",cred.user.uid),{
+    const cred = await createUserWithEmailAndPassword(auth,mail,pass);
+
+    await setDoc(doc(db,"kullanicilar",cred.user.uid),{
       kullaniciAdi: ad,
       email: mail,
-      photoURL: photoURL,
+      photoBase64: base64Foto,
       createdAt: new Date().toISOString()
-    }),6000);
+    });
 
     durum.textContent="✔ Hesap oluşturuldu, yönlendiriliyorsunuz...";
     await new Promise(r=>setTimeout(r,5000));
@@ -303,7 +278,7 @@ document.getElementById("loginBtn").onclick = async function(){
   try{
     blockUI();
     durum.textContent="Giriş yapılıyor...";
-    await withTimeout(signInWithEmailAndPassword(auth,mail,pass),6000);
+    await signInWithEmailAndPassword(auth,mail,pass);
     durum.textContent="✔ Giriş başarılı, yönlendiriliyorsunuz...";
     await new Promise(r=>setTimeout(r,5000));
     location.href="ana_site.html";
@@ -327,7 +302,7 @@ document.getElementById("resetBtn").onclick = async function(){
     await new Promise(r=>setTimeout(r,3000));
 
     const q=query(collection(db,"kullanicilar"), where("email","==",mail));
-    const sp=await withTimeout(getDocs(q),6000);
+    const sp=await getDocs(q);
 
     if(sp.empty){
       durum.textContent="Bu e-posta bulunamadı.";
@@ -335,7 +310,7 @@ document.getElementById("resetBtn").onclick = async function(){
       return;
     }
 
-    await withTimeout(sendPasswordResetEmail(auth,mail),6000);
+    await sendPasswordResetEmail(auth,mail);
     durum.textContent="✔ Sıfırlama linki gönderildi!";
     await new Promise(r=>setTimeout(r,4000));
     unblockUI();
@@ -383,4 +358,4 @@ btn.onclick = () => {
 </script>
 
 </body>
-</html>
+    </html>
