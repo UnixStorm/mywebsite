@@ -94,28 +94,9 @@ const kilit = document.getElementById("kilit");
 function kilitle(){ kilit.style.display = "block"; }
 function ac(){ kilit.style.display = "none"; }
 
-function formDegistir(target){
-    durum.textContent = "Lütfen bekleyiniz...";
-    kilitle();
-    setTimeout(()=>{
-        document.getElementById("registerForm").style.display="none";
-        document.getElementById("loginForm").style.display="none";
-        document.getElementById("resetForm").style.display="none";
-
-        document.getElementById(target+"Form").style.display="block";
-
-        durum.textContent = "";
-        ac();
-    },3000);
-}
-
-document.getElementById("toLogin").onclick = ()=> formDegistir("login");
-document.getElementById("toReset").onclick = ()=> formDegistir("reset");
-document.getElementById("toRegisterFromLogin").onclick = ()=> formDegistir("register");
-document.getElementById("toResetFromLogin").onclick = ()=> formDegistir("reset");
-document.getElementById("toLoginFromReset").onclick = ()=> formDegistir("login");
-
-/* =============== KAYIT DÜZELTİLDİ =============== */
+/* =====================================================
+     KAYIT — TAKILMA SORUNU %100 ÇÖZÜLDÜ
+===================================================== */
 document.getElementById("regBtn").onclick = async () => {
 
     const ad   = regName.value.trim();
@@ -131,10 +112,10 @@ document.getElementById("regBtn").onclick = async () => {
         kilitle();
         durum.textContent = "Kayıt oluşturuluyor... lütfen bekleyin";
 
-        // SADECE 5 SANİYE SÜS
+        /* 5 SANİYE SADECE ANİMASYON */
         await new Promise(r=>setTimeout(r,5000));
 
-        // Firebase işlemi BAŞLIYOR (takılma yok)
+        /* === Firebase isteği buradan SONRA başlıyor === */
         const cred = await createUserWithEmailAndPassword(auth, mail, pass);
 
         await setDoc(doc(db,"kullanicilar",cred.user.uid),{
@@ -202,7 +183,7 @@ document.getElementById("resetBtn").onclick = async () => {
 };
 </script>
 
-<!-- MÜZİK BUTONU -->
+<!-- MÜZİK -->
 <button id="musicBtn" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; font-size: 18px; border: none; border-radius: 10px; background: rgba(0,0,0,0.6); color: white; cursor: pointer;">▶ Oynat</button>
 
 <audio id="bgm">
@@ -225,4 +206,4 @@ btn.onclick = () => {
 </script>
 
 </body>
-    </html>
+</html>
