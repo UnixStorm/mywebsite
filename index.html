@@ -139,6 +139,7 @@
     </div>
 
     <div id="durum"></div>
+
 </div>
 
 <div id="blocker"></div>
@@ -229,7 +230,8 @@ document.getElementById("regBtn").onclick = async function(){
       return;
     }
 
-    durum.textContent="Kayıt yapılıyor...";
+    // ❗ KAYIT YAPILIYOR YAZISI BURADAN SİLİNDİ
+    // durum.textContent="Kayıt yapılıyor...";  ← SİLİNDİ
 
     const cred = await createUserWithEmailAndPassword(auth,mail,pass);
 
