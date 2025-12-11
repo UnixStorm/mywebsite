@@ -4,100 +4,25 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UNIXSTORM</title>
-
 <style>
-    body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
-        background-size: cover;
-        font-family: "Arial";
-    }
+    body { margin: 0; padding: 0; height: 100vh; background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed; background-size: cover; font-family: "Arial"; }
     .yazi-kutu { width: 100%; text-align: center; margin-top: 28px; }
-    .anaYazi {
-        font-size: 18px;
-        color: white;
-        font-weight: bold;
-        text-shadow: 0 0 6px white, 0 0 14px white;
-    }
-    .vip {
-        color: orange;
-        font-size: 17px;
-        text-shadow: 0 0 6px orange, 0 0 15px orange;
-        font-weight: bold;
-    }
-    .red {
-        color: red;
-        font-weight: bold;
-        text-shadow: 0 0 6px red, 0 0 15px red;
-    }
-
-    .center-box {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 280px;
-        padding: 18px;
-        background: rgba(0,0,0,0.78);
-        backdrop-filter: blur(5px);
-        border-radius: 12px;
-        box-shadow: 0 0 22px rgba(0,0,0,0.65);
-        text-align: center;
-        color: white;
-    }
+    .anaYazi { font-size: 18px; color: white; font-weight: bold; text-shadow: 0 0 6px white, 0 0 14px white; }
+    .vip { color: orange; font-size: 17px; text-shadow: 0 0 6px orange, 0 0 15px orange; font-weight: bold; }
+    .red { color: red; font-weight: bold; text-shadow: 0 0 6px red, 0 0 15px red; }
+    .center-box { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; padding: 18px; background: rgba(0,0,0,0.78); backdrop-filter: blur(5px); border-radius: 12px; box-shadow: 0 0 22px rgba(0,0,0,0.65); text-align: center; color: white; }
     .center-box h3 { margin: 0 0 12px 0; font-size: 22px; }
-    .center-box input {
-        width: 100%;
-        padding: 10px;
-        margin: 6px 0;
-        border-radius: 8px;
-        border: none;
-        outline: none;
-        box-sizing: border-box;
-        font-size: 15px;
-    }
-    .center-box button {
-        width: 100%;
-        padding: 10px;
-        margin-top: 8px;
-        border: none;
-        border-radius: 8px;
-        background: #006CFF;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-        font-size: 16px;
-    }
-    .link-btn {
-        margin-top: 8px;
-        display: block;
-        color: #ddd;
-        cursor: pointer;
-        text-decoration: underline;
-        font-size: 14px;
-    }
-    #durum {
-        margin-top: 10px;
-        font-size: 14px;
-        min-height: 22px;
-        color: #fff;
-    }
-
-    #kilit {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.35);
-        z-index: 9999;
-        display: none;
-        pointer-events: auto;
-    }
+    .center-box input { width: 100%; padding: 10px; margin: 6px 0; border-radius: 8px; border: none; outline: none; box-sizing: border-box; font-size: 15px; }
+    .center-box button { width: 100%; padding: 10px; margin-top: 8px; border: none; border-radius: 8px; background: #006CFF; color: white; font-weight: bold; cursor: pointer; font-size: 16px; }
+    .link-btn { margin-top: 8px; display: block; color: #ddd; cursor: pointer; text-decoration: underline; font-size: 14px; }
+    #durum { margin-top: 10px; font-size: 14px; min-height: 22px; color: #fff; }
+    /* SAYFA KİLİTLEME - görünmez overlay, tıklamaları engeller */
+    #kilit { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 9999; display: none; pointer-events: auto; }
 </style>
 </head>
 <body>
 
-<div id="kilit"></div>
+<div id="kilit" aria-hidden="true"></div>
 
 <div class="yazi-kutu">
     <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>
@@ -108,14 +33,12 @@
 </div>
 
 <div class="center-box">
-
     <div id="registerForm">
         <h3>Kayıt Ol</h3>
         <input type="text" id="regName" placeholder="Kullanıcı adı">
         <input type="email" id="regMail" placeholder="E-posta">
         <input type="password" id="regPass" placeholder="Şifre">
         <button id="regBtn">Kayıt Ol</button>
-
         <span class="link-btn" id="toLogin">Giriş yapın</span>
         <span class="link-btn" id="toReset">Şifremi unuttum</span>
     </div>
@@ -125,7 +48,6 @@
         <input type="email" id="loginMail" placeholder="E-posta">
         <input type="password" id="loginPass" placeholder="Şifre">
         <button id="loginBtn">Giriş Yap</button>
-
         <span class="link-btn" id="toRegisterFromLogin">Kayıt olmak istiyorum</span>
         <span class="link-btn" id="toResetFromLogin">Şifremi unuttum</span>
     </div>
@@ -134,23 +56,17 @@
         <h3>Şifre Sıfırla</h3>
         <input type="email" id="resetMail" placeholder="E-posta">
         <button id="resetBtn">Sıfırlama linki gönder</button>
-
         <span class="link-btn" id="toLoginFromReset">Girişe dön</span>
     </div>
 
     <div id="durum"></div>
-
 </div>
 
 <script type="module">
-
+/* Firebase (modular) */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import {
-  getAuth,
-  createUserWithEmailAndPassword,
-  signInWithEmailAndPassword,
-  sendPasswordResetEmail
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, fetchSignInMethodsForEmail } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import { getFirestore, setDoc, getDocs, collection, query, where, doc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
@@ -164,17 +80,32 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db   = getFirestore(app);
 
+/* element referansları */
 const durum = document.getElementById("durum");
 const kilit = document.getElementById("kilit");
+/* register */
+const regNameEl = document.getElementById("regName");
+const regMailEl = document.getElementById("regMail");
+const regPassEl = document.getElementById("regPass");
+const regBtnEl  = document.getElementById("regBtn");
+/* login */
+const loginMailEl = document.getElementById("loginMail");
+const loginPassEl = document.getElementById("loginPass");
+const loginBtnEl  = document.getElementById("loginBtn");
+/* reset */
+const resetMailEl = document.getElementById("resetMail");
+const resetBtnEl  = document.getElementById("resetBtn");
 
+/* kilit fonksiyonları */
 function kilitle(){ kilit.style.display = "block"; }
 function ac(){ kilit.style.display = "none"; }
 
-function formGecis(target){
+/* form geçişleri (3s bekleme animasyonu) */
+function formDegistir(target){
+    durum.textContent = "Lütfen bekleyiniz...";
     kilitle();
-    durum.textContent = "Forma geçiş yapılıyor... lütfen bekleyiniz";
-
     setTimeout(()=>{
         document.getElementById("registerForm").style.display="none";
         document.getElementById("loginForm").style.display="none";
@@ -182,125 +113,135 @@ function formGecis(target){
         document.getElementById(target+"Form").style.display="block";
         durum.textContent = "";
         ac();
-    },3000);
+    }, 3000); // 3s süs amaçlı bekleme
 }
+document.getElementById("toLogin").onclick = ()=> formDegistir("login");
+document.getElementById("toReset").onclick = ()=> formDegistir("reset");
+document.getElementById("toRegisterFromLogin").onclick = ()=> formDegistir("register");
+document.getElementById("toResetFromLogin").onclick = ()=> formDegistir("reset");
+document.getElementById("toLoginFromReset").onclick = ()=> formDegistir("login");
 
-document.getElementById("toLogin").onclick = ()=> formGecis("login");
-document.getElementById("toReset").onclick = ()=> formGecis("reset");
-document.getElementById("toRegisterFromLogin").onclick = ()=> formGecis("register");
-document.getElementById("toResetFromLogin").onclick = ()=> formGecis("reset");
-document.getElementById("toLoginFromReset").onclick = ()=> formGecis("login");
+/* ---------- KAYIT (kullanıcı adı kontrolü KALDI) ---------- */
+regBtnEl.onclick = async () => {
+  const ad   = regNameEl.value.trim();
+  const mail = regMailEl.value.trim();
+  const pass = regPassEl.value;
 
-/* ---------- KAYIT ---------- */
-document.getElementById("regBtn").onclick = async () => {
+  if(!ad || !mail || !pass){
+    durum.textContent = "Lütfen tüm alanları doldurun.";
+    return;
+  }
 
-    const mail = regMail.value.trim();
-    const pass = regPass.value.trim();
+  try{
+    kilitle();
+    // burada 5s süs amaçlı bekleme
+    durum.textContent = "Kayıt oluşturuluyor... lütfen bekleyin";
+    await new Promise(r=>setTimeout(r,5000));
 
-    if(!mail || !pass){
-        durum.textContent = "Lütfen tüm alanları doldurun.";
-        return;
+    // kullanıcı adı kontrolü Firestore'da (isteğinize göre kaldırılabilir)
+    const q = query(collection(db,"kullanicilar"), where("kullaniciAdi","==",ad));
+    const sp = await getDocs(q);
+    if(!sp.empty){
+      ac();
+      durum.textContent = "⚠ Bu kullanıcı adı zaten var!";
+      return;
     }
 
-    kilitle();
-    durum.textContent = "Kayıt oluşturuluyor...";
+    // gerçek kayıt
+    const cred = await createUserWithEmailAndPassword(auth, mail, pass);
+    await setDoc(doc(db,"kullanicilar",cred.user.uid),{
+      kullaniciAdi: ad,
+      email: mail,
+      createdAt: new Date().toISOString()
+    });
 
-    setTimeout(async ()=>{
-        try{
-            const cred = await createUserWithEmailAndPassword(auth, mail, pass);
+    // başarılı -> 3s gösterip yönlendir
+    durum.textContent = "✔ Kayıt başarılı! Yönlendiriliyorsunuz...";
+    setTimeout(()=> location.href = "ana_site.html", 3000);
 
-            durum.textContent = "✔ Kayıt başarılı! Yönlendiriliyorsunuz...";
-            setTimeout(()=> location.href="ana_site.html",3000);
-
-        }catch(e){
-            ac();
-            durum.textContent = "Hata: " + e.message;
-        }
-    },5000);
+  }catch(err){
+    ac();
+    durum.textContent = "Hata: " + (err && err.message ? err.message : String(err));
+  }
 };
 
-/* ---------- GİRİŞ ---------- */
-document.getElementById("loginBtn").onclick = async () => {
+/* ---------- GİRİŞ (süs amaçlı 3s bekleme) ---------- */
+loginBtnEl.onclick = async () => {
+  const mail = loginMailEl.value.trim();
+  const pass = loginPassEl.value;
 
-    const mail = loginMail.value.trim();
-    const pass = loginPass.value.trim();
+  if(!mail || !pass){
+    durum.textContent = "Lütfen bilgileri girin.";
+    return;
+  }
 
-    if(!mail || !pass){
-        durum.textContent = "Boş bırakmayın.";
-        return;
-    }
-
+  try{
     kilitle();
-    durum.textContent = "Giriş bilgileri kontrol ediliyor...";
+    durum.textContent = "Giriş bilgileri kontrol ediliyor... lütfen bekleyin";
+    // 3s süs amaçlı bekleme
+    await new Promise(r=>setTimeout(r,3000));
 
-    setTimeout(async ()=>{
-        try{
-            await signInWithEmailAndPassword(auth, mail, pass);
-            durum.textContent = "✔ Giriş başarılı! Yönlendiriliyorsunuz...";
+    await signInWithEmailAndPassword(auth, mail, pass);
 
-            setTimeout(()=> location.href="ana_site.html",3000);
+    durum.textContent = "✔ Giriş başarılı! Yönlendiriliyorsunuz...";
+    setTimeout(()=> location.href = "ana_site.html", 3000);
 
-        }catch(e){
-            ac();
-            durum.textContent = "Hata: " + e.message;
-        }
-    },5000);
+  }catch(err){
+    ac();
+    durum.textContent = "Hata: " + (err && err.message ? err.message : String(err));
+  }
 };
 
-/* ---------- RESET ---------- */
-document.getElementById("resetBtn").onclick = async ()=>{
+/* ---------- ŞİFRE SIFIRLAMA ---------- */
+/* Önce Auth üzerinden e-posta var mı diye kontrol et (daha güvenli). Eğer yoksa link gönderme. */
+resetBtnEl.onclick = async () => {
+  const mail = resetMailEl.value.trim();
 
-    const mail = resetMail.value.trim();
-    if(!mail){
-        durum.textContent = "E-posta girin.";
-        return;
+  if(!mail){
+    durum.textContent = "Lütfen e-posta girin.";
+    return;
+  }
+
+  try{
+    kilitle();
+    durum.textContent = "Sıfırlama isteği hazırlanıyor...";
+
+    // Auth'ta kayıtlı mı kontrol et
+    const methods = await fetchSignInMethodsForEmail(auth, mail);
+    if(!methods || methods.length === 0){
+      ac();
+      durum.textContent = "Bu e-posta sisteme kayıtlı değil.";
+      return;
     }
 
-    kilitle();
-    durum.textContent = "Şifre sıfırlama linki gönderiliyor...";
+    // 3s süs amaçlı bekleme (istediginiz gibi ayarlayabilirsiniz)
+    await new Promise(r=>setTimeout(r,3000));
 
-    setTimeout(async ()=>{
-        try{
-            await sendPasswordResetEmail(auth, mail);
-            ac();
-            durum.textContent = "✔ Şifre sıfırlama linki gönderildi!";
+    // gönder
+    await sendPasswordResetEmail(auth, mail);
+    ac();
+    durum.textContent = "✔ Sıfırlama linki gönderildi! (Spam klasörünü kontrol edin)";
 
-        }catch(e){
-            ac();
-            durum.textContent = "Hata: "+e.message;
-        }
-    },3000);
+  }catch(err){
+    ac();
+    durum.textContent = "Hata: " + (err && err.message ? err.message : String(err));
+  }
 };
 </script>
 
-<button id="musicBtn" style="
-position: fixed;
-bottom: 20px;
-right: 20px;
-padding: 12px 20px;
-font-size: 18px;
-border: none;
-border-radius: 10px;
-background: rgba(0,0,0,0.6);
-color: white;
-cursor: pointer;
-">▶ Oynat</button>
-
-<audio id="bgm">
-    <source src="music.m4a" type="audio/mp4">
-</audio>
-
+<!-- MÜZİK BUTONU -->
+<button id="musicBtn" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; font-size: 18px; border: none; border-radius: 10px; background: rgba(0,0,0,0.6); color: white; cursor: pointer;">▶ Oynat</button>
+<audio id="bgm"><source src="music.m4a" type="audio/mp4"></audio>
 <script>
 const audio = document.getElementById("bgm");
-const btn = document.getElementById("musicBtn");
-
-btn.onclick = ()=>{
+const btn   = document.getElementById("musicBtn");
+btn.onclick = () => {
     if(audio.paused){
         audio.play().catch(()=>{});
-        btn.textContent="⏸ Durdur";
+        btn.textContent = "⏸ Durdur";
     } else {
         audio.pause();
-        btn.textContent="▶ Oynat";
+        btn.textContent = "▶ Oynat";
     }
 };
 </script>
