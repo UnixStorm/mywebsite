@@ -50,10 +50,10 @@
 <body>
 
 <div class="yazi-kutu">
-    <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 tarafınca kurulmuştur</div>
+    <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 (𝐒𝐀𝐇𝐎) ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>
     <div style="margin-top: 6px;">
-        <span class="vip">vip_üyeler🔱 = </span>
-        <span class="red">KAAN ZORBA & İNFAZ ZORBA</span>
+        <span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span>
+        <span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span>
     </div>
 </div>
 
@@ -133,7 +133,7 @@ function toBase64(file){
 }
 
 async function formDegistir(target){
-  durum.textContent="Bekleyiniz...";
+  durum.textContent="lütfen,Bekleyiniz...";
   blockUI();
   await sleep(1000);  /* ↓↓↓ bekleme süresi kısaldı */
   document.getElementById("registerForm").style.display="none";
@@ -181,7 +181,7 @@ document.getElementById("regBtn").onclick = async function(){
       createdAt: new Date().toISOString()
     });
 
-    durum.textContent="✔ Başarılı, yönlendiriliyor...";
+    durum.textContent="✔ Kayıt Başarılı, yönlendiriliyor...";
     await sleep(2000);
     location.href="ana_site.html";
 
@@ -201,7 +201,7 @@ document.getElementById("loginBtn").onclick = async function(){
     blockUI();
     durum.textContent="Giriş...";
     await signInWithEmailAndPassword(auth,mail,pass);
-    durum.textContent="✔ Başarılı!";
+    durum.textContent="✔ giriş Başarılı yönlendiriliyosunuz!";
     await sleep(1500);
     location.href="ana_site.html";
   }catch(e){
@@ -224,7 +224,7 @@ document.getElementById("resetBtn").onclick = async function(){
     if(sp.empty){ durum.textContent="E-posta yok."; unblockUI(); return; }
 
     await sendPasswordResetEmail(auth,mail);
-    durum.textContent="✔ Gönderildi!";
+    durum.textContent="✔ Mail Gönderildi!";
     await sleep(2000);
     unblockUI();
 
