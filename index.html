@@ -235,7 +235,7 @@ document.getElementById("regBtn").onclick = async () => {
             createdAt: new Date().toISOString()
         });
 
-        durum.textContent = "✔ Kayıt başarılı! Sayfa yenileniyor...";
+        durum.textContent = "✔ Kayıt başarılı! lütfen giriş yap kısmından giriş yapın...";
 
         await sleep(2000);
         location.reload();   // yönlendirme yerine sayfayı yenile
@@ -260,7 +260,7 @@ document.getElementById("loginBtn").onclick = async () => {
 
     try {
         kilitle();
-        durum.textContent = "Bilgiler doğrulanıyor...";
+        durum.textContent = "giriş bilgileri kontrol ediliyor...";
         await sleep(2000);
 
         await signInWithEmailAndPassword(auth, mail, pass);
