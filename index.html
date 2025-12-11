@@ -1,91 +1,88 @@
 <!DOCTYPE html>
-<html lang="tr">  
-<head>  
-<meta charset="UTF-8">  
-<meta name="viewport" content="width=device-width, initial-scale=1.0">  
-<title>UNIXSTORM</title>  
+<html lang="tr">    
+<head>    
+<meta charset="UTF-8">    
+<meta name="viewport" content="width=device-width, initial-scale=1.0">    
+<title>UNIXSTORM</title>
 
-<style>  
-    body { margin: 0; padding: 0; height: 100vh; background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed; background-size: cover; font-family: "Arial"; }  
-    .yazi-kutu { width: 100%; text-align: center; margin-top: 28px; }  
-    .anaYazi { font-size: 18px; color: white; font-weight: bold; text-shadow: 0 0 6px white, 0 0 14px white; }  
-    .vip { color: orange; font-size: 17px; text-shadow: 0 0 6px orange, 0 0 15px orange; font-weight: bold; }  
-    .red { color: red; font-weight: bold; text-shadow: 0 0 6px red, 0 0 15px red; }  
+<style>
+    body { margin: 0; padding: 0; height: 100vh; background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed; background-size: cover; font-family: "Arial"; }
+    .yazi-kutu { width: 100%; text-align: center; margin-top: 28px; }
+    .anaYazi { font-size: 18px; color: white; font-weight: bold; text-shadow: 0 0 6px white, 0 0 14px white; }
+    .vip { color: orange; font-size: 17px; text-shadow: 0 0 6px orange, 0 0 15px orange; font-weight: bold; }
+    .red { color: red; font-weight: bold; text-shadow: 0 0 6px red, 0 0 15px red; }
 
-    .center-box { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; padding: 18px; background: rgba(0,0,0,0.78); backdrop-filter: blur(5px); border-radius: 12px; box-shadow: 0 0 22px rgba(0,0,0,0.65); text-align: center; color: white; }  
-    .center-box h3 { margin: 0 0 12px 0; font-size: 22px; }  
-    .center-box input { width: 100%; padding: 10px; margin: 6px 0; border-radius: 8px; border: none; outline: none; box-sizing: border-box; font-size: 15px; }  
-    .center-box button { width: 100%; padding: 10px; margin-top: 8px; border: none; border-radius: 8px; background: #006CFF; color: white; font-weight: bold; cursor: pointer; font-size: 16px; }  
-    .link-btn { margin-top: 8px; display: block; color: #ddd; cursor: pointer; text-decoration: underline; font-size: 14px; }  
+    .center-box { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; padding: 18px; background: rgba(0,0,0,0.78); backdrop-filter: blur(5px); border-radius: 12px; box-shadow: 0 0 22px rgba(0,0,0,0.65); text-align: center; color: white; }
+    .center-box h3 { margin: 0 0 12px 0; font-size: 22px; }
+    .center-box input { width: 100%; padding: 10px; margin: 6px 0; border-radius: 8px; border: none; outline: none; box-sizing: border-box; font-size: 15px; }
+    .center-box button { width: 100%; padding: 10px; margin-top: 8px; border: none; border-radius: 8px; background: #006CFF; color: white; font-weight: bold; cursor: pointer; font-size: 16px; }
+    .link-btn { margin-top: 8px; display: block; color: #ddd; cursor: pointer; text-decoration: underline; font-size: 14px; }
 
     #durum { margin-top: 10px; font-size: 14px; min-height: 22px; color: #fff; }
 
-    /* Tıklamaları engelleyen görünmez overlay */
-    #kilit { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 9999; display: none; pointer-events: auto; }  
-</style>  
-</head>  
-
+    #kilit { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 9999; display: none; pointer-events: auto; }
+</style>
+</head>
 <body>
 
 <div id="kilit"></div>
 
 <div class="yazi-kutu">
-    <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>  
-    <div style="margin-top: 6px;">  
-        <span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span>  
-        <span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span>  
+    <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>
+    <div style="margin-top: 6px;">
+        <span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span>
+        <span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span>
     </div>
 </div>
 
 <div class="center-box">
 
-    <!-- KAYIT FORMU -->
-    <div id="registerForm">
-        <h3>Kayıt Ol</h3>
-        <input type="text" id="regName" placeholder="Kullanıcı adı">
-        <input type="email" id="regMail" placeholder="E-posta">
-        <input type="password" id="regPass" placeholder="Şifre">
-        <button id="regBtn">Kayıt Ol</button>
-        <span class="link-btn" id="toLogin">Giriş yapın</span>
-        <span class="link-btn" id="toReset">Şifremi unuttum</span>
-    </div>
+<!-- KAYIT FORMU -->
+<div id="registerForm">
+    <h3>Kayıt Ol</h3>
+    <input type="text" id="regName" placeholder="Kullanıcı adı">
+    <input type="email" id="regMail" placeholder="E-posta">
+    <input type="password" id="regPass" placeholder="Şifre">
+    <button id="regBtn">Kayıt Ol</button>
+    <span class="link-btn" id="toLogin">Giriş yapın</span>
+    <span class="link-btn" id="toReset">Şifremi unuttum</span>
+</div>
 
-    <!-- GİRİŞ FORMU -->
-    <div id="loginForm" style="display:none;">
-        <h3>Giriş Yap</h3>
-        <input type="email" id="loginMail" placeholder="E-posta">
-        <input type="password" id="loginPass" placeholder="Şifre">
-        <button id="loginBtn">Giriş Yap</button>
-        <span class="link-btn" id="toRegisterFromLogin">Kayıt olmak istiyorum</span>
-        <span class="link-btn" id="toResetFromLogin">Şifremi unuttum</span>
-    </div>
+<!-- GİRİŞ FORMU -->
+<div id="loginForm" style="display:none;">
+    <h3>Giriş Yap</h3>
+    <input type="email" id="loginMail" placeholder="E-posta">
+    <input type="password" id="loginPass" placeholder="Şifre">
+    <button id="loginBtn">Giriş Yap</button>
+    <span class="link-btn" id="toRegisterFromLogin">Kayıt olmak istiyorum</span>
+    <span class="link-btn" id="toResetFromLogin">Şifremi unuttum</span>
+</div>
 
-    <!-- RESET FORMU -->
-    <div id="resetForm" style="display:none;">
-        <h3>Şifre Sıfırla</h3>
-        <input type="email" id="resetMail" placeholder="E-posta">
-        <button id="resetBtn">Sıfırlama linki gönder</button>
-        <span class="link-btn" id="toLoginFromReset">Girişe dön</span>
-    </div>
+<!-- RESET FORMU -->
+<div id="resetForm" style="display:none;">
+    <h3>Şifre Sıfırla</h3>
+    <input type="email" id="resetMail" placeholder="E-posta">
+    <button id="resetBtn">Sıfırlama linki gönder</button>
+    <span class="link-btn" id="toLoginFromReset">Girişe dön</span>
+</div>
 
-    <div id="durum"></div>
-
+<div id="durum"></div>
 </div>
 
 <!-- Firebase -->
 <script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";  
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";  
-import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";  
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-const firebaseConfig = {  
-    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",  
-    authDomain: "unixstorm-9dff8.firebaseapp.com",  
-    projectId: "unixstorm-9dff8",  
-    storageBucket: "unixstorm-9dff8.appspot.com",  
-    messagingSenderId: "787509821542",  
-    appId: "1:787509821542:web:2b54b5bafee1207edeada7"  
-};  
+const firebaseConfig = {
+    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
+    authDomain: "unixstorm-9dff8.firebaseapp.com",
+    projectId: "unixstorm-9dff8",
+    storageBucket: "unixstorm-9dff8.appspot.com",
+    messagingSenderId: "787509821542",
+    appId: "1:787509821542:web:2b54b5bafee1207edeada7"
+};
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -118,11 +115,12 @@ document.getElementById("toRegisterFromLogin").onclick = ()=> formDegistir("regi
 document.getElementById("toResetFromLogin").onclick = ()=> formDegistir("reset");
 document.getElementById("toLoginFromReset").onclick = ()=> formDegistir("login");
 
-/* --- KAYIT OL ---  (kullanıcı adı kontrolü KALDIRILDI!) */
+/* =============== KAYIT DÜZELTİLDİ =============== */
 document.getElementById("regBtn").onclick = async () => {
-    const ad   = document.getElementById("regName").value.trim();
-    const mail = document.getElementById("regMail").value.trim();
-    const pass = document.getElementById("regPass").value;
+
+    const ad   = regName.value.trim();
+    const mail = regMail.value.trim();
+    const pass = regPass.value;
 
     if(!ad || !mail || !pass){
         durum.textContent = "Lütfen tüm alanları doldurun.";
@@ -133,8 +131,10 @@ document.getElementById("regBtn").onclick = async () => {
         kilitle();
         durum.textContent = "Kayıt oluşturuluyor... lütfen bekleyin";
 
-        await new Promise(r=>setTimeout(r,5000)); // süs amaçlı 5 saniye
+        // SADECE 5 SANİYE SÜS
+        await new Promise(r=>setTimeout(r,5000));
 
+        // Firebase işlemi BAŞLIYOR (takılma yok)
         const cred = await createUserWithEmailAndPassword(auth, mail, pass);
 
         await setDoc(doc(db,"kullanicilar",cred.user.uid),{
@@ -144,7 +144,7 @@ document.getElementById("regBtn").onclick = async () => {
         });
 
         durum.textContent = "✔ Kayıt başarılı! Yönlendiriliyorsunuz...";
-        setTimeout(()=> location.href="ana_site.html", 3000);
+        setTimeout(()=> location.href="ana_site.html", 2500);
 
     } catch(err){
         ac();
@@ -152,7 +152,7 @@ document.getElementById("regBtn").onclick = async () => {
     }
 };
 
-/* --- GİRİŞ --- */
+/* GİRİŞ */
 document.getElementById("loginBtn").onclick = async () => {
     const mail = loginMail.value.trim();
     const pass = loginPass.value;
@@ -178,7 +178,7 @@ document.getElementById("loginBtn").onclick = async () => {
     }
 };
 
-/* --- ŞİFRE RESET --- */
+/* RESET */
 document.getElementById("resetBtn").onclick = async () => {
     const mail = resetMail.value.trim();
     if(!mail){
@@ -192,6 +192,7 @@ document.getElementById("resetBtn").onclick = async () => {
         await new Promise(r=>setTimeout(r,3000));
 
         await sendPasswordResetEmail(auth, mail);
+
         ac();
         durum.textContent = "✔ Sıfırlama linki gönderildi!";
     }catch(err){
@@ -224,4 +225,4 @@ btn.onclick = () => {
 </script>
 
 </body>
-</html>
+    </html>
