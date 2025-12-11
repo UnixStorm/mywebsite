@@ -10,58 +10,46 @@
         margin: 0;
         padding: 0;
         height: 100vh;
-        background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
+        background: url("arka.jpg") no-repeat center center fixed;
         background-size: cover;
-        font-family: "Arial";
+        font-family: Arial;
     }
     .yazi-kutu {
         width: 100%;
         text-align: center;
-        margin-top: 28px;
-    }
-    .anaYazi {
-        font-size: 18px;
+        margin-top: 20px;
         color: white;
         font-weight: bold;
-        text-shadow: 0 0 6px white, 0 0 14px white;
+        text-shadow: 0 0 6px white;
     }
-    .vip {
-        color: orange;
-        font-size: 17px;
-        text-shadow: 0 0 6px orange, 0 0 15px orange;
-        font-weight: bold;
-    }
-    .red {
-        color: red;
-        font-weight: bold;
-        text-shadow: 0 0 6px red, 0 0 15px red;
-    }
+    .vip { color: orange; text-shadow: 0 0 10px orange; }
+    .red { color: red; text-shadow: 0 0 10px red; }
+
     .center-box {
         position: fixed;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 280px;
-        padding: 18px;
-        background: rgba(0,0,0,0.78);
-        backdrop-filter: blur(5px);
+        width: 300px;
+        padding: 20px;
+        background: rgba(0, 0, 0, 0.70);
+        backdrop-filter: blur(4px);
         border-radius: 12px;
-        box-shadow: 0 0 22px rgba(0,0,0,0.65);
+        box-shadow: 0 0 20px black;
         text-align: center;
         color: white;
     }
-    .center-box h3 { margin: 0 0 12px 0; font-size: 22px; }
-    .center-box input {
+
+    input {
         width: 100%;
         padding: 10px;
-        margin: 6px 0;
-        border-radius: 8px;
+        margin: 7px 0;
         border: none;
+        border-radius: 8px;
         outline: none;
-        box-sizing: border-box;
         font-size: 15px;
     }
-    .center-box button {
+    button {
         width: 100%;
         padding: 10px;
         margin-top: 8px;
@@ -69,9 +57,9 @@
         border-radius: 8px;
         background: #006CFF;
         color: white;
+        font-size: 17px;
         font-weight: bold;
         cursor: pointer;
-        font-size: 16px;
     }
     .link-btn {
         margin-top: 8px;
@@ -81,26 +69,42 @@
         text-decoration: underline;
         font-size: 14px;
     }
-    #durum {
-        margin-top: 10px;
-        font-size: 14px;
-        min-height: 22px;
-        color: #fff;
+    #durum { margin-top: 10px; min-height: 26px; font-size: 14px; }
+
+    #blocker {
+        position: fixed;
+        inset: 0;
+        display: none;
+        background: rgba(0,0,0,0.0);
+        pointer-events: none;
+    }
+
+    #musicBtn {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        padding: 12px 18px;
+        font-size: 18px;
+        background: rgba(0,0,0,0.6);
+        border: none;
+        border-radius: 10px;
+        color: white;
+        cursor: pointer;
     }
 </style>
 </head>
 <body>
 
 <div class="yazi-kutu">
-    <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>
-    <div style="margin-top: 6px;">
-        <span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span>
-        <span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span>
-    </div>
+    Bu site ⚔ <b>𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷🇹🇷</b> ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ
+    <br>
+    <span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 =</span>
+    <span class="red"> 𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span>
 </div>
 
 <div class="center-box">
 
+    <!-- KAYIT OL FORMU -->
     <div id="registerForm">
         <h3>Kayıt Ol</h3>
         <input type="text" id="regName" placeholder="Kullanıcı adı">
@@ -108,28 +112,41 @@
         <input type="password" id="regPass" placeholder="Şifre">
         <input type="file" id="regPhoto" accept="image/*">
         <button id="regBtn">Kayıt Ol</button>
+
         <span class="link-btn" id="toLogin">Giriş yapın</span>
         <span class="link-btn" id="toReset">Şifremi unuttum</span>
     </div>
 
+    <!-- GİRİŞ FORMU -->
     <div id="loginForm" style="display:none;">
         <h3>Giriş Yap</h3>
         <input type="email" id="loginMail" placeholder="E-posta">
         <input type="password" id="loginPass" placeholder="Şifre">
         <button id="loginBtn">Giriş Yap</button>
-        <span class="link-btn" id="toRegisterFromLogin">Kayıt olmak istiyorum</span>
-        <span class="link-btn" id="toResetFromLogin">Şifremi unuttum</span>
+
+        <span class="link-btn" id="toRegister2">Kayıt olmak istiyorum</span>
+        <span class="link-btn" id="toReset2">Şifremi unuttum</span>
     </div>
 
+    <!-- ŞİFRE SIFIRLAMA FORMU -->
     <div id="resetForm" style="display:none;">
         <h3>Şifre Sıfırla</h3>
         <input type="email" id="resetMail" placeholder="E-posta">
-        <button id="resetBtn">Sıfırlama linki gönder</button>
-        <span class="link-btn" id="toLoginFromReset">Girişe dön</span>
+        <button id="resetBtn">Sıfırla</button>
+
+        <span class="link-btn" id="toLogin2">Girişe dön</span>
     </div>
 
     <div id="durum"></div>
 </div>
+
+<div id="blocker"></div>
+
+<!-- MÜZİK -->
+<button id="musicBtn">▶ Oynat</button>
+<audio id="bgm">
+    <source src="music.m4a" type="audio/mp4">
+</audio>
 
 <script type="module">
 
@@ -157,8 +174,7 @@ const firebaseConfig = {
     projectId: "unixstorm-9dff8",
     storageBucket: "unixstorm-9dff8.appspot.com",
     messagingSenderId: "787509821542",
-    appId: "1:787509821542:web:2b54b5bafee1207edeada7",
-    measurementId: "G-BQYS1575QZ"
+    appId: "1:787509821542:web:2b54b5bafee1207edeada7"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -166,87 +182,117 @@ const auth = getAuth(app);
 const db   = getFirestore(app);
 
 const durum = document.getElementById("durum");
+const blocker = document.getElementById("blocker");
+
+function block(){ blocker.style.display="block"; }
+function unblock(){ blocker.style.display="none"; }
 
 function toBase64(file){
-  return new Promise((resolve,reject)=>{
-    const reader=new FileReader();
-    reader.onload=()=>resolve(reader.result);
-    reader.onerror=()=>reject("Base64 hatası");
-    reader.readAsDataURL(file);
-  });
+    return new Promise((resolve,reject)=>{
+        const r=new FileReader();
+        r.onload=()=>resolve(r.result);
+        r.onerror=()=>reject();
+        r.readAsDataURL(file);
+    });
 }
 
-document.getElementById("regBtn").onclick = async function(){
+function switchTo(form){
+    document.getElementById("registerForm").style.display="none";
+    document.getElementById("loginForm").style.display="none";
+    document.getElementById("resetForm").style.display="none";
+    document.getElementById(form).style.display="block";
+}
 
-  const ad   = regName.value.trim();
-  const mail = regMail.value.trim();
-  const pass = regPass.value;
-  const foto = regPhoto.files[0];
+document.getElementById("toLogin").onclick = ()=>switchTo("loginForm");
+document.getElementById("toReset").onclick = ()=>switchTo("resetForm");
+document.getElementById("toRegister2").onclick = ()=>switchTo("registerForm");
+document.getElementById("toReset2").onclick = ()=>switchTo("resetForm");
+document.getElementById("toLogin2").onclick = ()=>switchTo("loginForm");
 
-  if(!ad || !mail || !pass || !foto){
-    durum.textContent="Eksik bilgi var.";
-    return;
-  }
+document.getElementById("regBtn").onclick = async ()=>{
 
-  try{
-    durum.textContent="Bilgiler kontrol ediliyor...";
-    await new Promise(r=>setTimeout(r,1000));
+    const ad   = regName.value.trim();
+    const mail = regMail.value.trim();
+    const pass = regPass.value;
+    const foto = regPhoto.files[0];
 
-    const q = query(collection(db,"kullanicilar"), where("kullaniciAdi","==",ad));
-    const sp = await getDocs(q);
+    if(!ad || !mail || !pass){ durum.textContent="𝐥𝐮𝐭𝐟𝐞𝐧 𝐛𝐢𝐥𝐠𝐢𝐥𝐞𝐫𝐢 𝐞𝐤𝐬𝐢𝐤𝐬𝐢𝐳 𝐠𝐢𝐫𝐢𝐧!"; return; }
+    if(!foto){ durum.textContent="𝐩𝐫𝐨𝐟𝐢𝐥 𝐟𝐨𝐭𝐨𝐠̆𝐫𝐚𝐟ı 𝐳𝐨𝐫𝐮𝐧𝐥𝐮𝐝𝐮𝐫!"; return; }
 
-    if(!sp.empty){
-      durum.textContent="❌ Bu kullanıcı adı zaten var!";
-      return;
+    try{
+        block();
+        durum.textContent="𝐛𝐢𝐥𝐠𝐢𝐥𝐞𝐫 𝐤𝐨𝐧𝐭𝐫𝐨𝐥 𝐞𝐝𝐢𝐥𝐢𝐲𝐨𝐫...";
+
+        const q=query(collection(db,"kullanicilar"), where("kullaniciAdi","==",ad));
+        const sp=await getDocs(q);
+
+        if(!sp.empty){
+            durum.textContent="Bu kullanıcı adı alınmış!";
+            unblock();
+            return;
+        }
+
+        durum.textContent="K𝐮𝐥𝐥𝐚𝐧ı𝐜ı 𝐨𝐥𝐮𝐬𝐭𝐮𝐫𝐮𝐥𝐮𝐲𝐨𝐫...";
+
+        const base64 = await toBase64(foto);
+        const cred = await createUserWithEmailAndPassword(auth,mail,pass);
+
+        await setDoc(doc(db,"kullanicilar",cred.user.uid),{
+            kullaniciAdi: ad,
+            email: mail,
+            photoBase64: base64,
+            createdAt: new Date().toISOString()
+        });
+
+        durum.textContent="Başarılı, yönlendiriliyorsun...";
+        setTimeout(()=> location.href="ana_site.html", 1200);
+
+    }catch(e){
+        durum.textContent="Hata: "+e.message;
+        unblock();
     }
-
-    durum.textContent="Kayıt oluşturuluyor...";
-    await new Promise(r=>setTimeout(r,1000));
-
-    const base64Foto = await toBase64(foto);
-
-    const cred = await createUserWithEmailAndPassword(auth,mail,pass);
-
-    await setDoc(doc(db,"kullanicilar",cred.user.uid),{
-      kullaniciAdi: ad,
-      email: mail,
-      photoBase64: base64Foto,
-      createdAt: new Date().toISOString()
-    });
-
-    durum.textContent="✔ Kayıt başarılı, yönlendiriliyorsunuz...";
-    await new Promise(r=>setTimeout(r,2000));
-
-    location.href="ana_site.html";
-
-  }catch(e){
-    durum.textContent="Hata: "+e.message;
-  }
 };
 
-document.getElementById("loginBtn").onclick = async function(){
-  try{
-    durum.textContent="Giriş yapılıyor...";
-    await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
-    durum.textContent="✔ Başarılı!";
-    await new Promise(r=>setTimeout(r,1000));
-    location.href="ana_site.html";
-  }catch(e){
-    durum.textContent=e.message;
-  }
+document.getElementById("loginBtn").onclick = async ()=>{
+    try{
+        block();
+        await signInWithEmailAndPassword(auth, loginMail.value, loginPass.value);
+        durum.textContent="Giriş başarılı!";
+        setTimeout(()=> location.href="ana_site.html", 1200);
+    }catch(e){
+        durum.textContent="Hata: "+e.message;
+        unblock();
+    }
 };
 
-document.getElementById("resetBtn").onclick = async function(){
-  try{
-    durum.textContent="Gönderiliyor...";
-    await sendPasswordResetEmail(auth,resetMail.value);
-    durum.textContent="✔ E-posta gönderildi!";
-  }catch(e){
-    durum.textContent=e.message;
-  }
+document.getElementById("resetBtn").onclick = async ()=>{
+    try{
+        block();
+        await sendPasswordResetEmail(auth, resetMail.value);
+        durum.textContent="Sıfırlama linki gönderildi!";
+        setTimeout(()=>unblock(),1200);
+    }catch(e){
+        durum.textContent="Hata: "+e.message;
+        unblock();
+    }
 };
 
 </script>
 
+<script>
+const audio = document.getElementById("bgm");
+const btn   = document.getElementById("musicBtn");
+
+btn.onclick = ()=>{
+    if(audio.paused){
+        audio.play();
+        btn.textContent="⏸ Durdur";
+    }else{
+        audio.pause();
+        btn.textContent="▶ Oynat";
+    }
+};
+</script>
+
 </body>
-</html>
+    </html>
