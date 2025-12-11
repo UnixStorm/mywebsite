@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-<html lang="tr">    
-<head>    
-<meta charset="UTF-8">    
-<meta name="viewport" content="width=device-width, initial-scale=1.0">    
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UNIXSTORM</title>
 
 <style>
-    body { margin: 0; padding: 0; height: 100vh; background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed; background-size: cover; font-family: "Arial"; }
-    .yazi-kutu { width: 100%; text-align: center; margin-top: 28px; }
-    .anaYazi { font-size: 18px; color: white; font-weight: bold; text-shadow: 0 0 6px white, 0 0 14px white; }
-    .vip { color: orange; font-size: 17px; text-shadow: 0 0 6px orange, 0 0 15px orange; font-weight: bold; }
-    .red { color: red; font-weight: bold; text-shadow: 0 0 6px red, 0 0 15px red; }
+body { margin: 0; padding: 0; height: 100vh; background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed; background-size: cover; font-family: "Arial"; }
+.yazi-kutu { width: 100%; text-align: center; margin-top: 28px; }
+.anaYazi { font-size: 18px; color: white; font-weight: bold; text-shadow: 0 0 6px white, 0 0 14px white; }
+.vip { color: orange; font-size: 17px; text-shadow: 0 0 6px orange, 0 0 15px orange; font-weight: bold; }
+.red { color: red; font-weight: bold; text-shadow: 0 0 6px red, 0 0 15px red; }
 
-    .center-box { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; padding: 18px; background: rgba(0,0,0,0.78); backdrop-filter: blur(5px); border-radius: 12px; box-shadow: 0 0 22px rgba(0,0,0,0.65); text-align: center; color: white; }
-    .center-box h3 { margin: 0 0 12px 0; font-size: 22px; }
-    .center-box input { width: 100%; padding: 10px; margin: 6px 0; border-radius: 8px; border: none; outline: none; box-sizing: border-box; font-size: 15px; }
-    .center-box button { width: 100%; padding: 10px; margin-top: 8px; border: none; border-radius: 8px; background: #006CFF; color: white; font-weight: bold; cursor: pointer; font-size: 16px; }
-    .link-btn { margin-top: 8px; display: block; color: #ddd; cursor: pointer; text-decoration: underline; font-size: 14px; }
+.center-box { position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 280px; padding: 18px; background: rgba(0,0,0,0.78); backdrop-filter: blur(5px); border-radius: 12px; box-shadow: 0 0 22px rgba(0,0,0,0.65); text-align: center; color: white; }
+.center-box h3 { margin: 0 0 12px 0; font-size: 22px; }
+.center-box input { width: 100%; padding: 10px; margin: 6px 0; border-radius: 8px; border: none; outline: none; box-sizing: border-box; font-size: 15px; }
+.center-box button { width: 100%; padding: 10px; margin-top: 8px; border: none; border-radius: 8px; background: #006CFF; color: white; font-weight: bold; cursor: pointer; font-size: 16px; }
+.link-btn { margin-top: 8px; display: block; color: #ddd; cursor: pointer; text-decoration: underline; font-size: 14px; }
 
-    #durum { margin-top: 10px; font-size: 14px; min-height: 22px; color: #fff; }
+#durum { margin-top: 10px; font-size: 14px; min-height: 22px; color: #fff; }
 
-    #kilit { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 9999; display: none; pointer-events: auto; }
+#kilit { position: fixed; inset: 0; background: rgba(0,0,0,0.35); z-index: 9999; display: none; pointer-events: auto; }
 </style>
 </head>
+
 <body>
 
 <div id="kilit"></div>
@@ -86,7 +87,7 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
-const db   = getFirestore(app);
+const db = getFirestore(app);
 
 const durum = document.getElementById("durum");
 const kilit = document.getElementById("kilit");
@@ -94,12 +95,33 @@ const kilit = document.getElementById("kilit");
 function kilitle(){ kilit.style.display = "block"; }
 function ac(){ kilit.style.display = "none"; }
 
-/* =====================================================
-     KAYIT — TAKILMA SORUNU %100 ÇÖZÜLDÜ
-===================================================== */
-document.getElementById("regBtn").onclick = async () => {
+/* FORM GEÇİŞLERİ */
+document.getElementById("toLogin").onclick = () => formDegistir("login");
+document.getElementById("toReset").onclick = () => formDegistir("reset");
+document.getElementById("toRegisterFromLogin").onclick = () => formDegistir("register");
+document.getElementById("toResetFromLogin").onclick = () => formDegistir("reset");
+document.getElementById("toLoginFromReset").onclick = () => formDegistir("login");
 
-    const ad   = regName.value.trim();
+function formDegistir(target){
+    durum.textContent = "Lütfen bekleyiniz...";
+    kilitle();
+    setTimeout(() => {
+        document.getElementById("registerForm").style.display="none";
+        document.getElementById("loginForm").style.display="none";
+        document.getElementById("resetForm").style.display="none";
+
+        document.getElementById(target+"Form").style.display="block";
+
+        durum.textContent = "";
+        ac();
+    },3000);
+}
+
+/* ==========================  
+       KAYIT (BEKLEME YOK)
+   ========================== */
+document.getElementById("regBtn").onclick = async () => {
+    const ad = regName.value.trim();
     const mail = regMail.value.trim();
     const pass = regPass.value;
 
@@ -108,14 +130,9 @@ document.getElementById("regBtn").onclick = async () => {
         return;
     }
 
-    try {
+    try{
         kilitle();
-        durum.textContent = "Kayıt oluşturuluyor... lütfen bekleyin";
 
-        /* 5 SANİYE SADECE ANİMASYON */
-        await new Promise(r=>setTimeout(r,5000));
-
-        /* === Firebase isteği buradan SONRA başlıyor === */
         const cred = await createUserWithEmailAndPassword(auth, mail, pass);
 
         await setDoc(doc(db,"kullanicilar",cred.user.uid),{
@@ -125,9 +142,9 @@ document.getElementById("regBtn").onclick = async () => {
         });
 
         durum.textContent = "✔ Kayıt başarılı! Yönlendiriliyorsunuz...";
-        setTimeout(()=> location.href="ana_site.html", 2500);
+        setTimeout(() => location.href="ana_site.html", 1500);
 
-    } catch(err){
+    }catch(err){
         ac();
         durum.textContent = "Hata: " + err.message;
     }
@@ -143,17 +160,17 @@ document.getElementById("loginBtn").onclick = async () => {
         return;
     }
 
-    try {
+    try{
         kilitle();
         durum.textContent = "Giriş bilgileri kontrol ediliyor...";
-        await new Promise(r=>setTimeout(r,3000));
+        await new Promise(r => setTimeout(r,3000));
 
         await signInWithEmailAndPassword(auth, mail, pass);
 
         durum.textContent = "✔ Giriş başarılı! Yönlendiriliyorsunuz...";
-        setTimeout(()=> location.href="ana_site.html", 3000);
+        setTimeout(()=> location.href="ana_site.html",3000);
 
-    } catch(err){
+    }catch(err){
         ac();
         durum.textContent = "Hata: " + err.message;
     }
@@ -162,6 +179,7 @@ document.getElementById("loginBtn").onclick = async () => {
 /* RESET */
 document.getElementById("resetBtn").onclick = async () => {
     const mail = resetMail.value.trim();
+
     if(!mail){
         durum.textContent = "Lütfen e-posta girin.";
         return;
@@ -170,7 +188,7 @@ document.getElementById("resetBtn").onclick = async () => {
     try{
         kilitle();
         durum.textContent = "İstek hazırlanıyor...";
-        await new Promise(r=>setTimeout(r,3000));
+        await new Promise(r => setTimeout(r,3000));
 
         await sendPasswordResetEmail(auth, mail);
 
@@ -183,7 +201,6 @@ document.getElementById("resetBtn").onclick = async () => {
 };
 </script>
 
-<!-- MÜZİK -->
 <button id="musicBtn" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; font-size: 18px; border: none; border-radius: 10px; background: rgba(0,0,0,0.6); color: white; cursor: pointer;">▶ Oynat</button>
 
 <audio id="bgm">
@@ -192,7 +209,7 @@ document.getElementById("resetBtn").onclick = async () => {
 
 <script>
 const audio = document.getElementById("bgm");
-const btn   = document.getElementById("musicBtn");
+const btn = document.getElementById("musicBtn");
 
 btn.onclick = () => {
     if(audio.paused){
