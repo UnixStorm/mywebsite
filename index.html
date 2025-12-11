@@ -87,14 +87,6 @@
         min-height: 22px;
         color: #fff;
     }
-    #blocker {
-        position: fixed;
-        inset: 0;
-        background: rgba(0,0,0,0.0);
-        z-index: 9999;
-        display: none;
-        pointer-events: none;
-    }
 </style>
 </head>
 <body>
@@ -142,8 +134,6 @@
 
 </div>
 
-<div id="blocker"></div>
-
 <script type="module">
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
@@ -179,33 +169,24 @@ const auth = getAuth(app);
 const db   = getFirestore(app);
 
 const durum = document.getElementById("durum");
-const blocker = document.getElementById("blocker");
 
-function blockUI(){ blocker.style.display="block"; blocker.style.pointerEvents="auto"; }
-function unblockUI(){ blocker.style.display="none"; blocker.style.pointerEvents="none"; }
+// Form geçişleri
+document.getElementById("toLogin").onclick = ()=> formDegistir("login");
+document.getElementById("toReset").onclick = ()=> formDegistir("reset");
+document.getElementById("toRegisterFromLogin").onclick = ()=> formDegistir("register");
+document.getElementById("toResetFromLogin").onclick = ()=> formDegistir("reset");
+document.getElementById("toLoginFromReset").onclick = ()=> formDegistir("login");
 
-async function formDegistir(target){
-  durum.textContent = "Lütfen bekleyiniz...";
-  blockUI();
-  await new Promise(r=>setTimeout(r,1500));
-
-  document.getElementById("registerForm").style.display="none";
-  document.getElementById("loginForm").style.display="none";
-  document.getElementById("resetForm").style.display="none";
-  document.getElementById(target+"Form").style.display="block";
-
-  durum.textContent="";
-  unblockUI();
+function formDegistir(target){
+    document.getElementById("registerForm").style.display="none";
+    document.getElementById("loginForm").style.display="none";
+    document.getElementById("resetForm").style.display="none";
+    document.getElementById(target+"Form").style.display="block";
+    durum.textContent = "";
 }
 
-document.getElementById("toLogin").onclick = ()=> formDegistir('login');
-document.getElementById("toReset").onclick = ()=> formDegistir('reset');
-document.getElementById("toRegisterFromLogin").onclick = ()=> formDegistir('register');
-document.getElementById("toResetFromLogin").onclick = ()=> formDegistir('reset');
-document.getElementById("toLoginFromReset").onclick = ()=> formDegistir('login');
-
-
-document.getElementById("regBtn").onclick = async function(){
+// KAYIT
+document.getElementById("regBtn").onclick = async () => {
 
   const ad   = regName.value.trim();
   const mail = regMail.value.trim();
@@ -217,21 +198,16 @@ document.getElementById("regBtn").onclick = async function(){
   }
 
   try{
-    blockUI();
     durum.textContent="Kontrol ediliyor...";
-    await new Promise(r=>setTimeout(r,1500));
+    await new Promise(r=>setTimeout(r,200));
 
     const q = query(collection(db,"kullanicilar"), where("kullaniciAdi","==",ad));
     const sp = await getDocs(q);
 
     if(!sp.empty){
       durum.textContent="⚠ Bu kullanıcı adı zaten var!";
-      unblockUI();
       return;
     }
-
-    // ❗ KAYIT YAPILIYOR YAZISI BURADAN SİLİNDİ
-    // durum.textContent="Kayıt yapılıyor...";  ← SİLİNDİ
 
     const cred = await createUserWithEmailAndPassword(auth,mail,pass);
 
@@ -241,20 +217,19 @@ document.getElementById("regBtn").onclick = async function(){
       createdAt: new Date().toISOString()
     });
 
-    durum.textContent="✔ Hesap oluşturuldu, yönlendiriliyorsunuz...";
-    await new Promise(r=>setTimeout(r,2000));
+    durum.textContent="✔ Kayıt başarılı! Yönlendiriliyor...";
+    await new Promise(r=>setTimeout(r,800));
     location.href="ana_site.html";
 
   }catch(e){
     durum.textContent="Hata: "+e.message;
-    unblockUI();
   }
 
 };
 
-
-document.getElementById("loginBtn").onclick = async function(){
-
+// GİRİŞ
+document.getElementById("loginBtn").onclick = async ()=>{
+  
   const mail = loginMail.value.trim();
   const pass = loginPass.value;
 
@@ -264,23 +239,21 @@ document.getElementById("loginBtn").onclick = async function(){
   }
 
   try{
-    blockUI();
     durum.textContent="Giriş yapılıyor...";
     await signInWithEmailAndPassword(auth,mail,pass);
 
-    durum.textContent="✔ Giriş başarılı!";
-    await new Promise(r=>setTimeout(r,1500));
+    durum.textContent="✔ Başarılı!";
+    await new Promise(r=>setTimeout(r,800));
     location.href="ana_site.html";
 
   }catch(e){
     durum.textContent="Hata: "+e.message;
-    unblockUI();
   }
 
 };
 
-
-document.getElementById("resetBtn").onclick = async function(){
+// ŞİFRE RESET
+document.getElementById("resetBtn").onclick = async ()=>{
 
   const mail = resetMail.value.trim();
 
@@ -290,32 +263,25 @@ document.getElementById("resetBtn").onclick = async function(){
   }
 
   try{
-    blockUI();
     durum.textContent="Kontrol ediliyor...";
-    await new Promise(r=>setTimeout(r,1500));
+    await new Promise(r=>setTimeout(r,200));
 
     const q = query(collection(db,"kullanicilar"), where("email","==",mail));
     const sp = await getDocs(q);
 
     if(sp.empty){
-      durum.textContent="Bu e-posta sisteme kayıtlı değil.";
-      unblockUI();
+      durum.textContent="Bu e-posta kayıtlı değil.";
       return;
     }
 
     await sendPasswordResetEmail(auth,mail);
-    durum.textContent="✔ Sıfırlama linki gönderildi!";
-    await new Promise(r=>setTimeout(r,2000));
-    unblockUI();
+    durum.textContent="✔ Link gönderildi!";
 
   }catch(e){
     durum.textContent="Hata: "+e.message;
-    unblockUI();
   }
 
 };
-
-unblockUI();
 
 </script>
 
@@ -352,4 +318,4 @@ btn.onclick = () => {
 </script>
 
 </body>
-    </html>
+</html>
