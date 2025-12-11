@@ -189,18 +189,18 @@ document.getElementById("regBtn").onclick = async function(){
   }
 
   try{
-    durum.textContent="Kontrol ediliyor...";
+    durum.textContent="Bilgiler kontrol ediliyor...";
     await new Promise(r=>setTimeout(r,1000));
 
     const q = query(collection(db,"kullanicilar"), where("kullaniciAdi","==",ad));
     const sp = await getDocs(q);
 
     if(!sp.empty){
-      durum.textContent="Kullanıcı adı kullanılıyor!";
+      durum.textContent="❌ Bu kullanıcı adı zaten var!";
       return;
     }
 
-    durum.textContent="Kayıt yapılıyor...";
+    durum.textContent="Kayıt oluşturuluyor...";
     await new Promise(r=>setTimeout(r,1000));
 
     const base64Foto = await toBase64(foto);
@@ -214,8 +214,9 @@ document.getElementById("regBtn").onclick = async function(){
       createdAt: new Date().toISOString()
     });
 
-    durum.textContent="✔ Başarılı! Yönlendiriliyor...";
+    durum.textContent="✔ Kayıt başarılı, yönlendiriliyorsunuz...";
     await new Promise(r=>setTimeout(r,2000));
+
     location.href="ana_site.html";
 
   }catch(e){
@@ -245,38 +246,6 @@ document.getElementById("resetBtn").onclick = async function(){
   }
 };
 
-</script>
-
-<button id="musicBtn" style="
-position: fixed;
-bottom: 20px;
-right: 20px;
-padding: 12px 20px;
-font-size: 18px;
-border: none;
-border-radius: 10px;
-background: rgba(0,0,0,0.6);
-color: white;
-cursor: pointer;
-">▶ Oynat</button>
-
-<audio id="bgm">
-    <source src="music.m4a" type="audio/mp4">
-</audio>
-
-<script>
-const audio = document.getElementById("bgm");
-const btn   = document.getElementById("musicBtn");
-
-btn.onclick = () => {
-    if(audio.paused){
-        audio.play().catch(()=>{});
-        btn.textContent = "⏸ Durdur";
-    } else {
-        audio.pause();
-        btn.textContent = "▶ Oynat";
-    }
-};
 </script>
 
 </body>
