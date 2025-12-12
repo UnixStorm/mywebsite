@@ -82,6 +82,8 @@ body {
 <div id="kilit"></div>
 
 <div class="center-box">
+
+    <!-- KAYIT FORMU -->
     <div id="registerForm">
         <h3>Kayıt Ol</h3>
         <input id="regName" placeholder="Kullanıcı adı">
@@ -93,6 +95,7 @@ body {
         <span class="link-btn" id="toReset">Şifremi unuttum</span>
     </div>
 
+    <!-- GİRİŞ FORMU -->
     <div id="loginForm" style="display:none;">
         <h3>Giriş Yap</h3>
         <input id="loginMail" type="email" placeholder="E-posta">
@@ -102,16 +105,33 @@ body {
         <span class="link-btn" id="toReset2">Şifremi unuttum</span>
     </div>
 
+    <!-- ŞİFREMİ UNUTTUM - KOD GÖNDER -->
     <div id="resetForm" style="display:none;">
         <h3>Şifre Sıfırla</h3>
         <input id="resetMail" type="email" placeholder="E-posta">
-        <button id="resetBtn">Sıfırlama linki gönder</button>
+        <button id="resetBtn">Kodu Gönder</button>
         <span class="link-btn" id="toLogin2">Girişe dön</span>
+    </div>
+
+    <!-- KOD DOĞRULAMA -->
+    <div id="resetCodeForm" style="display:none;">
+        <h3>Kod Doğrula</h3>
+        <input id="resetCode" placeholder="E-postaya gelen kod">
+        <button id="resetCodeBtn">Doğrula</button>
+    </div>
+
+    <!-- YENİ ŞİFRE BELİRLEME -->
+    <div id="newPassForm" style="display:none;">
+        <h3>Yeni Şifrenizi Girin</h3>
+        <input id="newPass" type="password" placeholder="Yeni şifre">
+        <button id="newPassBtn">Şifreyi Kaydet</button>
     </div>
 
     <div id="durum"></div>
 </div>
 
+
+<!-- MÜZİK -->
 <button id="musicBtn" style="
     position: fixed;
     bottom: 20px;
@@ -130,6 +150,7 @@ body {
     <source src="music.m4a" type="audio/mp4">
 </audio>
 
+
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
 emailjs.init("dCQownkzENRARtTC_");
@@ -140,25 +161,26 @@ const kilit = document.getElementById("kilit");
 function kilitle(){ kilit.style.display="block"; }
 function ac(){ kilit.style.display="none"; }
 
-function formDegistir(gosterilecek){
-    durum.textContent = "geçiş yapılıyor Lütfen bekleyiniz...";
-    kilitle();
-    setTimeout(()=>{
-        document.getElementById("registerForm").style.display="none";
-        document.getElementById("loginForm").style.display="none";
-        document.getElementById("resetForm").style.display="none";
-        document.getElementById(gosterilecek).style.display="block";
-        durum.textContent = "";
-        ac();
-    }, 3000);
+function formGizle(){
+    ["registerForm","loginForm","resetForm","resetCodeForm","newPassForm"]
+    .forEach(id => document.getElementById(id).style.display="none");
 }
 
-toLogin.onclick = ()=> formDegistir("loginForm");
-toReset.onclick = ()=> formDegistir("resetForm");
-toRegister.onclick = ()=> formDegistir("registerForm");
-toReset2.onclick = ()=> formDegistir("resetForm");
-toLogin2.onclick = ()=> formDegistir("loginForm");
+function formAc(id){
+    formGizle();
+    document.getElementById(id).style.display = "block";
+}
 
+toLogin.onclick = ()=> formAc("loginForm");
+toRegister.onclick = ()=> formAc("registerForm");
+toReset.onclick = ()=> formAc("resetForm");
+toReset2.onclick = ()=> formAc("resetForm");
+toLogin2.onclick = ()=> formAc("loginForm");
+
+
+/* ————————————————
+    KAYIT KODU
+——————————————— */
 let kod = null;
 
 function emailValid(e){
@@ -183,21 +205,19 @@ regBtn.onclick = async()=>{
 
     if(!kod){
         kod = Math.floor(100000 + Math.random()*900000);
-
-        // 📌 ZAMAN EKLENDİ — tam şu anki tarih & saat
         const tarihSaat = new Date().toLocaleString("tr-TR");
 
         kilitle();
-        durum.textContent = "kullanıcı mailine kod gönderiliyor...";
+        durum.textContent = "Mailine doğrulama kodu gönderiliyor...";
 
         await emailjs.send("service_vbm28pq", "template_507m11j", {
             kod: kod,
             mail: mail,
-            zaman: tarihSaat   // ⚡ ZAMAN BURADA GİDİYOR
+            zaman: tarihSaat
         });
 
         ac();
-        durum.textContent = "Lütfen e-postanıza gelen 6 haneli kodu giriniz!";
+        durum.textContent = "E-postaya gelen kodu giriniz.";
         return;
     }
 
@@ -206,25 +226,92 @@ regBtn.onclick = async()=>{
         return;
     }
 
-    durum.textContent = "✔ Kayıt başarılı yönlendiriliyorsunuz!";
     localStorage.setItem("userMail", mail);
+    localStorage.setItem("userPass", pass);
 
+    durum.textContent = "✔ Kayıt başarılı!";
     setTimeout(()=> location.href="ana_site.html", 1500);
 };
 
+
+/* ————————————————
+    ŞİFRE SIFIRLAMA
+——————————————— */
+let resetKod = null;
+let resetMailKayit = null;
+
+resetBtn.onclick = async()=>{
+
+    const mail = resetMail.value.trim();
+
+    if(!emailValid(mail)){
+        durum.textContent = "Geçerli bir mail girin.";
+        return;
+    }
+
+    resetKod = Math.floor(100000 + Math.random()*900000);
+    resetMailKayit = mail;
+
+    const tarihSaat = new Date().toLocaleString("tr-TR");
+
+    kilitle();
+    durum.textContent = "Kod gönderiliyor...";
+
+    await emailjs.send("service_vbm28pq", "template_507m11j", {
+        kod: resetKod,
+        mail: mail,
+        zaman: tarihSaat
+    });
+
+    ac();
+    durum.textContent = "Mailine gelen kodu giriniz.";
+    formAc("resetCodeForm");
+};
+
+resetCodeBtn.onclick = ()=>{
+    if(resetCode.value.trim() != resetKod){
+        durum.textContent = "Kod yanlış!";
+        return;
+    }
+
+    durum.textContent = "Kod doğrulandı. Yeni şifrenizi giriniz.";
+    formAc("newPassForm");
+};
+
+newPassBtn.onclick = ()=>{
+    const newP = newPass.value.trim();
+
+    if(!newP){
+        durum.textContent = "Şifre boş olamaz.";
+        return;
+    }
+
+    localStorage.setItem("userPass", newP);
+    durum.textContent = "✔ Şifre yenilendi!";
+
+    setTimeout(()=> formAc("loginForm"), 1500);
+};
+
+
+/* ————————————————
+    GİRİŞ
+——————————————— */
 loginBtn.onclick = ()=>{
-    if(loginMail.value.trim() === localStorage.getItem("userMail")){
-        durum.textContent="✔ Giriş başarılı yönlendiriliyorsunuz!";
+    if(
+        loginMail.value.trim() === localStorage.getItem("userMail") &&
+        loginPass.value.trim() === localStorage.getItem("userPass")
+    ){
+        durum.textContent = "✔ Giriş başarılı!";
         setTimeout(()=> location.href="ana_site.html", 1500);
     } else {
-        durum.textContent="Bilgiler yanlış.";
+        durum.textContent = "Bilgiler yanlış.";
     }
 };
 
-resetBtn.onclick = ()=>{
-    durum.textContent = "✔ Sıfırlama linki gönderildi!";
-};
 
+/* ————————————————
+    MÜZİK
+——————————————— */
 const audio = document.getElementById("bgm");
 const btn = document.getElementById("musicBtn");
 
@@ -240,4 +327,4 @@ btn.onclick = ()=>{
 </script>
 
 </body>
-</html>
+    </html>
