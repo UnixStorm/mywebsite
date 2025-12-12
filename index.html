@@ -177,8 +177,9 @@ function formGizle(){
 function formAc(id){ formGizle(); document.getElementById(id).style.display="block"; }
 
 function gecisYap(id){
+    // 3s bekleme isteğini sen belirtmiştin; minimal tutuyorum
     kilitAc();
-    setTimeout(()=>{ formAc(id); kilitKapat(); },1000);
+    setTimeout(()=>{ formAc(id); kilitKapat(); },3000);
 }
 
 function emailValid(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
@@ -199,8 +200,6 @@ document.getElementById("toLogin2").onclick = ()=>gecisYap("loginForm");
 let kod = null;
 let resetKod = null;
 let resetMailKayit = null;
-
-const dbRef = p => ref(db,p);
 
 // REGISTER
 document.getElementById("regBtn").onclick = async()=>{
@@ -233,7 +232,7 @@ document.getElementById("regBtn").onclick = async()=>{
         }
 
         const hashed = await sha256hex(pass);
-        await set(dbRef(`users/${key}`), {
+        await set(ref(db, `users/${key}`), {
             kullaniciAdi: ad,
             email: mail,
             pass: hashed,
@@ -245,9 +244,12 @@ document.getElementById("regBtn").onclick = async()=>{
         localStorage.setItem("sessionUser", key);
 
         durum.textContent="Kayıt başarılı!";
+        kod = null;
         kilitKapat();
-        setTimeout(()=>location.href="ana_site.html", 800);
+        // küçük bir gecikme verip overlay'i kapattıktan sonra yönlendir
+        setTimeout(()=> { location.href="ana_site.html"; }, 500);
     }catch(e){
+        console.error(e);
         durum.textContent="Hata!";
         kilitKapat();
     }
@@ -262,7 +264,8 @@ document.getElementById("loginBtn").onclick = async()=>{
         if(!mail || !pass){ durum.textContent="Boş bırakılamaz."; kilitKapat(); return;}
 
         const key = userKeyFromEmail(mail);
-        const snap = await get(child(dbRef(),`users/${key}`));
+        // --- DÜZELTME: child(dbRef(), ...) yerine doğrudan ref(db, path) kullan ---
+        const snap = await get(ref(db, `users/${key}`));
 
         if(!snap.exists()){ durum.textContent="Kullanıcı yok."; kilitKapat(); return;}
 
@@ -276,12 +279,13 @@ document.getElementById("loginBtn").onclick = async()=>{
 
             durum.textContent="Başarılı!";
             kilitKapat();
-            setTimeout(()=>location.href="ana_site.html", 800);
+            setTimeout(()=> { location.href="ana_site.html"; }, 500);
         }else{
             durum.textContent="Yanlış bilgi.";
             kilitKapat();
         }
     }catch(e){
+        console.error(e);
         durum.textContent="Hata!";
         kilitKapat();
     }
@@ -295,7 +299,7 @@ document.getElementById("resetBtn").onclick = async()=>{
         if(!emailValid(mail)){ durum.textContent="Eposta yanlış."; kilitKapat(); return; }
 
         const key = userKeyFromEmail(mail);
-        const snap = await get(child(dbRef(),`users/${key}`));
+        const snap = await get(ref(db, `users/${key}`));
         if(!snap.exists()){ durum.textContent="Kullanıcı yok."; kilitKapat(); return; }
 
         resetKod = Math.floor(100000+Math.random()*900000);
@@ -307,6 +311,7 @@ document.getElementById("resetBtn").onclick = async()=>{
         kilitKapat();
         gecisYap("resetCodeForm");
     }catch(e){
+        console.error(e);
         durum.textContent="Hata!";
         kilitKapat();
     }
@@ -322,7 +327,7 @@ document.getElementById("resetCodeBtn").onclick = ()=>{
     gecisYap("newPassForm");
 };
 
-// RESET NEW PASS (DÜZELTİLMİŞ KISIM BURASI)
+// RESET NEW PASS
 document.getElementById("newPassBtn").onclick = async()=>{
     kilitAc();
     try{
@@ -331,8 +336,8 @@ document.getElementById("newPassBtn").onclick = async()=>{
         const key = userKeyFromEmail(resetMailKayit);
         const hashed = await sha256hex(yeni);
 
-        /* 🔧 ---- BURASI DÜZELTİLDİ ---- */
-        await update(dbRef(`users/${key}`), { pass: hashed });
+        // update password safely
+        await update(ref(db, `users/${key}`), { pass: hashed });
 
         if(localStorage.getItem("userMail")===resetMailKayit){
             localStorage.setItem("userPass", hashed);
@@ -342,6 +347,7 @@ document.getElementById("newPassBtn").onclick = async()=>{
         kilitKapat();
         setTimeout(()=>gecisYap("loginForm"),800);
     }catch(e){
+        console.error(e);
         durum.textContent="Hata!";
         kilitKapat();
     }
