@@ -1,13 +1,15 @@
 <script>
-    // Kullanıcı giriş yaptı mı kontrol et
-    const mail = localStorage.getItem("userMail");
-    const pass = localStorage.getItem("userPass");
+// Giriş kontrol
+const mail = localStorage.getItem("userMail");
+const pass = localStorage.getItem("userPass");
 
-    // Eğer giriş yapılmadıysa index.html'e geri gönder
-    if(!mail || !pass){
-        window.location.href = "index.html";
-    }
+// Giriş yoksa geri gönder
+if(!mail || !pass){
+    window.location.href = "index.html";
+}
 </script>
+
+
 <video autoplay muted loop playsinline id="bgVideo">
     <source src="video.mp4" type="video/mp4">
 </video>
@@ -20,6 +22,6 @@
     width: 100%;
     height: 100%;
     object-fit: cover;
-    z-index: -1; /* Arkaya atar */
+    z-index: -1;
 }
-</style>
+    </style>
