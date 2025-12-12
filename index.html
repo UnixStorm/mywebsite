@@ -32,28 +32,12 @@ body{
     display:block;margin-top:8px;text-decoration:underline;
     color:#ddd;cursor:pointer;
 }
-#durum{margin-top:10px;min-height:22px;color:white;}
-
-/* 🔥 GEÇİŞ BEKLEME PENCERESİ 🔥 */
-#gecisBekleme{
-    position:fixed;
-    top:50%;
-    left:50%;
-    transform:translate(-50%, -50%);
-    background:rgba(0,0,0,0.85);
-    padding:25px 35px;
-    border-radius:12px;
-    color:white;
-    font-size:18px;
-    text-align:center;
-    z-index:99999;
-    display:none;
-}
-
-/* Arka plan kilidi */
-#kilit{
-    position:fixed;inset:0;background:rgba(0,0,0,0.35);
-    z-index:9999;display:none;
+#durum{
+    margin-top:10px;
+    min-height:22px;
+    color:#ffebeb;
+    font-weight:bold;
+    font-size:14px;
 }
 </style>
 </head>
@@ -64,11 +48,6 @@ body{
     <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 (𝗦𝗔𝗛𝗢 𝗥𝗘𝗜𝗦) ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>
     <div><span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span><span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span></div>
 </div>
-
-<div id="kilit"></div>
-
-<!-- 🔥 GEÇİŞ BEKLEME PENCERESİ 🔥 -->
-<div id="gecisBekleme">~ Geçiş yapılıyor<br>Lütfen bekleyiniz...</div>
 
 <div class="center-box">
 
@@ -136,18 +115,13 @@ body{
 emailjs.init("dCQownkzENRARtTC_");
 
 const durum = document.getElementById("durum");
-const kilit = document.getElementById("kilit");
-const bekleme = document.getElementById("gecisBekleme");
 
-/* 🔥 FORM GEÇİŞ FONKSİYONU (3 saniye + kutu + kilit) 🔥 */
+/* ⭐ FORM GEÇİŞ – Durum mesajı ile (3 saniye) ⭐ */
 function gecisYap(id){
-    kilit.style.display = "block";
-    bekleme.style.display = "block";
-
+    durum.textContent = "Geçiş yapılıyor bekleyiniz...";
     setTimeout(()=>{
-        bekleme.style.display = "none";
-        kilit.style.display = "none";
         formAc(id);
+        durum.textContent = "";
     }, 3000);
 }
 
@@ -155,9 +129,12 @@ function formGizle(){
     ["registerForm","loginForm","resetForm","resetCodeForm","newPassForm"]
     .forEach(id => document.getElementById(id).style.display="none");
 }
-function formAc(id){formGizle();document.getElementById(id).style.display="block";}
+function formAc(id){
+    formGizle();
+    document.getElementById(id).style.display="block";
+}
 
-/* 🔥 GEÇİŞ BUTONLARI ARTIK GECİS YAPIYOR 🔥 */
+/* GEÇİŞ BUTONLARI */
 toLogin.onclick = ()=> gecisYap("loginForm");
 toRegister.onclick = ()=> gecisYap("registerForm");
 toReset.onclick = ()=> gecisYap("resetForm");
@@ -166,7 +143,6 @@ toLogin2.onclick = ()=> gecisYap("loginForm");
 
 /* ------------------ KAYIT ------------------ */
 let kod = null;
-
 function emailValid(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);}
 
 regBtn.onclick = async()=>{
@@ -187,30 +163,26 @@ regBtn.onclick = async()=>{
 
     if(!kod){
         kod = Math.floor(100000 + Math.random()*900000);
-
-        kilit.style.display = "block";
         await emailjs.send("service_vbm28pq","template_507m11j",{
             kod:kod, mail:mail, zaman:new Date().toLocaleString("tr-TR")
         });
-        kilit.style.display = "none";
-
-        durum.textContent = "Mailine gelen kodu gir.";
+        durum.textContent = "lütfen E-Postanıza gelen 6 haneli kodu giriniz.";
         return;
     }
 
     if(girKod != kod){
-        durum.textContent = "Kod yanlış!";
+        durum.textContent = "Kod yanlış girildi!";
         return;
     }
 
     localStorage.setItem("userMail", mail);
     localStorage.setItem("userPass", pass);
 
-    durum.textContent = "Kayıt başarılı!";
+    durum.textContent = "Kayıt başarılı yönlendiriliyorsunuz!";
     setTimeout(()=> location.href="ana_site.html", 1500);
 };
 
-/* ------------------ ŞİFRE SIFIRLA ------------------ */
+/* ------------------ ŞİFRE SIFIRLAMA ------------------ */
 let resetKod = null;
 let resetMailKayit = null;
 
@@ -225,11 +197,9 @@ resetBtn.onclick = async()=>{
     resetKod = Math.floor(100000 + Math.random()*900000);
     resetMailKayit = mail;
 
-    kilit.style.display = "block";
     await emailjs.send("service_vbm28pq","template_507m11j",{
         kod:resetKod, mail:mail, zaman:new Date().toLocaleString("tr-TR")
     });
-    kilit.style.display = "none";
 
     durum.textContent = "Kod gönderildi.";
     gecisYap("resetCodeForm");
@@ -237,7 +207,7 @@ resetBtn.onclick = async()=>{
 
 resetCodeBtn.onclick = ()=>{
     if(resetCode.value.trim() != resetKod){
-        durum.textContent = "Kod yanlış!";
+        durum.textContent = "Kod yanlış girildi!";
         return;
     }
     durum.textContent = "Kod doğru girildi.";
@@ -265,7 +235,7 @@ loginBtn.onclick = ()=>{
         durum.textContent = "Giriş başarılı yönlendiriliyorsunuz!";
         setTimeout(()=> location.href="ana_site.html", 1200);
     } else {
-        durum.textContent = "Bilgiler yanlış girildi.";
+        durum.textContent = "Bilgiler yanlış girildi!";
     }
 };
 
@@ -280,4 +250,4 @@ btn.onclick = ()=>{
 </script>
 
 </body>
-    </html>
+</html>
