@@ -1,195 +1,321 @@
-<!DOCTYPE html>
-<html lang="tr">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UNIXSTORM</title>
+<!DOCTYPE html>  
+<html lang="tr">  
+<head>  
+<meta charset="UTF-8">  
+<meta name="viewport" content="width=device-width, initial-scale=1.0">  
+<title>UNIXSTORM</title>  
 
-<style>
-body{
-    margin:0;padding:0;height:100vh;
-    background:url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
-    background-size:cover;font-family:Arial;
+<style>  
+body{  
+    margin:0;padding:0;height:100vh;  
+    background:url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;  
+    background-size:cover;font-family:Arial;  
+}  
+.yazi-kutu{text-align:center;margin-top:28px;}  
+.anaYazi{font-size:18px;color:white;font-weight:bold;text-shadow:0 0 6px white;}  
+.vip{color:orange;font-weight:bold;text-shadow:0 0 6px orange;}  
+.red{color:red;font-weight:bold;text-shadow:0 0 6px red;}  
+
+.center-box{  
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);  
+    width:280px;padding:20px;background:rgba(0,0,0,0.78);  
+    border-radius:12px;backdrop-filter:blur(5px);color:white;text-align:center;  
+}  
+.center-box input{  
+    width:100%;padding:10px;margin:6px 0;border:none;border-radius:8px;outline:none;  
+}  
+.center-box button{  
+    width:100%;padding:10px;margin-top:8px;border:none;border-radius:8px;  
+    background:#006CFF;font-weight:bold;color:white;cursor:pointer;  
+}  
+.link-btn{  
+    display:block;margin-top:8px;text-decoration:underline;  
+    color:#ddd;cursor:pointer;  
+}  
+#durum{  
+    margin-top:10px;min-height:22px;color:#ffebeb;font-weight:bold;font-size:14px;  
 }
-.center{
-    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-    width:280px;background:rgba(0,0,0,0.78);
-    padding:20px;border-radius:12px;color:white;text-align:center;
+
+/* 🔥 OVERLAY (EKRAN KİLİTLEME) */
+#overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0,0,0,0.55); /* hafif siyah */
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 99999;
 }
-input{width:100%;padding:10px;margin:6px 0;border:none;border-radius:8px;}
-button{
-    width:100%;padding:10px;margin-top:8px;
-    background:#006CFF;border:none;border-radius:8px;color:white;font-weight:bold;
+
+/* Kutudaki yükleme */
+.loaderBox {
+    background: rgba(0,0,0,0.80);
+    padding: 20px 30px;
+    border-radius: 12px;
+    text-align:center;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    box-shadow:0 0 10px black;
 }
-.link{margin-top:8px;color:#ccc;text-decoration:underline;cursor:pointer;}
 
-#overlay{
-    position:fixed;top:0;left:0;width:100%;height:100%;
-    background:rgba(0,0,0,0.6);display:none;z-index:9999;
-    justify-content:center;align-items:center;color:white;font-size:20px;
+.loader {
+    border: 4px solid #fff;
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: load 1s linear infinite;
+    margin: 0 auto 15px auto;
 }
-</style>
-</head>
-<body>
 
-<!-- LOADING -->
-<div id="overlay">Lütfen bekleyiniz...</div>
+@keyframes load {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+</style>  
+</head>  
 
-<div class="center">
+<body>  
 
-<!-- KAYIT FORMU -->
-<div id="registerBox">
-<h3>Kayıt Ol</h3>
-<input id="regName" placeholder="Kullanıcı adı">
-<input id="regMail" placeholder="E-posta">
-<input id="regPass" type="password" placeholder="Şifre">
-<input id="regCode" placeholder="E-posta kodu">
-<button id="regBtn">Kayıt Ol</button>
-<div class="link" id="goLogin">Giriş Yap</div>
-<div id="status"></div>
+<!-- 🔥 OVERLAY -->
+<div id="overlay">
+    <div class="loaderBox">
+        <div class="loader"></div>
+        Lütfen bekleyiniz...
+    </div>
 </div>
 
-<!-- GİRİŞ FORMU -->
-<div id="loginBox" style="display:none;">
-<h3>Giriş Yap</h3>
-<input id="logMail" placeholder="E-posta">
-<input id="logPass" type="password" placeholder="Şifre">
-<button id="logBtn">Giriş Yap</button>
-<div class="link" id="goRegister">Kayıt Ol</div>
-<div id="status2"></div>
-</div>
+<div class="yazi-kutu">  
+    <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 (𝗦𝗔𝗛𝗢 𝗥𝗘𝗜𝗦) ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>  
+    <div><span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span><span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span></div>  
+</div>  
 
-</div>
+<div class="center-box">  
 
-<!-- SHA-256 -->
-<script>
-async function sha256(text){
-    const msg = new TextEncoder().encode(text);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", msg);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b=>b.toString(16).padStart(2,"0")).join("");
-}
-</script>
+<!-- KAYIT -->  
+<div id="registerForm">  
+    <h3>Kayıt Ol</h3>  
+    <input id="regName" placeholder="Kullanıcı adı">  
+    <input id="regMail" type="email" placeholder="E-posta">  
+    <input id="regPass" type="password" placeholder="Şifre">  
+    <input id="regCode" placeholder="E-postaya gelen kod">  
+    <button id="regBtn">Kayıt Ol</button>  
+    <span class="link-btn" id="toLogin">Giriş yapın</span>  
+    <span class="link-btn" id="toReset">Şifremi unuttum</span>  
+</div>  
 
-<!-- EmailJS -->
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-<script>emailjs.init("dCQownkzENRARtTC_");</script>
+<!-- GİRİŞ -->  
+<div id="loginForm" style="display:none;">  
+    <h3>Giriş Yap</h3>  
+    <input id="loginMail" type="email" placeholder="E-posta">  
+    <input id="loginPass" type="password" placeholder="Şifre">  
+    <button id="loginBtn">Giriş Yap</button>  
+    <span class="link-btn" id="toRegister">Kayıt Ol</span>  
+    <span class="link-btn" id="toReset2">Şifremi unuttum</span>  
+</div>  
 
-<!-- Firebase -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-app.js";
-import { getDatabase, ref, set, get, child } from "https://www.gstatic.com/firebasejs/10.4.0/firebase-database.js";
+<!-- SIFIRLAMA -->  
+<div id="resetForm" style="display:none;">  
+    <h3>Şifreyi Sıfırla</h3>  
+    <input id="resetMail" type="email" placeholder="E-posta">  
+    <button id="resetBtn">Kodu Gönder</button>  
+    <span class="link-btn" id="toLogin2">Girişe dön</span>  
+</div>  
 
-const config = {
-    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
-    authDomain: "unixstorm-9dff8.firebaseapp.com",
-    projectId: "unixstorm-9dff8",
-    storageBucket: "unixstorm-9dff8.firebasestorage.app",
-    messagingSenderId: "787509821542",
-    appId: "1:787509821542:web:2b54b5bafee1207edeada7",
-    measurementId: "G-BQYS1575QZ",
-    databaseURL: "https://unixstorm-9dff8-default-rtdb.firebaseio.com/"
-};
+<!-- KOD -->  
+<div id="resetCodeForm" style="display:none;">  
+    <h3>Kod Doğrula</h3>  
+    <input id="resetCode" placeholder="Kod">  
+    <button id="resetCodeBtn">Doğrula</button>  
+</div>  
 
-const app = initializeApp(config);
-const db  = getDatabase(app);
+<!-- YENİ ŞİFRE -->  
+<div id="newPassForm" style="display:none;">  
+    <h3>Yeni Şifrenizi Girin</h3>  
+    <input id="newPass" type="password" placeholder="Yeni şifre">  
+    <button id="newPassBtn">Kaydet</button>  
+</div>  
 
-/* ELEMENTLER */
+<div id="durum"></div>
+</div>  
+
+<!-- MÜZİK -->  
+<button id="musicBtn" style="  
+position:fixed;bottom:20px;right:20px;padding:12px 20px;  
+font-size:18px;border:none;border-radius:10px;  
+background:rgba(0,0,0,0.6);color:white;cursor:pointer;">
+▶ Oynat
+</button>
+
+<audio id="bgm">  
+    <source src="music.m4a" type="audio/mp4">  
+</audio>  
+
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>  
+
+<script>  
+emailjs.init("dCQownkzENRARtTC_");  
+
+const durum = document.getElementById("durum");
 const overlay = document.getElementById("overlay");
-const regBox  = document.getElementById("registerBox");
-const logBox  = document.getElementById("loginBox");
-const status  = document.getElementById("status");
-const status2 = document.getElementById("status2");
 
-function showLoad(){ overlay.style.display="flex"; }
-function hideLoad(){ overlay.style.display="none"; }
+/* ⭐ OVERLAY KONTROL ⭐ */
+function kilitAc() { overlay.style.display = "flex"; }
+function kilitKapat() { overlay.style.display = "none"; }
 
-document.getElementById("goLogin").onclick=()=>{regBox.style.display="none";logBox.style.display="block";}
-document.getElementById("goRegister").onclick=()=>{logBox.style.display="none";regBox.style.display="block";}
+/* ⭐ FORM GEÇİŞ (3 saniyelik bekleme + kutu içinde "Lütfen bekleyiniz") ⭐ */
+function gecisYap(id){
+    kilitAc();
+    setTimeout(()=>{
+        formAc(id);
+        kilitKapat();
+        durum.textContent = "";
+    }, 3000); /* 3 Saniye */
+}
 
-let mailKod=null;
+function formGizle(){
+    ["registerForm","loginForm","resetForm","resetCodeForm","newPassForm"]
+    .forEach(id => document.getElementById(id).style.display="none");
+}
+function formAc(id){
+    formGizle();
+    document.getElementById(id).style.display="block";
+}
 
-/* ⭐ KAYIT ⭐ */
-document.getElementById("regBtn").onclick = async()=>{
-    const name  = regName.value.trim();
-    const mail  = regMail.value.trim();
-    const pass  = regPass.value.trim();
-    const code  = regCode.value.trim();
+/* GEÇİŞ BUTONLARI */  
+toLogin.onclick = ()=> gecisYap("loginForm");  
+toRegister.onclick = ()=> gecisYap("registerForm");  
+toReset.onclick = ()=> gecisYap("resetForm");  
+toReset2.onclick = ()=> gecisYap("resetForm");  
+toLogin2.onclick = ()=> gecisYap("loginForm");  
 
-    if(!name||!mail||!pass){ status.textContent="Boş bırakma."; return; }
+/* ------------------ KAYIT ------------------ */  
+let kod = null;  
+function emailValid(e){return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);}  
 
-    showLoad();
+regBtn.onclick = async()=>{
+    kilitAc();
+    const ad = regName.value.trim();
+    const mail = regMail.value.trim();
+    const pass = regPass.value.trim();
+    const girKod = regCode.value.trim();
 
-    // Kod yoksa gönder
-    if(!mailKod){
-        mailKod = Math.floor(100000+Math.random()*900000);
-        await emailjs.send("service_vbm28pq","template_507m11j",{kod:mailKod,mail:mail});
-        hideLoad();
-        status.textContent="Mailine gelen kodu gir.";
+    if(!ad || !mail || !pass){
+        kilitKapat();
+        durum.textContent = "Lütfen tüm bilgileri doldurun.";
         return;
     }
 
-    // Kod yanlış
-    if(code!=mailKod){
-        hideLoad();
-        status.textContent="Kod yanlış!";
+    if(!emailValid(mail)){
+        kilitKapat();
+        durum.textContent = "E-posta geçersiz.";
         return;
     }
 
-    const passHash = await sha256(pass);
+    if(!kod){
+        kod = Math.floor(100000 + Math.random()*900000);
+        await emailjs.send("service_vbm28pq","template_507m11j",{
+            kod:kod, mail:mail, zaman:new Date().toLocaleString("tr-TR")
+        });
+        kilitKapat();
+        durum.textContent = "Mailine gelen kodu gir.";
+        return;
+    }
 
-    const uid = "uid_" + Date.now();
+    if(girKod != kod){
+        kilitKapat();
+        durum.textContent = "Kod yanlış!";
+        return;
+    }
 
-    await set(ref(db,"users/"+uid),{
-        name:name,
-        email:mail,
-        pass:passHash
-    });
+    localStorage.setItem("userMail", mail);
+    localStorage.setItem("userPass", pass);
 
-    localStorage.setItem("sessionUser", uid);
-
-    hideLoad();
-    status.textContent="Kayıt başarılı!";
-    setTimeout(()=> location.href="ana_site.html", 1000);
+    durum.textContent = "Kayıt başarılı!";
+    setTimeout(()=> location.href="ana_site.html", 1500);
 };
 
-/* ⭐ GİRİŞ ⭐ */
-document.getElementById("logBtn").onclick = async()=>{
-    const mail = logMail.value.trim();
-    const pass = logPass.value.trim();
+/* ------------------ ŞİFRE SIFIRLAMA ------------------ */
+let resetKod = null;
+let resetMailKayit = null;
 
-    if(!mail||!pass){status2.textContent="Boş bırakma.";return;}
+resetBtn.onclick = async()=>{
+    kilitAc();
+    const mail = resetMail.value.trim();
 
-    showLoad();
-
-    const snapshot = await get(child(ref(db),"users"));
-    if(!snapshot.exists()){
-        hideLoad();
-        status2.textContent="Kullanıcı bulunamadı.";
+    if(!emailValid(mail)){
+        kilitKapat();
+        durum.textContent = "Mail geçersiz.";
         return;
     }
 
-    const passHash = await sha256(pass);
+    resetKod = Math.floor(100000 + Math.random()*900000);
+    resetMailKayit = mail;
 
-    let ok=false;
+    await emailjs.send("service_vbm28pq","template_507m11j",{
+        kod:resetKod, mail:mail, zaman:new Date().toLocaleString("tr-TR")
+    });
 
-    snapshot.forEach(user=>{
-        if(user.val().email===mail && user.val().pass===passHash){
-            ok=true;
-            localStorage.setItem("sessionUser", user.key);
+    kilitKapat();
+    durum.textContent = "Kod gönderildi.";
+    gecisYap("resetCodeForm");
+};
+
+resetCodeBtn.onclick = ()=>{
+    if(resetCode.value.trim() != resetKod){
+        durum.textContent = "Kod yanlış!";
+        return;
+    }
+    durum.textContent = "Kod doğru.";
+    gecisYap("newPassForm");
+};
+
+newPassBtn.onclick = ()=>{
+    kilitAc();
+    const yeni = newPass.value.trim();
+
+    if(!yeni){
+        kilitKapat();
+        durum.textContent = "Şifre boş olamaz.";
+        return;
+    }
+
+    localStorage.setItem("userPass", yeni);
+    durum.textContent = "Şifre yenilendi.";
+
+    setTimeout(()=>{  
+        kilitKapat();
+        gecisYap("loginForm");
+    }, 1000);
+};
+
+/* ------------------ GİRİŞ ------------------ */
+loginBtn.onclick = ()=>{
+    kilitAc();
+    setTimeout(()=>{
+        if(
+            loginMail.value.trim() === localStorage.getItem("userMail") &&
+            loginPass.value.trim() === localStorage.getItem("userPass")
+        ){
+            durum.textContent = "Giriş başarılı!";
+            setTimeout(()=> location.href="ana_site.html", 1200);
+        } else {
+            durum.textContent = "Bilgiler yanlış!";
+            kilitKapat();
         }
-    });
-
-    hideLoad();
-
-    if(ok){
-        status2.textContent="Giriş başarılı!";
-        setTimeout(()=> location.href="ana_site.html", 800);
-    }else{
-        status2.textContent="Bilgiler yanlış.";
-    }
+    }, 800);
 };
 
-</script>
-</body>
+/* ------------------ MÜZİK ------------------ */
+const audio = document.getElementById("bgm");
+const btn = document.getElementById("musicBtn");
+
+btn.onclick = ()=>{
+    if(audio.paused){audio.play();btn.textContent="⏸ Durdur";}
+    else{audio.pause();btn.textContent="▶ Oynat";}
+};
+</script>  
+</body>  
     </html>
