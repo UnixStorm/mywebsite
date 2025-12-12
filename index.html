@@ -39,7 +39,7 @@ body {
     border:none;
     border-radius:8px;
     outline:none;
-} /* ← EKSİK OLAN } EKLENDİ */
+}
 
 .center-box button {
     width:100%;
@@ -75,8 +75,8 @@ body {
 <body>
 
 <div class="yazi-kutu">
-    <div class="anaYazi">Bu site 𖣘UNIXSTORM🇹🇷 tarafından kurulmuştur</div>
-    <div><span class="vip">vip_uyeler🔱 = </span><span class="red">KAAN ZORBA & İNFAZ ZORBA</span></div>
+    <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈̇𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 (𝗦𝗔𝗛𝗢 𝗥𝗘𝗜𝗦) ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>
+    <div><span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span><span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span></div>
 </div>
 
 <div id="kilit"></div>
@@ -172,7 +172,7 @@ regBtn.onclick = async()=>{
     const girilenKod = regCode.value.trim();
 
     if(!ad || !mail || !pass){
-        durum.textContent = "Boş alan bırakma.";
+        durum.textContent = "Lütfen bilgilerinizi tam giriniz.";
         return;
     }
 
@@ -183,16 +183,21 @@ regBtn.onclick = async()=>{
 
     if(!kod){
         kod = Math.floor(100000 + Math.random()*900000);
+
+        // 📌 ZAMAN EKLENDİ — tam şu anki tarih & saat
+        const tarihSaat = new Date().toLocaleString("tr-TR");
+
         kilitle();
-        durum.textContent = "E-posta gönderiliyor...";
+        durum.textContent = "kullanıcı mailine kod gönderiliyor...";
 
         await emailjs.send("service_vbm28pq", "template_507m11j", {
             kod: kod,
-            mail: mail
+            mail: mail,
+            zaman: tarihSaat   // ⚡ ZAMAN BURADA GİDİYOR
         });
 
         ac();
-        durum.textContent = "Kod gönderildi!";
+        durum.textContent = "Lütfen e-postanıza gelen 6 haneli kodu giriniz!";
         return;
     }
 
@@ -201,7 +206,7 @@ regBtn.onclick = async()=>{
         return;
     }
 
-    durum.textContent = "✔ Kayıt başarılı!";
+    durum.textContent = "✔ Kayıt başarılı yönlendiriliyorsunuz!";
     localStorage.setItem("userMail", mail);
 
     setTimeout(()=> location.href="ana_site.html", 1500);
@@ -209,7 +214,7 @@ regBtn.onclick = async()=>{
 
 loginBtn.onclick = ()=>{
     if(loginMail.value.trim() === localStorage.getItem("userMail")){
-        durum.textContent="✔ Giriş başarılı!";
+        durum.textContent="✔ Giriş başarılı yönlendiriliyorsunuz!";
         setTimeout(()=> location.href="ana_site.html", 1500);
     } else {
         durum.textContent="Bilgiler yanlış.";
