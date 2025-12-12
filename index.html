@@ -1,166 +1,147 @@
-<!DOCTYPE html>
-<html lang="tr">    
-<head>    
-<meta charset="UTF-8">    
-<meta name="viewport" content="width=device-width, initial-scale=1.0">    
-<title>UNIXSTORM</title>
+<!DOCTYPE html>  <html lang="tr">        <head>        
+<meta charset="UTF-8">        
+<meta name="viewport" content="width=device-width, initial-scale=1.0">        
+<title>UNIXSTORM</title>  <style>    
+    body {    
+        margin: 0;    
+        padding: 0;    
+        height: 100vh;    
+        background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;    
+        background-size: cover;    
+        font-family: "Arial";    
+    }    .yazi-kutu {    
+    width: 100%;    
+    text-align: center;    
+    margin-top: 28px;    
+}    
 
-<style>
-    body {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
-        background-size: cover;
-        font-family: "Arial";
-    }
+.anaYazi {    
+    font-size: 18px;    
+    color: white;    
+    font-weight: bold;    
+    text-shadow: 0 0 6px white, 0 0 14px white;    
+}    
 
-    .yazi-kutu {
-        width: 100%;
-        text-align: center;
-        margin-top: 28px;
-    }
+.vip {    
+    color: orange;    
+    font-size: 17px;    
+    text-shadow: 0 0 6px orange, 0 0 15px orange;    
+    font-weight: bold;    
+}    
 
-    .anaYazi {
-        font-size: 18px;
-        color: white;
-        font-weight: bold;
-        text-shadow: 0 0 6px white, 0 0 14px white;
-    }
+.red {    
+    color: red;    
+    font-weight: bold;    
+    text-shadow: 0 0 6px red, 0 0 15px red;    
+}    
 
-    .vip {
-        color: orange;
-        font-size: 17px;
-        text-shadow: 0 0 6px orange, 0 0 15px orange;
-        font-weight: bold;
-    }
+.center-box {    
+    position: fixed;    
+    top: 50%;    
+    left: 50%;    
+    transform: translate(-50%, -50%);    
+    width: 280px;    
+    padding: 18px;    
+    background: rgba(0,0,0,0.78);    
+    backdrop-filter: blur(5px);    
+    border-radius: 12px;    
+    box-shadow: 0 0 22px rgba(0,0,0,0.65);    
+    text-align: center;    
+    color: white;    
+}    
 
-    .red {
-        color: red;
-        font-weight: bold;
-        text-shadow: 0 0 6px red, 0 0 15px red;
-    }
+.center-box h3 {    
+    margin: 0 0 12px 0;    
+    font-size: 22px;    
+}    
 
-    .center-box {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 280px;
-        padding: 18px;
-        background: rgba(0,0,0,0.78);
-        backdrop-filter: blur(5px);
-        border-radius: 12px;
-        box-shadow: 0 0 22px rgba(0,0,0,0.65);
-        text-align: center;
-        color: white;
-    }
+.center-box input {    
+    width: 100%;    
+    padding: 10px;    
+    margin: 6px 0;    
+    border-radius: 8px;    
+    border: none;    
+    outline: none;    
+    font-size: 15px;    
+    box-sizing: border-box;    
+}    
 
-    .center-box h3 {
-        margin: 0 0 12px 0;
-        font-size: 22px;
-    }
+.center-box button {    
+    width: 100%;    
+    padding: 10px;    
+    margin-top: 8px;    
+    border: none;    
+    border-radius: 8px;    
+    background: #006CFF;    
+    color: white;    
+    font-weight: bold;    
+    cursor: pointer;    
+    font-size: 16px;    
+}    
 
-    .center-box input {
-        width: 100%;
-        padding: 10px;
-        margin: 6px 0;
-        border-radius: 8px;
-        border: none;
-        outline: none;
-        font-size: 15px;
-        box-sizing: border-box;
-    }
+.link-btn {    
+    margin-top: 8px;    
+    display: block;    
+    color: #ddd;    
+    cursor: pointer;    
+    text-decoration: underline;    
+    font-size: 14px;    
+}    
 
-    .center-box button {
-        width: 100%;
-        padding: 10px;
-        margin-top: 8px;
-        border: none;
-        border-radius: 8px;
-        background: #006CFF;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-        font-size: 16px;
-    }
+#durum {    
+    margin-top: 10px;    
+    font-size: 14px;    
+    min-height: 22px;    
+    color: #fff;    
+}    
 
-    .link-btn {
-        margin-top: 8px;
-        display: block;
-        color: #ddd;
-        cursor: pointer;
-        text-decoration: underline;
-        font-size: 14px;
-    }
+#kilit {    
+    position: fixed;    
+    inset: 0;    
+    background: rgba(0,0,0,0.35);    
+    z-index: 9999;    
+    display: none;    
+    pointer-events: auto;    
+}
 
-    #durum {
-        margin-top: 10px;
-        font-size: 14px;
-        min-height: 22px;
-        color: #fff;
-    }
-</style>
-</head>
-
-<body>
-
-<div class="yazi-kutu">
-    <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>
-    <div style="margin-top: 6px;">
-        <span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span>
-        <span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span>
-    </div>
+</style>  </head>  <body>  <div id="kilit"></div>  <div class="yazi-kutu">
+<div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>
+<div style="margin-top: 6px;">
+<span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span>
+<span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span>
 </div>
 
-<div class="center-box">
-
-    <!-- KAYIT -->
-    <div id="registerForm">
-        <h3>Kayıt Ol</h3>
-        <input type="text" id="regName" placeholder="Kullanıcı adı">
-        <input type="email" id="regMail" placeholder="E-posta">
-        <input type="password" id="regPass" placeholder="Şifre">
-        <button id="regBtn">Kayıt Ol</button>
-        <span class="link-btn" id="toLogin">Giriş yapın</span>
-        <span class="link-btn" id="toReset">Şifremi unuttum</span>
-    </div>
-
-    <!-- GİRİŞ -->
-    <div id="loginForm" style="display:none;">
-        <h3>Giriş Yap</h3>
-        <input type="email" id="loginMail" placeholder="E-posta">
-        <input type="password" id="loginPass" placeholder="Şifre">
-        <button id="loginBtn">Giriş Yap</button>
-        <span class="link-btn" id="toRegisterFromLogin">Kayıt olmak istiyorum</span>
-        <span class="link-btn" id="toResetFromLogin">Şifremi unuttum</span>
-    </div>
-
-    <!-- RESET -->
-    <div id="resetForm" style="display:none;">
-        <h3>Şifre Sıfırla</h3>
-        <input type="email" id="resetMail" placeholder="E-posta">
-        <button id="resetBtn">Sıfırlama linki gönder</button>
-        <span class="link-btn" id="toLoginFromReset">Girişe dön</span>
-    </div>
-
-    <div id="durum"></div>
-
-</div>
-
-<!-- Firebase -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
-import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
-    authDomain: "unixstorm-9dff8.firebaseapp.com",
-    projectId: "unixstorm-9dff8",
-    storageBucket: "unixstorm-9dff8.appspot.com",
-    messagingSenderId: "787509821542",
-    appId: "1:787509821542:web:2b54b5bafee1207edeada7"
+</div>  <div class="center-box">  <!-- KAYIT -->    
+<div id="registerForm">    
+    <h3>Kayıt Ol</h3>    
+    <input type="text" id="regName" placeholder="Kullanıcı adı">    
+    <input type="email" id="regMail" placeholder="E-posta">    
+    <input type="password" id="regPass" placeholder="Şifre">    
+    <button id="regBtn">Kayıt Ol</button>    
+    <span class="link-btn" id="toLogin">Giriş yapın</span>    
+    <span class="link-btn" id="toReset">Şifremi unuttum</span>    
+</div>    <!-- GİRİŞ -->    <div id="loginForm" style="display:none;">    
+    <h3>Giriş Yap</h3>    
+    <input type="email" id="loginMail" placeholder="E-posta">    
+    <input type="password" id="loginPass" placeholder="Şifre">    
+    <button id="loginBtn">Giriş Yap</button>    
+    <span class="link-btn" id="toRegisterFromLogin">Kayıt olmak istiyorum</span>    
+    <span class="link-btn" id="toResetFromLogin">Şifremi unuttum</span>    
+</div>    <!-- RESET -->    <div id="resetForm" style="display:none;">    
+    <h3>Şifre Sıfırla</h3>    
+    <input type="email" id="resetMail" placeholder="E-posta">    
+    <button id="resetBtn">Sıfırlama linki gönder</button>    
+    <span class="link-btn" id="toLoginFromReset">Girişe dön</span>    
+</div>    <div id="durum"></div>  </div>  <!-- Firebase -->  <script type="module">    
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";    
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";    
+import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";    const firebaseConfig = {
+apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
+authDomain: "unixstorm-9dff8.firebaseapp.com",
+projectId: "unixstorm-9dff8",
+storageBucket: "unixstorm-9dff8.appspot.com",
+messagingSenderId: "787509821542",
+appId: "1:787509821542:web:2b54b5bafee1207edeada7"
 };
 
 const app = initializeApp(firebaseConfig);
@@ -168,115 +149,147 @@ const auth = getAuth(app);
 const db   = getFirestore(app);
 
 const durum = document.getElementById("durum");
+const kilit = document.getElementById("kilit");
 
-/* ---------------------------------- */
-/*            KAYIT OL                */
-/* ---------------------------------- */
+function kilitle(){ kilit.style.display = "block"; }
+function ac(){ kilit.style.display = "none"; }
+
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+
+/* FORM GEÇİŞLERİ */
+function formDegistir(target){
+durum.textContent = "Lütfen bekleyiniz...";
+kilitle();
+setTimeout(()=>{
+document.getElementById("registerForm").style.display="none";
+document.getElementById("loginForm").style.display="none";
+document.getElementById("resetForm").style.display="none";
+
+document.getElementById(target+"Form").style.display="block";    
+    durum.textContent = "";    
+    ac();    
+},3000);
+
+}
+
+document.getElementById("toLogin").onclick = ()=> formDegistir("login");
+document.getElementById("toReset").onclick = ()=> formDegistir("reset");
+document.getElementById("toRegisterFromLogin").onclick = ()=> formDegistir("register");
+document.getElementById("toResetFromLogin").onclick = ()=> formDegistir("reset");
+document.getElementById("toLoginFromReset").onclick = ()=> formDegistir("login");
+
+/* ---------------------------------- /
+/            KAYIT OL                /
+/ ---------------------------------- */
 document.getElementById("regBtn").onclick = async () => {
-    const ad   = document.getElementById("regName").value.trim();
-    const mail = document.getElementById("regMail").value.trim();
-    const pass = document.getElementById("regPass").value;
+const ad   = document.getElementById("regName").value.trim();
+const mail = document.getElementById("regMail").value.trim();
+const pass = document.getElementById("regPass").value;
 
-    if(!ad || !mail || !pass){
-        durum.textContent = "Lütfen tüm alanları doldurun.";
-        return;
-    }
+if(!ad || !mail || !pass){    
+    durum.textContent = "Lütfen tüm alanları doldurun.";    
+    return;    
+}    
 
-    try {
-        durum.textContent = "Kayıt yapılıyor...";
+try {    
+    kilitle();    
+    durum.textContent = "Kayıt başarıyla oluşturuldu lütfen sayfayı yenileyin ve giriş yapın...";    
 
-        const cred = await createUserWithEmailAndPassword(auth, mail, pass);
+    await sleep(40);    
 
-        await setDoc(doc(db,"kullanicilar",cred.user.uid), {
-            kullaniciAdi: ad,
-            email: mail,
-            createdAt: new Date().toISOString()
-        });
+    // Firebase kayıt    
+    const cred = await createUserWithEmailAndPassword(auth, mail, pass);    
 
-        durum.textContent = "✔ Kayıt başarılı! Yönlendiriliyorsunuz...";
+    await setDoc(doc(db,"kullanicilar",cred.user.uid), {    
+        kullaniciAdi: ad,    
+        email: mail,    
+        createdAt: new Date().toISOString()    
+    });    
 
-        setTimeout(()=>{
-            location.href = "ana_site.html";
-        },1500);
+    durum.textContent = "✔ Kayıt başarılı! Sayfa yenileniyor...";    
 
-    } catch(err){
-        durum.textContent = "Hata: " + err.message;
-    }
+    await sleep(2000);    
+    location.reload();   // yönlendirme yerine sayfayı yenile    
+
+} catch(err){    
+    ac();    
+    durum.textContent = "Hata: " + err.message;    
+}
+
 };
 
-/* ---------------------------------- */
-/*            GİRİŞ YAP               */
-/* ---------------------------------- */
+/* ---------------------------------- /
+/            GİRİŞ YAP               /
+/ ---------------------------------- */
 document.getElementById("loginBtn").onclick = async () => {
-    const mail = document.getElementById("loginMail").value.trim();
-    const pass = document.getElementById("loginPass").value;
+const mail = document.getElementById("loginMail").value.trim();
+const pass = document.getElementById("loginPass").value;
 
-    if(!mail || !pass){
-        durum.textContent = "Lütfen tüm bilgileri girin.";
-        return;
-    }
+if(!mail || !pass){    
+    durum.textContent = "Lütfen tüm bilgileri girin.";    
+    return;    
+}    
 
-    try {
-        durum.textContent = "Giriş yapılıyor...";
+try {    
+    kilitle();    
+    durum.textContent = "Bilgiler doğrulanıyor...";    
+    await sleep(2000);    
 
-        await signInWithEmailAndPassword(auth, mail, pass);
+    await signInWithEmailAndPassword(auth, mail, pass);    
 
-        durum.textContent = "✔ Giriş başarılı!";
+    durum.textContent = "✔ Giriş başarılı! Yönlendiriliyorsunuz...";    
+    await sleep(1500);    
 
-        setTimeout(()=>{
-            location.href = "ana_site.html";
-        },1200);
+    location.href = "ana_site.html";    
 
-    } catch(err){
-        durum.textContent = "Hata: " + err.message;
-    }
+} catch(err){    
+    ac();    
+    durum.textContent = "Hata: " + err.message;    
+}
+
 };
 
-/* ---------------------------------- */
-/*       ŞİFREMİ UNUTTUM              */
-/* ---------------------------------- */
+/* ---------------------------------- /
+/         ŞİFREMİ UNUTTUM            /
+/ ---------------------------------- */
 document.getElementById("resetBtn").onclick = async () => {
-    const mail = document.getElementById("resetMail").value.trim();
+const mail = document.getElementById("resetMail").value.trim();
 
-    if(!mail){
-        durum.textContent = "Lütfen e-postayı girin.";
-        return;
-    }
+if(!mail){    
+    durum.textContent = "Lütfen e-posta girin.";    
+    return;    
+}    
 
-    try {
-        durum.textContent = "Gönderiliyor...";
+try {    
+    kilitle();    
+    durum.textContent = "Kontrol ediliyor...";    
+    await sleep(2000);    
 
-        await sendPasswordResetEmail(auth, mail);
+    await sendPasswordResetEmail(auth, mail);    
+    ac();    
+    durum.textContent = "✔ Sıfırlama linki e-postaya gönderildi!";    
 
-        durum.textContent = "✔ Sıfırlama maili gönderildi.";
+} catch(err){    
+    ac();    
+    durum.textContent = "Hata: " + err.message;    
+}
 
-    } catch(err){
-        durum.textContent = "Hata: " + err.message;
-    }
 };
-</script>
+</script>  <!-- MÜZİK -->  <button id="musicBtn" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; font-size: 18px; border: none; border-radius: 10px; background: rgba(0,0,0,0.6); color: white; cursor: pointer;">▶ Oynat</button>
 
-<!-- MÜZİK -->
-<button id="musicBtn" style="position: fixed; bottom: 20px; right: 20px; padding: 12px 20px; font-size: 18px; border: none; border-radius: 10px; background: rgba(0,0,0,0.6); color: white; cursor: pointer;">▶ Oynat</button>
-
-<audio id="bgm">
-    <source src="music.m4a" type="audio/mp4">
-</audio>
-
-<script>
-const audio = document.getElementById("bgm");
-const btn   = document.getElementById("musicBtn");
-
-btn.onclick = () => {
-    if(audio.paused){
-        audio.play();
-        btn.textContent = "⏸ Durdur";
-    } else {
-        audio.pause();
-        btn.textContent = "▶ Oynat";
-    }
+<audio id="bgm">    
+    <source src="music.m4a" type="audio/mp4">    
+</audio>  <script>    
+const audio = document.getElementById("bgm");    
+const btn   = document.getElementById("musicBtn");    btn.onclick = () => {
+if(audio.paused){
+audio.play();
+btn.textContent = "⏸ Durdur";
+} else {
+audio.pause();
+btn.textContent = "▶ Oynat";
+}
 };
-</script>
+</script>  </body>
 
-</body>
-</html>
+</html> knk geçişlerle alakası yok bu neden oluyor hala sen  bu kodda şeyi düzelt  sadece kayıt ol ekranı bu kodda başka birşeye elleme kayıt ol ekranın site kitlemeyi kaldır aşağıda sadece bilgiler doğruysa kayıt başarılı yönlendiriliyorsunuz yazsın bana düzeltilmiş kodu tek parça at index.html içine yapıştırcam
