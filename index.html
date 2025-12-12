@@ -104,10 +104,9 @@
     #kilit {
         position: fixed;
         inset: 0;
-        background: rgba(0,0,0,0.35);
+        background: rgba(0,0,0,0.45);
         z-index: 9999;
         display: none;
-        pointer-events: auto;
     }
 </style>
 </head>
@@ -156,7 +155,6 @@
     </div>
 
     <div id="durum"></div>
-
 </div>
 
 <!-- Firebase -->
@@ -165,16 +163,15 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebas
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 import { getFirestore, setDoc, doc } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
 
-const firebaseConfig = {
+const app = initializeApp({
     apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
     authDomain: "unixstorm-9dff8.firebaseapp.com",
     projectId: "unixstorm-9dff8",
     storageBucket: "unixstorm-9dff8.appspot.com",
     messagingSenderId: "787509821542",
     appId: "1:787509821542:web:2b54b5bafee1207edeada7"
-};
+});
 
-const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db   = getFirestore(app);
 
@@ -184,36 +181,26 @@ const kilit = document.getElementById("kilit");
 function kilitle(){ kilit.style.display = "block"; }
 function ac(){ kilit.style.display = "none"; }
 
-const sleep = ms => new Promise(r=>setTimeout(r,ms));
+// FORM GEÇİŞLERİ ANINDA
+const show = id => {
+    document.getElementById("registerForm").style.display="none";
+    document.getElementById("loginForm").style.display="none";
+    document.getElementById("resetForm").style.display="none";
+    document.getElementById(id).style.display="block";
+    durum.textContent = "";
+};
 
-/* FORM GEÇİŞLERİ */
-function formDegistir(target){
-    durum.textContent = "Lütfen bekleyiniz...";
-    kilitle();
-    setTimeout(()=>{
-        document.getElementById("registerForm").style.display="none";
-        document.getElementById("loginForm").style.display="none";
-        document.getElementById("resetForm").style.display="none";
+document.getElementById("toLogin").onclick = ()=> show("loginForm");
+document.getElementById("toReset").onclick = ()=> show("resetForm");
+document.getElementById("toRegisterFromLogin").onclick = ()=> show("registerForm");
+document.getElementById("toResetFromLogin").onclick = ()=> show("resetForm");
+document.getElementById("toLoginFromReset").onclick = ()=> show("loginForm");
 
-        document.getElementById(target+"Form").style.display="block";
-        durum.textContent = "";
-        ac();
-    },3000);
-}
-
-document.getElementById("toLogin").onclick = ()=> formDegistir("login");
-document.getElementById("toReset").onclick = ()=> formDegistir("reset");
-document.getElementById("toRegisterFromLogin").onclick = ()=> formDegistir("register");
-document.getElementById("toResetFromLogin").onclick = ()=> formDegistir("reset");
-document.getElementById("toLoginFromReset").onclick = ()=> formDegistir("login");
-
-/* ---------------------------------- */
-/*            KAYIT OL                */
-/* ---------------------------------- */
+/* ------------- KAYIT ------------- */
 document.getElementById("regBtn").onclick = async () => {
-    const ad   = document.getElementById("regName").value.trim();
-    const mail = document.getElementById("regMail").value.trim();
-    const pass = document.getElementById("regPass").value;
+    const ad   = regName.value.trim();
+    const mail = regMail.value.trim();
+    const pass = regPass.value;
 
     if(!ad || !mail || !pass){
         durum.textContent = "Lütfen tüm alanları doldurun.";
@@ -222,23 +209,18 @@ document.getElementById("regBtn").onclick = async () => {
 
     try {
         kilitle();
-        durum.textContent = "Kayıt işlemi yapılıyor...";
+        durum.textContent = "Kayıt yapılıyor...";
 
-        await sleep(4000);
-
-        // Firebase kayıt
         const cred = await createUserWithEmailAndPassword(auth, mail, pass);
 
-        await setDoc(doc(db,"kullanicilar",cred.user.uid), {
+        await setDoc(doc(db,"kullanicilar", cred.user.uid), {
             kullaniciAdi: ad,
             email: mail,
             createdAt: new Date().toISOString()
         });
 
-        durum.textContent = "✔ Kayıt başarılı! lütfen giriş yap kısmından giriş yapın...";
-
-        await sleep(2000);
-        location.reload();   // yönlendirme yerine sayfayı yenile
+        durum.textContent = "✔ Kayıt başarılı! Sayfa yenileniyor...";
+        setTimeout(()=> location.reload(), 1200);
 
     } catch(err){
         ac();
@@ -246,12 +228,10 @@ document.getElementById("regBtn").onclick = async () => {
     }
 };
 
-/* ---------------------------------- */
-/*            GİRİŞ YAP               */
-/* ---------------------------------- */
+/* ------------- GİRİŞ ------------- */
 document.getElementById("loginBtn").onclick = async () => {
-    const mail = document.getElementById("loginMail").value.trim();
-    const pass = document.getElementById("loginPass").value;
+    const mail = loginMail.value.trim();
+    const pass = loginPass.value;
 
     if(!mail || !pass){
         durum.textContent = "Lütfen tüm bilgileri girin.";
@@ -260,15 +240,12 @@ document.getElementById("loginBtn").onclick = async () => {
 
     try {
         kilitle();
-        durum.textContent = "giriş bilgileri kontrol ediliyor...";
-        await sleep(2000);
+        durum.textContent = "Giriş yapılıyor...";
 
         await signInWithEmailAndPassword(auth, mail, pass);
 
-        durum.textContent = "✔ Giriş başarılı! Yönlendiriliyorsunuz...";
-        await sleep(1500);
-
-        location.href = "ana_site.html";
+        durum.textContent = "✔ Giriş başarılı!";
+        setTimeout(()=> location.href="ana_site.html", 1000);
 
     } catch(err){
         ac();
@@ -276,25 +253,23 @@ document.getElementById("loginBtn").onclick = async () => {
     }
 };
 
-/* ---------------------------------- */
-/*         ŞİFREMİ UNUTTUM            */
-/* ---------------------------------- */
+/* ------------- ŞİFREMİ UNUTTUM ------------- */
 document.getElementById("resetBtn").onclick = async () => {
-    const mail = document.getElementById("resetMail").value.trim();
+    const mail = resetMail.value.trim();
 
     if(!mail){
-        durum.textContent = "Lütfen e-posta girin.";
+        durum.textContent = "E-posta gerekli.";
         return;
     }
 
     try {
         kilitle();
-        durum.textContent = "Kontrol ediliyor...";
-        await sleep(2000);
+        durum.textContent = "Gönderiliyor...";
 
         await sendPasswordResetEmail(auth, mail);
+
         ac();
-        durum.textContent = "✔ Sıfırlama linki e-postaya gönderildi!";
+        durum.textContent = "✔ Sıfırlama linki gönderildi!";
 
     } catch(err){
         ac();
