@@ -36,30 +36,55 @@ body{
     margin-top:10px;min-height:22px;color:#ffebeb;font-weight:bold;font-size:14px;  
 }
 
-/* 🔥 OVERLAY (EKRAN KİLİTLEME) – DAHA SAYDAM YAPILDI & YÜKLEME TOPU KALDIRILDI */
+/* 🔥 OVERLAY (EKRAN KİLİTLEME) */
 #overlay {
     position: fixed;
     top: 0; left: 0;
     width: 100%; height: 100%;
-    background: rgba(0,0,0,0.10);   /* 🔥 Saydamlık azaltıldı */
+    background: rgba(0,0,0,0.55); /* hafif siyah */
     display: none;
     justify-content: center;
     align-items: center;
     z-index: 99999;
-    color: white;
-    font-size: 22px;
-    font-weight: bold;
-    text-shadow: 0 0 8px black;
-    backdrop-filter: blur(4px);
+}
+
+/* Kutudaki yükleme */
+.loaderBox {
+    background: rgba(0,0,0,0.80);
+    padding: 20px 30px;
+    border-radius: 12px;
+    text-align:center;
+    color:white;
+    font-size:18px;
+    font-weight:bold;
+    box-shadow:0 0 10px black;
+}
+
+.loader {
+    border: 4px solid #fff;
+    border-top: 4px solid transparent;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    animation: load 1s linear infinite;
+    margin: 0 auto 15px auto;
+}
+
+@keyframes load {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
 </style>  
 </head>  
 
 <body>  
 
-<!-- 🔥 OVERLAY (ARTIK SADE YAZI VAR) -->
+<!-- 🔥 OVERLAY -->
 <div id="overlay">
-    
+    <div class="loaderBox">
+        <div class="loader"></div>
+        Lütfen bekleyiniz...
+    </div>
 </div>
 
 <div class="yazi-kutu">  
@@ -140,14 +165,14 @@ const overlay = document.getElementById("overlay");
 function kilitAc() { overlay.style.display = "flex"; }
 function kilitKapat() { overlay.style.display = "none"; }
 
-/* ⭐ FORM GEÇİŞ ⭐ */
+/* ⭐ FORM GEÇİŞ (3 saniyelik bekleme + kutu içinde "Lütfen bekleyiniz") ⭐ */
 function gecisYap(id){
     kilitAc();
     setTimeout(()=>{
         formAc(id);
         kilitKapat();
         durum.textContent = "";
-    }, 1200);
+    }, 3000); /* 3 Saniye */
 }
 
 function formGizle(){
@@ -179,13 +204,13 @@ regBtn.onclick = async()=>{
 
     if(!ad || !mail || !pass){
         kilitKapat();
-        durum.textContent = "Lütfen tüm bilgileri doldurun.";
+        durum.textContent = "Lütfen tüm bilgileri doldurunuz.";
         return;
     }
 
     if(!emailValid(mail)){
         kilitKapat();
-        durum.textContent = "E-posta geçersiz.";
+        durum.textContent = "Geçersiz E-Posta adresi girildi.";
         return;
     }
 
@@ -195,20 +220,20 @@ regBtn.onclick = async()=>{
             kod:kod, mail:mail, zaman:new Date().toLocaleString("tr-TR")
         });
         kilitKapat();
-        durum.textContent = "Mailine gelen kodu gir.";
+        durum.textContent = "Lütfen E-Posta adresinize gelen 6 haneli kodu giriniz.";
         return;
     }
 
     if(girKod != kod){
         kilitKapat();
-        durum.textContent = "Kod yanlış!";
+        durum.textContent = "Kod yanlış girildi!";
         return;
     }
 
     localStorage.setItem("userMail", mail);
     localStorage.setItem("userPass", pass);
 
-    durum.textContent = "Kayıt başarılı!";
+    durum.textContent = "Kaydınız başarıyla oluşturuldu yönlendiriliyorsunuz!";
     setTimeout(()=> location.href="ana_site.html", 1500);
 };
 
@@ -222,7 +247,7 @@ resetBtn.onclick = async()=>{
 
     if(!emailValid(mail)){
         kilitKapat();
-        durum.textContent = "Mail geçersiz.";
+        durum.textContent = "E-Posta adresi geçersizdir.";
         return;
     }
 
@@ -234,16 +259,16 @@ resetBtn.onclick = async()=>{
     });
 
     kilitKapat();
-    durum.textContent = "Kod gönderildi.";
+    durum.textContent = "6 haneli Kod gönderildi.";
     gecisYap("resetCodeForm");
 };
 
 resetCodeBtn.onclick = ()=>{
     if(resetCode.value.trim() != resetKod){
-        durum.textContent = "Kod yanlış!";
+        durum.textContent = "Kod yanlış girildi!";
         return;
     }
-    durum.textContent = "Kod doğru.";
+    durum.textContent = "Kod doğru girildi.";
     gecisYap("newPassForm");
 };
 
@@ -274,10 +299,10 @@ loginBtn.onclick = ()=>{
             loginMail.value.trim() === localStorage.getItem("userMail") &&
             loginPass.value.trim() === localStorage.getItem("userPass")
         ){
-            durum.textContent = "Giriş başarılı!";
+            durum.textContent = "Başarıyla giriş yaptınız yönlendiriliyorsunuz!";
             setTimeout(()=> location.href="ana_site.html", 1200);
         } else {
-            durum.textContent = "Bilgiler yanlış!";
+            durum.textContent = "Bilgiler yanlış girildi!";
             kilitKapat();
         }
     }, 800);
@@ -293,4 +318,4 @@ btn.onclick = ()=>{
 };
 </script>  
 </body>  
-    </html>
+</html>
