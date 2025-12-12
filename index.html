@@ -12,185 +12,225 @@ body {
     height: 100vh;
     background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
     background-size: cover;
-    font-family: "Arial";
-}
-.yazi-kutu {
-    width: 100%;
-    text-align: center;
-    margin-top: 28px;
-}
-.anaYazi {
-    font-size: 18px;
-    color: white;
-    font-weight: bold;
-    text-shadow: 0 0 6px white, 0 0 14px white;
-}
-.vip {
-    color: orange;
-    font-size: 17px;
-    text-shadow: 0 0 6px orange, 0 0 15px orange;
-    font-weight: bold;
-}
-.red {
-    color: red;
-    font-weight: bold;
-    text-shadow: 0 0 6px red, 0 0 15px red;
-}
-.center-box {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 280px;
-    padding: 18px;
-    background: rgba(0,0,0,0.78);
-    backdrop-filter: blur(5px);
-    border-radius: 12px;
-    box-shadow: 0 0 22px rgba(0,0,0,0.65);
-    text-align: center;
-    color: white;
+    font-family: Arial;
 }
 
-.center-box h3 { margin: 0 0 12px; font-size: 22px; }
+.yazi-kutu { text-align:center; margin-top:28px; }
+.anaYazi { font-size:18px; color:white; font-weight:bold; text-shadow:0 0 6px white; }
+.vip { color:orange; font-weight:bold; text-shadow:0 0 6px orange; }
+.red { color:red; font-weight:bold; text-shadow:0 0 6px red; }
+
+.center-box {
+    position: fixed;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    width: 280px;
+    padding: 20px;
+    background: rgba(0,0,0,0.78);
+    border-radius: 12px;
+    backdrop-filter: blur(5px);
+    color:white; text-align:center;
+}
+
 .center-box input {
-    width: 100%; padding: 10px; margin: 6px 0;
-    border-radius: 8px; border: none; outline: none; font-size: 15px;
+    width:100%; padding:10px; margin:6px 0;
+    border:none; border-radius:8px; outline:none;
 }
+
 .center-box button {
-    width: 100%; padding: 10px; margin-top: 8px;
-    border: none; border-radius: 8px; background: #006CFF;
-    color: white; font-weight: bold; cursor: pointer; font-size: 16px;
+    width:100%; padding:10px;
+    margin-top:8px; border:none;
+    border-radius:8px; background:#006CFF;
+    font-weight:bold; color:white;
 }
+
 .link-btn {
-    margin-top: 8px; display: block; color: #ddd;
-    cursor: pointer; text-decoration: underline; font-size: 14px;
+    display:block; margin-top:8px;
+    text-decoration:underline; color:#ddd;
+    cursor:pointer;
 }
-#durum { margin-top: 10px; font-size: 14px; min-height: 22px; color: #fff; }
+
+#durum { margin-top:10px; min-height:22px; color:white; }
+
 #kilit {
-    position: fixed; inset: 0; background: rgba(0,0,0,0.35);
-    z-index: 9999; display: none; pointer-events: auto;
+    position:fixed; inset:0;
+    background:rgba(0,0,0,0.35);
+    z-index:9999; display:none;
 }
 </style>
 </head>
 
 <body>
-<div id="kilit"></div>
 
 <div class="yazi-kutu">
-    <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>
-    <div style="margin-top: 6px;">
-        <span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span>
-        <span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span>
-    </div>
+    <div class="anaYazi">Bu site 𖣘UNIXSTORM🇹🇷 tarafından kurulmuştur</div>
+    <div><span class="vip">vip_uyeler🔱 = </span><span class="red">KAAN ZORBA & İNFAZ ZORBA</span></div>
 </div>
+
+<div id="kilit"></div>
 
 <div class="center-box">
 
-<!-- KAYIT -->
-<div id="registerForm">
-    <h3>Kayıt Ol</h3>
-    <input type="text" id="regName" placeholder="Kullanıcı adı">
-    <input type="email" id="regMail" placeholder="E-posta">
-    <input type="password" id="regPass" placeholder="Şifre">
-    <input type="text" id="regCode" placeholder="E-postaya gelen kod">
-    <button id="regBtn">Kayıt Ol</button>
-    <span class="link-btn" id="toLogin">Giriş yapın</span>
+    <!-- KAYIT -->
+    <div id="registerForm">
+        <h3>Kayıt Ol</h3>
+        <input id="regName" placeholder="Kullanıcı adı">
+        <input id="regMail" type="email" placeholder="E-posta">
+        <input id="regPass" type="password" placeholder="Şifre">
+        <input id="regCode" placeholder="E-postaya gelen kod">
+        <button id="regBtn">Kayıt Ol</button>
+        <span class="link-btn" id="toLogin">Giriş yapın</span>
+        <span class="link-btn" id="toReset">Şifremi unuttum</span>
+    </div>
+
+    <!-- GİRİŞ -->
+    <div id="loginForm" style="display:none;">
+        <h3>Giriş Yap</h3>
+        <input id="loginMail" type="email" placeholder="E-posta">
+        <input id="loginPass" type="password" placeholder="Şifre">
+        <button id="loginBtn">Giriş Yap</button>
+        <span class="link-btn" id="toRegister">Kayıt Ol</span>
+        <span class="link-btn" id="toReset2">Şifremi unuttum</span>
+    </div>
+
+    <!-- RESET -->
+    <div id="resetForm" style="display:none;">
+        <h3>Şifre Sıfırla</h3>
+        <input id="resetMail" type="email" placeholder="E-posta">
+        <button id="resetBtn">Sıfırlama linki gönder</button>
+        <span class="link-btn" id="toLogin2">Girişe dön</span>
+    </div>
+
+    <div id="durum"></div>
+
 </div>
 
-<!-- GİRİŞ -->
-<div id="loginForm" style="display:none;">
-    <h3>Giriş Yap</h3>
-    <input type="email" id="loginMail" placeholder="E-posta">
-    <input type="password" id="loginPass" placeholder="Şifre">
-    <button id="loginBtn">Giriş Yap</button>
-    <span class="link-btn" id="toRegisterFromLogin">Kayıt olmak istiyorum</span>
-</div>
+<!-- MÜZİK TUŞU -->
+<button id="musicBtn" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    padding: 12px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 10px;
+    background: rgba(0,0,0,0.6);
+    color: white;
+    cursor: pointer;">
+▶ Oynat
+</button>
 
-<div id="durum"></div>
-</div>
+<audio id="bgm">
+    <source src="music.m4a" type="audio/mp4">
+</audio>
 
-<!-- EMAILJS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-emailjs.init("YOUR_PUBLIC_KEY_HERE"); // <<< BURAYA SADECE PUBLIC API KEY GELECEK
+/* ---------------- EMAIL JS ---------------- */
+emailjs.init("dCQownkzENRARtTC_");
 
-let dogrulamaKodu = null;
+/* ---------------- GENEL ---------------- */
 const durum = document.getElementById("durum");
 const kilit = document.getElementById("kilit");
-function kilitle(){ kilit.style.display = "block"; }
-function ac(){ kilit.style.display = "none"; }
 
-document.getElementById("toLogin").onclick = ()=>{
-    document.getElementById("registerForm").style.display="none";
-    document.getElementById("loginForm").style.display="block";
-};
+function kilitle(){ kilit.style.display="block"; }
+function ac(){ kilit.style.display="none"; }
 
-document.getElementById("toRegisterFromLogin").onclick = ()=>{
-    document.getElementById("registerForm").style.display="block";
-    document.getElementById("loginForm").style.display="none";
-};
-
-function emailGecerliMi(mail){
-    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
+function formDegistir(gosterilecek){
+    durum.textContent = "Lütfen bekleyiniz...";
+    kilitle();
+    setTimeout(()=>{
+        document.getElementById("registerForm").style.display="none";
+        document.getElementById("loginForm").style.display="none";
+        document.getElementById("resetForm").style.display="none";
+        document.getElementById(gosterilecek).style.display="block";
+        durum.textContent = "";
+        ac();
+    }, 3000);
 }
 
-/* K A Y I T   O L */
-document.getElementById("regBtn").onclick = async()=>{
+/* FORM GEÇİŞLERİ */
+toLogin.onclick = ()=> formDegistir("loginForm");
+toReset.onclick = ()=> formDegistir("resetForm");
+toRegister.onclick = ()=> formDegistir("registerForm");
+toReset2.onclick = ()=> formDegistir("resetForm");
+toLogin2.onclick = ()=> formDegistir("loginForm");
 
-    const ad = document.getElementById("regName").value.trim();
-    const mail = document.getElementById("regMail").value.trim();
-    const pass = document.getElementById("regPass").value.trim();
-    const girilenKod = document.getElementById("regCode").value.trim();
+/* ---------------- DOĞRULAMA ---------------- */
+let kod = null;
+
+function emailValid(e){
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+}
+
+/* ------------- KAYIT ------------- */
+regBtn.onclick = async()=>{
+    const ad = regName.value.trim();
+    const mail = regMail.value.trim();
+    const pass = regPass.value.trim();
+    const girilenKod = regCode.value.trim();
 
     if(!ad || !mail || !pass){
         durum.textContent = "Boş alan bırakma.";
         return;
     }
 
-    if(!emailGecerliMi(mail)){
-        durum.textContent = "E-posta formatı hatalı!";
+    if(!emailValid(mail)){
+        durum.textContent = "E-posta hatalı!";
         return;
     }
 
-    // İlk tıklamada: kod gönder
-    if(!dogrulamaKodu){
-        dogrulamaKodu = Math.floor(100000 + Math.random()*900000);
-
+    if(!kod){   // KOD GÖNDER
+        kod = Math.floor(100000 + Math.random()*900000);
         kilitle();
         durum.textContent = "E-posta gönderiliyor...";
 
-        await emailjs.send(
-            "service_vbm28pq",
-            "template_507m11j",
-            { kod: dogrulamaKodu, mail: mail }
-        );
+        await emailjs.send("service_vbm28pq", "template_507m11j", {
+            kod:kod, mail:mail
+        });
 
         ac();
-        durum.textContent = "Kod gönderildi! Gelen kutunu kontrol et.";
+        durum.textContent = "Kod gönderildi!";
         return;
     }
 
-    // Kod kontrolü
-    if(girilenKod != dogrulamaKodu){
-        durum.textContent = "Doğrulama kodu yanlış!";
+    if(girilenKod != kod){
+        durum.textContent = "Kod yanlış!";
         return;
     }
 
     durum.textContent = "✔ Kayıt başarılı!";
-    localStorage.setItem("kullanici", mail);
+    localStorage.setItem("userMail", mail);
+
     setTimeout(()=> location.href="ana_site.html", 1500);
 };
 
-/* GİRİŞ */
-document.getElementById("loginBtn").onclick = ()=>{
-    const mail = document.getElementById("loginMail").value.trim();
-    const pass = document.getElementById("loginPass").value.trim();
-
-    if(mail === localStorage.getItem("kullanici")){
-        durum.textContent = "✔ Giriş başarılı!";
+/* ----------- GİRİŞ ----------- */
+loginBtn.onclick = ()=>{
+    if(loginMail.value.trim() === localStorage.getItem("userMail")){
+        durum.textContent="✔ Giriş başarılı!";
         setTimeout(()=> location.href="ana_site.html", 1500);
     } else {
-        durum.textContent = "Hatalı giriş.";
+        durum.textContent="Bilgiler yanlış.";
+    }
+};
+
+/* ----------- ŞİFRE RESET ----------- */
+resetBtn.onclick = ()=>{
+    durum.textContent = "✔ Sıfırlama linki gönderildi!";
+};
+
+/* ----------- MÜZİK ----------- */
+const audio = document.getElementById("bgm");
+const btn = document.getElementById("musicBtn");
+
+btn.onclick = ()=>{
+    if(audio.paused){
+        audio.play();
+        btn.textContent = "⏸ Durdur";
+    } else {
+        audio.pause();
+        btn.textContent = "▶ Oynat";
     }
 };
 </script>
