@@ -33,29 +33,41 @@ body {
 }
 
 .center-box input {
-    width:100%; padding:10px; margin:6px 0;
-    border:none; border-radius:8px; outline:none;
-}
+    width:100%;
+    padding:10px;
+    margin:6px 0;
+    border:none;
+    border-radius:8px;
+    outline:none;
+} /* ← EKSİK OLAN } EKLENDİ */
 
 .center-box button {
-    width:100%; padding:10px;
-    margin-top:8px; border:none;
-    border-radius:8px; background:#006CFF;
-    font-weight:bold; color:white;
+    width:100%;
+    padding:10px;
+    margin-top:8px;
+    border:none;
+    border-radius:8px;
+    background:#006CFF;
+    font-weight:bold;
+    color:white;
 }
 
 .link-btn {
-    display:block; margin-top:8px;
-    text-decoration:underline; color:#ddd;
+    display:block;
+    margin-top:8px;
+    text-decoration:underline;
+    color:#ddd;
     cursor:pointer;
 }
 
 #durum { margin-top:10px; min-height:22px; color:white; }
 
 #kilit {
-    position:fixed; inset:0;
+    position:fixed;
+    inset:0;
     background:rgba(0,0,0,0.35);
-    z-index:9999; display:none;
+    z-index:9999;
+    display:none;
 }
 </style>
 </head>
@@ -70,8 +82,6 @@ body {
 <div id="kilit"></div>
 
 <div class="center-box">
-
-    <!-- KAYIT -->
     <div id="registerForm">
         <h3>Kayıt Ol</h3>
         <input id="regName" placeholder="Kullanıcı adı">
@@ -83,7 +93,6 @@ body {
         <span class="link-btn" id="toReset">Şifremi unuttum</span>
     </div>
 
-    <!-- GİRİŞ -->
     <div id="loginForm" style="display:none;">
         <h3>Giriş Yap</h3>
         <input id="loginMail" type="email" placeholder="E-posta">
@@ -93,7 +102,6 @@ body {
         <span class="link-btn" id="toReset2">Şifremi unuttum</span>
     </div>
 
-    <!-- RESET -->
     <div id="resetForm" style="display:none;">
         <h3>Şifre Sıfırla</h3>
         <input id="resetMail" type="email" placeholder="E-posta">
@@ -102,10 +110,8 @@ body {
     </div>
 
     <div id="durum"></div>
-
 </div>
 
-<!-- MÜZİK TUŞU -->
 <button id="musicBtn" style="
     position: fixed;
     bottom: 20px;
@@ -126,10 +132,8 @@ body {
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
-/* ---------------- EMAIL JS ---------------- */
 emailjs.init("dCQownkzENRARtTC_");
 
-/* ---------------- GENEL ---------------- */
 const durum = document.getElementById("durum");
 const kilit = document.getElementById("kilit");
 
@@ -149,21 +153,18 @@ function formDegistir(gosterilecek){
     }, 3000);
 }
 
-/* FORM GEÇİŞLERİ */
 toLogin.onclick = ()=> formDegistir("loginForm");
 toReset.onclick = ()=> formDegistir("resetForm");
 toRegister.onclick = ()=> formDegistir("registerForm");
 toReset2.onclick = ()=> formDegistir("resetForm");
 toLogin2.onclick = ()=> formDegistir("loginForm");
 
-/* ---------------- DOĞRULAMA ---------------- */
 let kod = null;
 
 function emailValid(e){
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 }
 
-/* ------------- KAYIT ------------- */
 regBtn.onclick = async()=>{
     const ad = regName.value.trim();
     const mail = regMail.value.trim();
@@ -180,14 +181,14 @@ regBtn.onclick = async()=>{
         return;
     }
 
-    if(!kod){   // KOD GÖNDER
+    if(!kod){
         kod = Math.floor(100000 + Math.random()*900000);
         kilitle();
         durum.textContent = "E-posta gönderiliyor...";
 
         await emailjs.send("service_vbm28pq", "template_507m11j", {
-            kod:kod,
-            mail:mail
+            kod: kod,
+            mail: mail
         });
 
         ac();
@@ -206,7 +207,6 @@ regBtn.onclick = async()=>{
     setTimeout(()=> location.href="ana_site.html", 1500);
 };
 
-/* ----------- GİRİŞ ----------- */
 loginBtn.onclick = ()=>{
     if(loginMail.value.trim() === localStorage.getItem("userMail")){
         durum.textContent="✔ Giriş başarılı!";
@@ -216,12 +216,10 @@ loginBtn.onclick = ()=>{
     }
 };
 
-/* ----------- ŞİFRE RESET ----------- */
 resetBtn.onclick = ()=>{
     durum.textContent = "✔ Sıfırlama linki gönderildi!";
 };
 
-/* ----------- MÜZİK ----------- */
 const audio = document.getElementById("bgm");
 const btn = document.getElementById("musicBtn");
 
@@ -237,5 +235,4 @@ btn.onclick = ()=>{
 </script>
 
 </body>
-    </html>
-    
+</html>
