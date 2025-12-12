@@ -4,82 +4,61 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UNIXSTORM</title>
+
 <style>
-body{
-    margin:0;padding:0;height:100vh;
-    background:url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
-    background-size:cover;font-family:Arial;
-}
+body{margin:0;padding:0;height:100vh;
+background:url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
+background-size:cover;font-family:Arial;}
 .yazi-kutu{text-align:center;margin-top:28px;}
 .anaYazi{font-size:18px;color:white;font-weight:bold;text-shadow:0 0 6px white;}
 .vip{color:orange;font-weight:bold;text-shadow:0 0 6px orange;}
 .red{color:red;font-weight:bold;text-shadow:0 0 6px red;}
 
 .center-box{
-    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-    width:320px;padding:20px;background:rgba(0,0,0,0.78);
-    border-radius:12px;backdrop-filter:blur(5px);color:white;text-align:center;
+position:fixed;top:50%;left:50%;
+transform:translate(-50%,-50%);
+width:280px;padding:20px;background:rgba(0,0,0,0.78);
+border-radius:12px;backdrop-filter:blur(5px);color:white;text-align:center;
 }
 .center-box input{
-    width:100%;padding:10px;margin:6px 0;border:none;border-radius:8px;outline:none;
+width:100%;padding:10px;margin:6px 0;border:none;border-radius:8px;outline:none;
 }
 .center-box button{
-    width:100%;padding:10px;margin-top:8px;border:none;border-radius:8px;
-    background:#006CFF;font-weight:bold;color:white;cursor:pointer;
+width:100%;padding:10px;margin-top:8px;border:none;border-radius:8px;
+background:#006CFF;font-weight:bold;color:white;cursor:pointer;
 }
 .link-btn{
-    display:block;margin-top:8px;text-decoration:underline;
-    color:#ddd;cursor:pointer;
+display:block;margin-top:8px;text-decoration:underline;
+color:#ddd;cursor:pointer;
 }
 #durum{
-    margin-top:10px;min-height:22px;color:#ffebeb;font-weight:bold;font-size:14px;
+margin-top:10px;min-height:22px;color:#ffebeb;font-weight:bold;font-size:14px;
 }
 
-/* OVERLAY (EKRAN KİLİTLEME) */
-#overlay {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    background: rgba(0,0,0,0.55);
-    display: none;
-    justify-content: center;
-    align-items: center;
-    z-index: 99999;
+/* OVERLAY */
+#overlay{
+position:fixed;top:0;left:0;width:100%;height:100%;
+background:rgba(0,0,0,0.55);display:none;
+justify-content:center;align-items:center;z-index:99999;
 }
-
-.loaderBox {
-    background: rgba(0,0,0,0.80);
-    padding: 20px 30px;
-    border-radius: 12px;
-    text-align:center;
-    color:white;
-    font-size:18px;
-    font-weight:bold;
-    box-shadow:0 0 10px black;
+.loaderBox{
+background:rgba(0,0,0,0.80);padding:20px 30px;border-radius:12px;
+text-align:center;color:white;font-size:18px;font-weight:bold;box-shadow:0 0 10px black;
 }
-
-.loader {
-    border: 4px solid #fff;
-    border-top: 4px solid transparent;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    animation: load 1s linear infinite;
-    margin: 0 auto 15px auto;
+.loader{
+border:4px solid #fff;border-top:4px solid transparent;border-radius:50%;
+width:40px;height:40px;animation:load 1s linear infinite;margin:0 auto 15px auto;
 }
-
-@keyframes load {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
+@keyframes load{0%{transform:rotate(0deg);}100%{transform:rotate(360deg);}}
 </style>
 </head>
+
 <body>
 
 <!-- OVERLAY -->
-<div id="overlay" aria-hidden="true">
+<div id="overlay">
     <div class="loaderBox">
-        <div class="loader" aria-hidden="true"></div>
+        <div class="loader"></div>
         Lütfen bekleyiniz...
     </div>
 </div>
@@ -91,57 +70,56 @@ body{
 
 <div class="center-box">
 
-    <!-- KAYIT -->
-    <div id="registerForm">
-        <h3>Kayıt Ol</h3>
-        <input id="regName" placeholder="Kullanıcı adı">
-        <input id="regMail" type="email" placeholder="E-posta">
-        <input id="regPass" type="password" placeholder="Şifre">
-        <input id="regCode" placeholder="E-postaya gelen kod">
-        <button id="regBtn">Kayıt Ol</button>
-        <span class="link-btn" id="toLogin">Giriş yapın</span>
-        <span class="link-btn" id="toReset">Şifremi unuttum</span>
-    </div>
+<!-- KAYIT -->
+<div id="registerForm">
+    <h3>Kayıt Ol</h3>
+    <input id="regName" placeholder="Kullanıcı adı">
+    <input id="regMail" type="email" placeholder="E-posta">
+    <input id="regPass" type="password" placeholder="Şifre">
+    <input id="regCode" placeholder="E-postaya gelen kod">
+    <button id="regBtn">Kayıt Ol</button>
+    <span class="link-btn" id="toLogin">Giriş yapın</span>
+    <span class="link-btn" id="toReset">Şifremi unuttum</span>
+</div>
 
-    <!-- GİRİŞ -->
-    <div id="loginForm" style="display:none;">
-        <h3>Giriş Yap</h3>
-        <input id="loginMail" type="email" placeholder="E-posta">
-        <input id="loginPass" type="password" placeholder="Şifre">
-        <button id="loginBtn">Giriş Yap</button>
-        <span class="link-btn" id="toRegister">Kayıt Ol</span>
-        <span class="link-btn" id="toReset2">Şifremi unuttum</span>
-    </div>
+<!-- GİRİŞ -->
+<div id="loginForm" style="display:none;">
+    <h3>Giriş Yap</h3>
+    <input id="loginMail" type="email" placeholder="E-posta">
+    <input id="loginPass" type="password" placeholder="Şifre">
+    <button id="loginBtn">Giriş Yap</button>
+    <span class="link-btn" id="toRegister">Kayıt Ol</span>
+    <span class="link-btn" id="toReset2">Şifremi unuttum</span>
+</div>
 
-    <!-- SIFIRLAMA -->
-    <div id="resetForm" style="display:none;">
-        <h3>Şifreyi Sıfırla</h3>
-        <input id="resetMail" type="email" placeholder="E-posta">
-        <button id="resetBtn">Kodu Gönder</button>
-        <span class="link-btn" id="toLogin2">Girişe dön</span>
-    </div>
+<!-- SIFIRLAMA -->
+<div id="resetForm" style="display:none;">
+    <h3>Şifreyi Sıfırla</h3>
+    <input id="resetMail" type="email" placeholder="E-posta">
+    <button id="resetBtn">Kodu Gönder</button>
+    <span class="link-btn" id="toLogin2">Girişe dön</span>
+</div>
 
-    <!-- KOD -->
-    <div id="resetCodeForm" style="display:none;">
-        <h3>Kod Doğrula</h3>
-        <input id="resetCode" placeholder="Kod">
-        <button id="resetCodeBtn">Doğrula</button>
-    </div>
+<!-- KOD -->
+<div id="resetCodeForm" style="display:none;">
+    <h3>Kod Doğrula</h3>
+    <input id="resetCode" placeholder="Kod">
+    <button id="resetCodeBtn">Doğrula</button>
+</div>
 
-    <!-- YENİ ŞİFRE -->
-    <div id="newPassForm" style="display:none;">
-        <h3>Yeni Şifrenizi Girin</h3>
-        <input id="newPass" type="password" placeholder="Yeni şifre">
-        <button id="newPassBtn">Kaydet</button>
-    </div>
+<!-- YENİ ŞİFRE -->
+<div id="newPassForm" style="display:none;">
+    <h3>Yeni Şifre</h3>
+    <input id="newPass" type="password" placeholder="Yeni şifre">
+    <button id="newPassBtn">Kaydet</button>
+</div>
 
-    <div id="durum"></div>
+<div id="durum"></div>
 </div>
 
 <!-- MÜZİK -->
-<button id="musicBtn" style="
-position:fixed;bottom:20px;right:20px;padding:12px 20px;
-font-size:18px;border:none;border-radius:10px;
+<button id="musicBtn" style="position:fixed;bottom:20px;right:20px;
+padding:12px 20px;font-size:18px;border:none;border-radius:10px;
 background:rgba(0,0,0,0.6);color:white;cursor:pointer;">
 ▶ Oynat
 </button>
@@ -150,266 +128,158 @@ background:rgba(0,0,0,0.6);color:white;cursor:pointer;">
     <source src="music.m4a" type="audio/mp4">
 </audio>
 
-<!-- emailjs -->
+<!-- EMAILJS -->
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script>emailjs.init("dCQownkzENRARtTC_");</script>
 
-<!-- Firebase + logic (module) -->
+<!-- FIREBASE -->
 <script type="module">
-/* Firebase imports */
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import { getDatabase, ref, set, get, update } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-database.js";
 
-/* ---------- FIREBASE CONFIG ---------- */
 const firebaseConfig = {
-  apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
-  authDomain: "unixstorm-9dff8.firebaseapp.com",
-  projectId: "unixstorm-9dff8",
-  storageBucket: "unixstorm-9dff8.firebasestorage.app",
-  messagingSenderId: "787509821542",
-  appId: "1:787509821542:web:2b54b5bafee1207edeada7",
-  measurementId: "G-BQYS1575QZ",
-  databaseURL: "https://unixstorm-9dff8-default-rtdb.firebaseio.com/"
+    apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
+    authDomain: "unixstorm-9dff8.firebaseapp.com",
+    projectId: "unixstorm-9dff8",
+    storageBucket: "unixstorm-9dff8.firebasestorage.app",
+    messagingSenderId: "787509821542",
+    appId: "1:787509821542:web:2b54b5bafee1207edeada7",
+    databaseURL: "https://unixstorm-9dff8-default-rtdb.firebaseio.com/"
 };
 
 const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 
-/* ---------- emailjs init ---------- */
-emailjs.init("dCQownkzENRARtTC_");
+/* ------------------------------ SHA-256 ------------------------------ */
+async function sha256(text){
+    const data = new TextEncoder().encode(text);
+    const hash = await crypto.subtle.digest("SHA-256", data);
+    return Array.from(new Uint8Array(hash))
+        .map(b => b.toString(16).padStart(2,"0"))
+        .join("");
+}
 
-/* ---------- helpers & DOM ---------- */
-const durum = document.getElementById("durum");
+/* -------------------------------------------------- */
+/* FORM GEÇİŞ / OVERLAY */
+/* -------------------------------------------------- */
 const overlay = document.getElementById("overlay");
+const durum = document.getElementById("durum");
 
-function kilitAc(){ overlay.style.display = "flex"; overlay.setAttribute('aria-hidden','false'); }
-function kilitKapat(){ overlay.style.display = "none"; overlay.setAttribute('aria-hidden','true'); }
+function kilitAc(){ overlay.style.display="flex"; }
+function kilitKapat(){ overlay.style.display="none"; }
 
-function formGizle(){ ["registerForm","loginForm","resetForm","resetCodeForm","newPassForm"].forEach(id=>document.getElementById(id).style.display="none"); }
-function formAc(id){ formGizle(); document.getElementById(id).style.display="block"; }
-
+function formGizle(){
+    ["registerForm","loginForm","resetForm","resetCodeForm","newPassForm"]
+    .forEach(id=> document.getElementById(id).style.display="none");
+}
+function formAc(id){
+    formGizle();
+    document.getElementById(id).style.display="block";
+}
 function gecisYap(id){
-    durum.textContent = "Geçiş yapılıyor...";
     kilitAc();
-    setTimeout(()=>{ formAc(id); durum.textContent=""; kilitKapat(); }, 3000);
+    setTimeout(()=>{ formAc(id); kilitKapat(); durum.textContent=""; },1500);
 }
 
-function emailValid(e){ return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e); }
+/* GEÇİŞ BUTONLARI */
+toLogin.onclick=()=>gecisYap("loginForm");
+toRegister.onclick=()=>gecisYap("registerForm");
+toReset.onclick=toReset2.onclick=()=>gecisYap("resetForm");
+toLogin2.onclick=()=>gecisYap("loginForm");
 
-/* SHA-256 hashing -> hex */
-async function sha256hex(str){
-    const enc = new TextEncoder();
-    const data = enc.encode(str);
-    const hash = await crypto.subtle.digest('SHA-256', data);
-    return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('');
-}
-
-/* safe key from email */
-function userKeyFromEmail(email){
-    return 'user_' + btoa(email).replace(/=/g,'');
-}
-
-/* nav */
-document.getElementById("toLogin").onclick = ()=> gecisYap("loginForm");
-document.getElementById("toRegister").onclick = ()=> gecisYap("registerForm");
-document.getElementById("toReset").onclick = ()=> gecisYap("resetForm");
-document.getElementById("toReset2").onclick = ()=> gecisYap("resetForm");
-document.getElementById("toLogin2").onclick = ()=> gecisYap("loginForm");
-
-/* state */
+/* ------------------------- KAYIT ------------------------- */
 let kod = null;
-let resetKod = null;
-let resetMailKayit = null;
 
-/* DB ref helper */
-const dbRef = path => ref(db, path);
-
-/* ---------- REGISTER ---------- */
-document.getElementById("regBtn").onclick = async ()=>{
+regBtn.onclick = async()=>{
     kilitAc();
-    try{
-        const ad = document.getElementById("regName").value.trim();
-        const mail = document.getElementById("regMail").value.trim();
-        const pass = document.getElementById("regPass").value;
-        const girKod = document.getElementById("regCode").value.trim();
 
-        if(!ad || !mail || !pass){
-            durum.textContent = "Lütfen tüm bilgileri doldurun.";
-            kilitKapat(); return;
-        }
-        if(!emailValid(mail)){
-            durum.textContent = "E-posta geçersiz.";
-            kilitKapat(); return;
-        }
+    const ad = regName.value.trim();
+    const mail = regMail.value.trim();
+    const pass = regPass.value.trim();
+    const girKod = regCode.value.trim();
 
-        const key = userKeyFromEmail(mail);
-
-        // if kod not created yet -> create and send
-        if(!kod){
-            kod = Math.floor(100000 + Math.random()*900000);
-            const zaman = new Date().toLocaleString("tr-TR");
-            await emailjs.send("service_vbm28pq","template_507m11j",{
-                kod: kod, mail: mail, zaman: zaman
-            });
-            durum.textContent = "Mailine gelen kodu gir.";
-            kilitKapat();
-            return;
-        }
-
-        // verify code
-        if(String(girKod) !== String(kod)){
-            durum.textContent = "Kod yanlış!";
-            kilitKapat();
-            return;
-        }
-
-        // hash password and save to Firebase Realtime DB
-        const hashed = await sha256hex(pass);
-        const zamanCreate = new Date().toLocaleString("tr-TR");
-
-        await set(dbRef(`users/${key}`), {
-            kullaniciAdi: ad,
-            email: mail,
-            pass: hashed,
-            createdAt: zamanCreate
-        });
-
-        // localStorage keep (hashed)
-        localStorage.setItem("userMail", mail);
-        localStorage.setItem("userPass", hashed);
-        localStorage.setItem("sessionUser", key);
-
-        durum.textContent = "Kayıt başarılı! Yönlendiriliyorsunuz...";
-        kod = null; // reset flow
-        kilitKapat();
-
-        // small delay to let user see message
-        setTimeout(()=> { location.href = "ana_site.html"; }, 800);
-    } catch(err){
-        console.error(err);
-        durum.textContent = "Kayıt sırasında hata oluştu.";
-        kilitKapat();
+    if(!ad || !mail || !pass){
+        kilitKapat(); durum.textContent="Tüm alanlar gerekli."; return;
     }
-};
 
-/* ---------- LOGIN ---------- */
-document.getElementById("loginBtn").onclick = async ()=>{
-    kilitAc();
-    try{
-        const mail = document.getElementById("loginMail").value.trim();
-        const pass = document.getElementById("loginPass").value;
-        if(!mail || !pass){
-            durum.textContent = "Lütfen bilgileri girin.";
-            kilitKapat(); return;
-        }
-        if(!emailValid(mail)){ durum.textContent = "E-posta geçersiz."; kilitKapat(); return; }
-
-        const key = userKeyFromEmail(mail);
-        const snap = await get(dbRef(`users/${key}`)); // read from realtime DB
-
-        if(!snap.exists()){
-            durum.textContent = "Kayıt bulunamadı.";
-            kilitKapat(); return;
-        }
-
-        const remote = snap.val();
-        const hashed = await sha256hex(pass);
-
-        if(hashed === remote.pass){
-            localStorage.setItem("userMail", mail);
-            localStorage.setItem("userPass", hashed);
-            localStorage.setItem("sessionUser", key);
-
-            durum.textContent = "Giriş başarılı! Yönlendiriliyorsunuz...";
-            kilitKapat();
-            setTimeout(()=> { location.href = "ana_site.html"; }, 800);
-        } else {
-            durum.textContent = "Bilgiler yanlış!";
-            kilitKapat();
-        }
-    } catch(err){
-        console.error(err);
-        durum.textContent = "Giriş sırasında hata oluştu.";
+    if(!kod){
+        kod = Math.floor(100000+Math.random()*900000);
+        await emailjs.send("service_vbm28pq","template_507m11j",{ kod, mail });
         kilitKapat();
-    }
-};
-
-/* ---------- RESET: SEND CODE ---------- */
-document.getElementById("resetBtn").onclick = async ()=>{
-    kilitAc();
-    try{
-        const mail = document.getElementById("resetMail").value.trim();
-        if(!emailValid(mail)){ durum.textContent = "Geçerli bir mail girin."; kilitKapat(); return; }
-
-        const key = userKeyFromEmail(mail);
-        const snap = await get(dbRef(`users/${key}`));
-        if(!snap.exists()){ durum.textContent = "Bu e-postaya kayıtlı kullanıcı yok."; kilitKapat(); return; }
-
-        resetKod = Math.floor(100000 + Math.random()*900000);
-        resetMailKayit = mail;
-        const zaman = new Date().toLocaleString("tr-TR");
-
-        await emailjs.send("service_vbm28pq","template_507m11j",{
-            kod: resetKod, mail: mail, zaman: zaman
-        });
-
-        durum.textContent = "Kod gönderildi. Gelen kutunu kontrol et.";
-        kilitKapat();
-        gecisYap("resetCodeForm");
-    } catch(err){
-        console.error(err);
-        durum.textContent = "Kod gönderilemedi.";
-        kilitKapat();
-    }
-};
-
-/* ---------- RESET: VERIFY CODE ---------- */
-document.getElementById("resetCodeBtn").onclick = ()=>{
-    const entered = document.getElementById("resetCode").value.trim();
-    if(String(entered) !== String(resetKod)){
-        durum.textContent = "Kod yanlış!";
+        durum.textContent="Mailine kod gönderildi.";
         return;
     }
-    durum.textContent = "Kod doğrulandı. Yeni şifre girin.";
-    gecisYap("newPassForm");
+
+    if(girKod != kod){
+        kilitKapat(); durum.textContent="Kod yanlış."; return;
+    }
+
+    /* Firebase UID üret */
+    const uid = "UID_" + Math.random().toString(36).substring(2,12);
+
+    /* Şifreyi SHA-256 + salt(uid) */
+    const hash = await sha256(pass + uid);
+
+    await set(ref(db, "users/"+uid), {
+        username: ad,
+        mail: mail,
+        pass: hash
+    });
+
+    localStorage.setItem("sessionUser", uid);
+
+    durum.textContent = "Kayıt başarılı!";
+    setTimeout(()=> location.href="ana_site.html", 1200);
 };
 
-/* ---------- RESET: SET NEW PASSWORD ---------- */
-document.getElementById("newPassBtn").onclick = async ()=>{
+/* ------------------------- GİRİŞ ------------------------- */
+loginBtn.onclick = async()=>{
     kilitAc();
-    try{
-        const yeni = document.getElementById("newPass").value.trim();
-        if(!yeni){ durum.textContent = "Şifre boş olamaz."; kilitKapat(); return; }
-        if(!resetMailKayit){ durum.textContent = "Reset işlemi yok."; kilitKapat(); return; }
+    const mail = loginMail.value.trim();
+    const pass = loginPass.value.trim();
 
-        const key = userKeyFromEmail(resetMailKayit);
-        const hashed = await sha256hex(yeni);
+    const usersRef = ref(db,"users");
+    const snap = await get(usersRef);
 
-        // update password in DB
-        await update(dbRef(`users/${key}`), { pass: hashed });
+    if(!snap.exists()){
+        kilitKapat(); durum.textContent="Kayıt yok."; return;
+    }
 
-        // update localStorage if same user currently logged
-        if(localStorage.getItem("userMail") === resetMailKayit){
-            localStorage.setItem("userPass", hashed);
+    let bulundu=false;
+
+    snap.forEach(child=>{
+        const u = child.val();
+        const uid = child.key;
+
+        if(u.mail === mail){
+            bulundu=true;
+            sha256(pass + uid).then(hash=>{
+                if(hash === u.pass){
+                    localStorage.setItem("sessionUser", uid);
+                    durum.textContent="Giriş başarılı!";
+                    setTimeout(()=> location.href="ana_site.html", 1200);
+                } else {
+                    kilitKapat(); durum.textContent="Şifre yanlış!";
+                }
+            });
         }
+    });
 
-        durum.textContent = "Şifre yenilendi!";
-        resetKod = null; resetMailKayit = null;
+    if(!bulundu){
         kilitKapat();
-        setTimeout(()=> gecisYap("loginForm"), 800);
-    } catch(err){
-        console.error(err);
-        durum.textContent = "Şifre güncellenemedi.";
-        kilitKapat();
+        durum.textContent="Mail bulunamadı.";
     }
 };
 
-/* ---------- MUSIC BUTTON ---------- */
-const audio = document.getElementById("bgm");
-const btn = document.getElementById("musicBtn");
-btn.onclick = ()=>{
-    if(audio.paused){ audio.play(); btn.textContent="⏸ Durdur"; }
-    else{ audio.pause(); btn.textContent="▶ Oynat"; }
+/* ------------------ MÜZİK ------------------ */
+const audio=document.getElementById("bgm");
+const btn=document.getElementById("musicBtn");
+
+btn.onclick=()=>{
+    if(audio.paused){audio.play();btn.textContent="⏸ Durdur";}
+    else{audio.pause();btn.textContent="▶ Oynat";}
 };
 </script>
+
 </body>
 </html>
