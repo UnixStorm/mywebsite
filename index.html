@@ -6,68 +6,38 @@
 <title>UNIXSTORM</title>
 
 <style>
-body {
-    margin: 0;
-    padding: 0;
-    height: 100vh;
-    background: url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
-    background-size: cover;
-    font-family: Arial;
+body{
+    margin:0;padding:0;height:100vh;
+    background:url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
+    background-size:cover;font-family:Arial;
 }
+.yazi-kutu{text-align:center;margin-top:28px;}
+.anaYazi{font-size:18px;color:white;font-weight:bold;text-shadow:0 0 6px white;}
+.vip{color:orange;font-weight:bold;text-shadow:0 0 6px orange;}
+.red{color:red;font-weight:bold;text-shadow:0 0 6px red;}
 
-.yazi-kutu { text-align:center; margin-top:28px; }
-.anaYazi { font-size:18px; color:white; font-weight:bold; text-shadow:0 0 6px white; }
-.vip { color:orange; font-weight:bold; text-shadow:0 0 6px orange; }
-.red { color:red; font-weight:bold; text-shadow:0 0 6px red; }
-
-.center-box {
-    position: fixed;
-    top: 50%; left: 50%;
-    transform: translate(-50%, -50%);
-    width: 280px;
-    padding: 20px;
-    background: rgba(0,0,0,0.78);
-    border-radius: 12px;
-    backdrop-filter: blur(5px);
-    color:white; text-align:center;
+.center-box{
+    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+    width:280px;padding:20px;background:rgba(0,0,0,0.78);
+    border-radius:12px;backdrop-filter:blur(5px);color:white;text-align:center;
 }
-
-.center-box input {
-    width:100%;
-    padding:10px;
-    margin:6px 0;
-    border:none;
-    border-radius:8px;
-    outline:none;
+.center-box input{
+    width:100%;padding:10px;margin:6px 0;border:none;border-radius:8px;outline:none;
 }
-
-.center-box button {
-    width:100%;
-    padding:10px;
-    margin-top:8px;
-    border:none;
-    border-radius:8px;
-    background:#006CFF;
-    font-weight:bold;
-    color:white;
+.center-box button{
+    width:100%;padding:10px;margin-top:8px;border:none;border-radius:8px;
+    background:#006CFF;font-weight:bold;color:white;cursor:pointer;
 }
-
-.link-btn {
-    display:block;
-    margin-top:8px;
-    text-decoration:underline;
-    color:#ddd;
-    cursor:pointer;
+.link-btn{
+    display:block;margin-top:8px;text-decoration:underline;
+    color:#ddd;cursor:pointer;
 }
-
-#durum { margin-top:10px; min-height:22px; color:white; }
-
-#kilit {
-    position:fixed;
-    inset:0;
-    background:rgba(0,0,0,0.35);
-    z-index:9999;
-    display:none;
+#durum{margin-top:10px;min-height:22px;color:white;}
+#kilit{
+    position:fixed;inset:0;background:rgba(0,0,0,0.55);
+    z-index:9999;display:none;color:white;
+    font-size:22px;display:flex;justify-content:center;
+    align-items:center;text-shadow:0 0 10px black;
 }
 </style>
 </head>
@@ -79,11 +49,11 @@ body {
     <div><span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span><span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span></div>
 </div>
 
-<div id="kilit"></div>
+<div id="kilit">~geçiş yapılıyor Lütfen bekleyiniz…</div>
 
 <div class="center-box">
 
-    <!-- KAYIT FORMU -->
+    <!-- KAYIT -->
     <div id="registerForm">
         <h3>Kayıt Ol</h3>
         <input id="regName" placeholder="Kullanıcı adı">
@@ -95,7 +65,7 @@ body {
         <span class="link-btn" id="toReset">Şifremi unuttum</span>
     </div>
 
-    <!-- GİRİŞ FORMU -->
+    <!-- GİRİŞ -->
     <div id="loginForm" style="display:none;">
         <h3>Giriş Yap</h3>
         <input id="loginMail" type="email" placeholder="E-posta">
@@ -105,51 +75,42 @@ body {
         <span class="link-btn" id="toReset2">Şifremi unuttum</span>
     </div>
 
-    <!-- ŞİFREMİ UNUTTUM - KOD GÖNDER -->
+    <!-- SIFIRLAMA -->
     <div id="resetForm" style="display:none;">
-        <h3>Şifre Sıfırla</h3>
+        <h3>Şifreyi Sıfırla</h3>
         <input id="resetMail" type="email" placeholder="E-posta">
         <button id="resetBtn">Kodu Gönder</button>
         <span class="link-btn" id="toLogin2">Girişe dön</span>
     </div>
 
-    <!-- KOD DOĞRULAMA -->
+    <!-- KOD -->
     <div id="resetCodeForm" style="display:none;">
         <h3>Kod Doğrula</h3>
-        <input id="resetCode" placeholder="E-postaya gelen kod">
+        <input id="resetCode" placeholder="Kod">
         <button id="resetCodeBtn">Doğrula</button>
     </div>
 
-    <!-- YENİ ŞİFRE BELİRLEME -->
+    <!-- YENİ ŞİFRE -->
     <div id="newPassForm" style="display:none;">
         <h3>Yeni Şifrenizi Girin</h3>
         <input id="newPass" type="password" placeholder="Yeni şifre">
-        <button id="newPassBtn">Şifreyi Kaydet</button>
+        <button id="newPassBtn">Kaydet</button>
     </div>
 
     <div id="durum"></div>
 </div>
 
-
 <!-- MÜZİK -->
 <button id="musicBtn" style="
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    padding: 12px 20px;
-    font-size: 18px;
-    border: none;
-    border-radius: 10px;
-    background: rgba(0,0,0,0.6);
-    color: white;
-    cursor: pointer;">
+    position:fixed;bottom:20px;right:20px;padding:12px 20px;
+    font-size:18px;border:none;border-radius:10px;
+    background:rgba(0,0,0,0.6);color:white;cursor:pointer;">
 ▶ Oynat
 </button>
 
 <audio id="bgm">
     <source src="music.m4a" type="audio/mp4">
 </audio>
-
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 <script>
@@ -158,113 +119,102 @@ emailjs.init("dCQownkzENRARtTC_");
 const durum = document.getElementById("durum");
 const kilit = document.getElementById("kilit");
 
-function kilitle(){ kilit.style.display="block"; }
-function ac(){ kilit.style.display="none"; }
+function kilitle(){kilit.style.display="flex";}
+function ac(){kilit.style.display="none";}
+
+/* --- 3 SANİYELİK BEKLEME SİSTEMİ --- */
+function bekleVeGeç(id){
+    kilitle();
+    setTimeout(()=>{
+        ac();
+        formAc(id);
+    }, 3000);
+}
 
 function formGizle(){
     ["registerForm","loginForm","resetForm","resetCodeForm","newPassForm"]
     .forEach(id => document.getElementById(id).style.display="none");
 }
+function formAc(id){formGizle();document.getElementById(id).style.display="block";}
 
-function formAc(id){
-    formGizle();
-    document.getElementById(id).style.display = "block";
-}
+/* --- FORM GEÇİŞLERİNİ BEKLEMEYE BAĞLADIM --- */
+toLogin.onclick = ()=> bekleVeGeç("loginForm");
+toRegister.onclick = ()=> bekleVeGeç("registerForm");
+toReset.onclick = ()=> bekleVeGeç("resetForm");
+toReset2.onclick = ()=> bekleVeGeç("resetForm");
+toLogin2.onclick = ()=> bekleVeGeç("loginForm");
 
-toLogin.onclick = ()=> formAc("loginForm");
-toRegister.onclick = ()=> formAc("registerForm");
-toReset.onclick = ()=> formAc("resetForm");
-toReset2.onclick = ()=> formAc("resetForm");
-toLogin2.onclick = ()=> formAc("loginForm");
-
-
-/* ————————————————
-    KAYIT KODU
-——————————————— */
-let kod = null;
-
+/* ------------------ EMAIL KONTROL ------------------ */
 function emailValid(e){
     return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 }
+
+/* ------------------ KAYIT ------------------ */
+let kod = null;
 
 regBtn.onclick = async()=>{
     const ad = regName.value.trim();
     const mail = regMail.value.trim();
     const pass = regPass.value.trim();
-    const girilenKod = regCode.value.trim();
+    const girKod = regCode.value.trim();
 
     if(!ad || !mail || !pass){
-        durum.textContent = "Lütfen bilgilerinizi tam giriniz.";
+        durum.textContent = "Lütfen tüm bilgileri doldurun.";
         return;
     }
 
     if(!emailValid(mail)){
-        durum.textContent = "E-posta hatalı!";
+        durum.textContent = "E-posta geçersiz.";
         return;
     }
 
     if(!kod){
         kod = Math.floor(100000 + Math.random()*900000);
-        const tarihSaat = new Date().toLocaleString("tr-TR");
 
         kilitle();
-        durum.textContent = "Mailine doğrulama kodu gönderiliyor...";
-
-        await emailjs.send("service_vbm28pq", "template_507m11j", {
-            kod: kod,
-            mail: mail,
-            zaman: tarihSaat
+        await emailjs.send("service_vbm28pq","template_507m11j",{
+            kod:kod, mail:mail, zaman:new Date().toLocaleString("tr-TR")
         });
-
         ac();
-        durum.textContent = "E-postaya gelen kodu giriniz.";
+
+        durum.textContent = "Lütfen E-Postanıza gelen 6 haneli kodu giriniz.";
         return;
     }
 
-    if(girilenKod != kod){
-        durum.textContent = "Kod yanlış!";
+    if(girKod != kod){
+        durum.textContent = "Kod yanlış girildi!";
         return;
     }
 
     localStorage.setItem("userMail", mail);
     localStorage.setItem("userPass", pass);
 
-    durum.textContent = "✔ Kayıt başarılı!";
+    durum.textContent = "#Kayıt başarıyla oluşturuldu yönlendiriliyorsunuz!";
     setTimeout(()=> location.href="ana_site.html", 1500);
 };
 
-
-/* ————————————————
-    ŞİFRE SIFIRLAMA
-——————————————— */
+/* ------------------ ŞİFRE SIFIRLA ------------------ */
 let resetKod = null;
 let resetMailKayit = null;
 
 resetBtn.onclick = async()=>{
-
     const mail = resetMail.value.trim();
 
     if(!emailValid(mail)){
-        durum.textContent = "Geçerli bir mail girin.";
+        durum.textContent = "Mail geçersiz.";
         return;
     }
 
     resetKod = Math.floor(100000 + Math.random()*900000);
     resetMailKayit = mail;
 
-    const tarihSaat = new Date().toLocaleString("tr-TR");
-
     kilitle();
-    durum.textContent = "Kod gönderiliyor...";
-
-    await emailjs.send("service_vbm28pq", "template_507m11j", {
-        kod: resetKod,
-        mail: mail,
-        zaman: tarihSaat
+    await emailjs.send("service_vbm28pq","template_507m11j",{
+        kod:resetKod, mail:mail, zaman:new Date().toLocaleString("tr-TR")
     });
-
     ac();
-    durum.textContent = "Mailine gelen kodu giriniz.";
+
+    durum.textContent = "Kod gönderildi.";
     formAc("resetCodeForm");
 };
 
@@ -273,58 +223,44 @@ resetCodeBtn.onclick = ()=>{
         durum.textContent = "Kod yanlış!";
         return;
     }
-
-    durum.textContent = "Kod doğrulandı. Yeni şifrenizi giriniz.";
+    durum.textContent = "Kod doğru girildi.";
     formAc("newPassForm");
 };
 
 newPassBtn.onclick = ()=>{
-    const newP = newPass.value.trim();
-
-    if(!newP){
+    const yeni = newPass.value.trim();
+    if(!yeni){
         durum.textContent = "Şifre boş olamaz.";
         return;
     }
 
-    localStorage.setItem("userPass", newP);
-    durum.textContent = "✔ Şifre yenilendi!";
-
+    localStorage.setItem("userPass", yeni);
+    durum.textContent = "Şifre yenilendi.";
     setTimeout(()=> formAc("loginForm"), 1500);
 };
 
-
-/* ————————————————
-    GİRİŞ
-——————————————— */
+/* ------------------ GİRİŞ ------------------ */
 loginBtn.onclick = ()=>{
     if(
         loginMail.value.trim() === localStorage.getItem("userMail") &&
         loginPass.value.trim() === localStorage.getItem("userPass")
     ){
-        durum.textContent = "✔ Giriş başarılı!";
-        setTimeout(()=> location.href="ana_site.html", 1500);
+        durum.textContent = "Giriş başarılı yönlendiriliyorsunuz!";
+        setTimeout(()=> location.href="ana_site.html", 1200);
     } else {
-        durum.textContent = "Bilgiler yanlış.";
+        durum.textContent = "Bilgiler yanlış girildi.";
     }
 };
 
-
-/* ————————————————
-    MÜZİK
-——————————————— */
+/* ------------------ MÜZİK ------------------ */
 const audio = document.getElementById("bgm");
 const btn = document.getElementById("musicBtn");
 
 btn.onclick = ()=>{
-    if(audio.paused){
-        audio.play();
-        btn.textContent = "⏸ Durdur";
-    } else {
-        audio.pause();
-        btn.textContent = "▶ Oynat";
-    }
+    if(audio.paused){audio.play();btn.textContent="⏸ Durdur";}
+    else{audio.pause();btn.textContent="▶ Oynat";}
 };
 </script>
 
 </body>
-    </html>
+</html>
