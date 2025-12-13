@@ -41,6 +41,55 @@ border:4px solid #fff;border-top:4px solid transparent;border-radius:50%;
 width:40px;height:40px;animation:load 1s linear infinite;margin:0 auto 15px;
 }
 @keyframes load{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+/* ============================= */
+/* === SONRADAN EKLENEN NEON === */
+/* ============================= */
+
+/* INPUT NEON GÖRÜNÜM */
+.center-box input{
+    background:#000;
+    color:#fff;
+    border:1px solid #00aaff;
+    box-shadow:0 0 8px rgba(0,170,255,0.6);
+    transition:0.3s;
+}
+
+.center-box input:focus{
+    box-shadow:0 0 16px rgba(0,170,255,1);
+    border-color:#00eaff;
+}
+
+/* MAVİ BUTON NEON */
+.center-box button{
+    box-shadow:0 0 14px rgba(0,108,255,0.9);
+    transition:0.3s;
+}
+
+.center-box button:hover{
+    box-shadow:0 0 24px rgba(0,108,255,1);
+}
+
+/* MOBİLDE KUTU KÜÇÜLTME */
+@media (max-width:600px){
+    .center-box{
+        width:235px;
+        padding:16px;
+    }
+
+    .center-box input{
+        padding:9px;
+        font-size:14px;
+    }
+
+    .center-box button{
+        padding:9px;
+        font-size:14px;
+    }
+}
+
+/* ============================= */
+/* === EKLEME BİTTİ === */
+/* ============================= */    
 </style>
  <script src="https://www.google.com/recaptcha/api.js" async defer></script>   
 </head>
