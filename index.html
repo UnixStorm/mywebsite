@@ -201,13 +201,19 @@ return;
 }
 lastRegisterMailTime=Date.now();
 showOverlay();
-kod=Math.floor(100000+Math.random()*900000);
-await emailjs.send("service_vbm28pq","template_507m11j",{kod,mail:regMail.value});
-// === ZAMAN BİLGİSİ EKLENDİ ===
+kod = Math.floor(100000 + Math.random() * 900000);
+
 const zaman = new Date().toLocaleString("tr-TR", {
   dateStyle: "short",
   timeStyle: "medium"
 });
+
+await emailjs.send("service_vbm28pq","template_507m11j",{
+  kod: kod,
+  mail: regMail.value,
+  zaman: zaman
+});
+
 hideOverlay();
 durum.textContent="Lütfen E-Posta adresinize gelen 6 Haneli kodu giriniz";
 return;
