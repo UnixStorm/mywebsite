@@ -53,7 +53,7 @@ width:40px;height:40px;animation:load 1s linear infinite;margin:0 auto 15px;
 </div>
 
 <div class="yazi-kutu">
-  <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 (𝗦𝗔𝗛𝗢 𝗥𝗘𝗜𝗦) ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>
+  <div class="anaYazi">𝐁𝐮 𝐬𝐢𝐭𝐞 𖣘𝐔𝐍𝐈𝐗𝐒𝐓𝐎𝐑𝐌🇹🇷 (𝐒𝐀𝐇𝐎 𝐑𝐄𝐈𝐒) ᴛᴀʀᴀғıɴᴅᴀɴ ᴋᴜʀᴜʟᴍᴜşᴛᴜʀ</div>
   <div><span class="vip">𝘃𝗶𝗽_𝘂𝘆𝗲𝗹𝗲𝗿🔱 = </span><span class="red">𝐊𝐀𝐀𝐍 𝐙𝐎𝐑𝐁𝐀 & 𝐈𝐍𝐅𝐀𝐙 𝐙𝐎𝐑𝐁𝐀</span></div>
 </div>
 
@@ -145,7 +145,7 @@ function bosMu(...alanlar){
 return alanlar.some(a=>!a.value);
 }
 
-function showOverlay(text="Lütfen bekleyiniz..."){
+function showOverlay(text="𝐋𝐮𝐭𝐟𝐞𝐧 𝐁𝐞𝐤𝐥𝐞𝐲𝐢𝐧𝐢𝐳..."){
 overlayText.textContent=text;
 overlay.style.display="flex";
 }
@@ -189,7 +189,7 @@ durum.textContent="Lütfen tüm alanları doldurun";
 return;
 }
 if(!emailKontrol(regMail.value)){
-durum.textContent="E-posta formatı hatalı";
+durum.textContent="𝐄-𝐏𝐨𝐬𝐭𝐚 Formatı Hatalı girildi";
 return;
 }
 
@@ -203,7 +203,7 @@ showOverlay();
 kod=Math.floor(100000+Math.random()*900000);
 await emailjs.send("service_vbm28pq","template_507m11j",{kod,mail:regMail.value});
 hideOverlay();
-durum.textContent="Mail kodu gönderildi";
+durum.textContent="Lütfen E-Posta adresinize gelen 6 Haneli kodu giriniz";
 return;
 }
 
@@ -213,7 +213,7 @@ return;
 }
 
 await createUserWithEmailAndPassword(auth,regMail.value,regPass.value);
-durum.textContent="Kayıt başarılı, yönlendiriliyorsunuz...";
+durum.textContent="Kaydınız Başarıyla oluşturuldu, yönlendiriliyorsunuz...";
 setTimeout(()=>location.href="ana_site.html",3000);
 };
 
@@ -223,17 +223,17 @@ durum.textContent="Boş alan bırakmayın";
 return;
 }
 if(!emailKontrol(loginMail.value)){
-durum.textContent="E-posta formatı hatalı";
+durum.textContent="E-posta formatı hatalı girildi";
 return;
 }
 showOverlay();
 try{
 await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
-durum.textContent="Giriş başarılı";
+durum.textContent="Giriş başarılı yönlendiriliyorsunuz";
 setTimeout(()=>location.href="ana_site.html",3000);
 }catch{
 hideOverlay();
-durum.textContent="E-posta veya şifre yanlış";
+durum.textContent="E-posta veya şifre yanlış girildi";
 }
 };
 
@@ -243,11 +243,11 @@ durum.textContent="E-posta girin";
 return;
 }
 if(!emailKontrol(resetMail.value)){
-durum.textContent="E-posta formatı hatalı";
+durum.textContent="E-posta formatı hatalı girildi";
 return;
 }
 if(Date.now()-lastResetMailTime<MAIL_COOLDOWN){
-durum.textContent="Mail tekrar göndermek için 3 dakika bekleyin";
+durum.textContent="Lütfen maili tekrar göndermek için 3 dakika bekleyin";
 return;
 }
 lastResetMailTime=Date.now();
@@ -255,10 +255,10 @@ showOverlay("Mail gönderiliyor...");
 try{
 await sendPasswordResetEmail(auth,resetMail.value);
 hideOverlay();
-durum.textContent="Şifre sıfırlama maili gönderildi";
+durum.textContent="Şifre sıfırlama maili gönderildi eyer maili göremezseniz spam klasörünü kontrol edin";
 }catch{
 hideOverlay();
-durum.textContent="Bu e-posta bulunamadı";
+durum.textContent="Bu e-posta'ya ait kullanıcı bulunamadı";
 }
 };
 
@@ -281,7 +281,7 @@ durum.textContent="Link geçersiz veya süresi dolmuş";
 
 newPassBtn.onclick=async()=>{
 if(newPass.value.length<6){
-durum.textContent="Şifre en az 6 karakter";
+durum.textContent="Şifreniz en az 6 karakter barındırmak zorunda";
 return;
 }
 showOverlay("Şifre güncelleniyor...");
