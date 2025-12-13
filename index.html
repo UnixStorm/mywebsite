@@ -88,7 +88,6 @@ width:40px;height:40px;animation:load 1s linear infinite;margin:0 auto 15px;
 <span class="link-btn" id="toLogin2">Girişe dön</span>
 </div>
 
-<!-- 🔥 YENİ ŞİFRE FORMU -->
 <div id="newPassForm" style="display:none;">
 <h3>Yeni Şifre Belirle</h3>
 <input id="newPass" type="password" placeholder="Yeni şifre">
@@ -98,12 +97,12 @@ width:40px;height:40px;animation:load 1s linear infinite;margin:0 auto 15px;
 <div id="durum"></div>
 </div>
 
-<button type="button" id="musicBtn" style="position:fixed;bottom:20px;right:20px;padding:12px 20px;
-font-size:18px;border:none;border-radius:10px;background:rgba(0,0,0,0.6);color:white;">
+<button id="musicBtn" style="position:fixed;bottom:20px;right:20px;padding:12px 20px;
+border:none;border-radius:10px;background:rgba(0,0,0,0.6);color:white;">
 ▶ Oynat
 </button>
 
-<audio id="bgm"><source src="music.m4a" type="audio/mp4"></audio>
+<audio id="bgm"><source src="music.m4a"></audio>
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
@@ -132,133 +131,75 @@ const auth = getAuth(app);
 
 emailjs.init("dCQownkzENRARtTC_");
 
+const emailRegex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+const durum=document.getElementById("durum");
 const overlay=document.getElementById("overlay");
 const overlayText=document.getElementById("overlayText");
-const durum=document.getElementById("durum");
 
-function showOverlay(text="Lütfen bekleyiniz..."){
-overlayText.textContent=text;
-overlay.style.display="flex";
-}
-function hideOverlay(){
-overlay.style.display="none";
-}
+function showOverlay(t="Lütfen bekleyiniz..."){overlayText.textContent=t;overlay.style.display="flex";}
+function hideOverlay(){overlay.style.display="none";}
 
-let kod=null;
-
-/* FORM GEÇİŞLERİ */
-const registerForm=document.getElementById("registerForm");
-const loginForm=document.getElementById("loginForm");
-const resetForm=document.getElementById("resetForm");
-const newPassForm=document.getElementById("newPassForm");
-
-function gizle(){
-registerForm.style.display=
-loginForm.style.display=
-resetForm.style.display=
-newPassForm.style.display="none";
-}
-function gecis(form){
-showOverlay();
-setTimeout(()=>{
-gizle();
-form.style.display="block";
-hideOverlay();
-},700);
-}
-
-toLogin.onclick=()=>gecis(loginForm);
-toRegister.onclick=()=>gecis(registerForm);
-toReset.onclick=()=>gecis(resetForm);
-toReset2.onclick=()=>gecis(resetForm);
-toLogin2.onclick=()=>gecis(loginForm);
-
-/* REGISTER */
 regBtn.onclick=async()=>{
 showOverlay();
-if(!kod){
-kod=Math.floor(100000+Math.random()*900000);
-await emailjs.send("service_vbm28pq","template_507m11j",{kod,mail:regMail.value,zaman:new Date().toLocaleString("tr-TR")});
-hideOverlay();
-durum.textContent="Lütfen E-Posta adresinize gelen 6 haneli kodu giriniz.";
-return;
+if(!regName.value||!regMail.value||!regPass.value){
+hideOverlay();durum.textContent="Lütfen bilgileri tam doldurun";return;
 }
-if(regCode.value!=kod){
-hideOverlay();
-durum.textContent="Kod yanlış girildi";
-return;
+if(!emailRegex.test(regMail.value)){
+hideOverlay();durum.textContent="E-posta formatı hatalı girildi";return;
 }
 await createUserWithEmailAndPassword(auth,regMail.value,regPass.value);
-durum.textContent="Kaydınız başarıyla oluşturuldu,yönlendiriliyorsunuz...";
-setTimeout(()=>location.href="ana_site.html",3000);
+hideOverlay();durum.textContent="Kayıt başarılı";
 };
 
-/* LOGIN */
 loginBtn.onclick=async()=>{
 showOverlay();
+if(!loginMail.value||!loginPass.value){
+hideOverlay();durum.textContent="Lütfen bilgileri tam doldurun";return;
+}
+if(!emailRegex.test(loginMail.value)){
+hideOverlay();durum.textContent="E-posta formatı hatalı girildi";return;
+}
 try{
 await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
-durum.textContent="Başarıyla giriş yaptınız, yönlendiriliyorsunuz...";
-setTimeout(()=>location.href="ana_site.html",3000);
-}catch(e){
-hideOverlay();
-durum.textContent="E-posta veya şifre yanlış girildi";
+hideOverlay();durum.textContent="Giriş başarılı";
+}catch{
+hideOverlay();durum.textContent="E-posta veya şifre yanlış girildi";
 }
 };
 
-/* RESET MAIL */
 resetBtn.onclick=async()=>{
-showOverlay("Mail gönderiliyor...");
-try{
-await sendPasswordResetEmail(auth,resetMail.value);
-hideOverlay();
-durum.textContent="Şifre sıfırlama linki E-posta adresinize gönderildi eyer maili göremediyseniz spam klasörüne bakın";
-setTimeout(()=>gecis(loginForm),3000);
-}catch(e){
-hideOverlay();
-durum.textContent="Bu e-posta ile kayıtlı kullanıcı bulunamadı";
+showOverlay();
+if(!resetMail.value){
+hideOverlay();durum.textContent="Lütfen e-posta girin";return;
 }
+if(!emailRegex.test(resetMail.value)){
+hideOverlay();durum.textContent="E-posta formatı hatalı girildi";return;
+}
+await sendPasswordResetEmail(auth,resetMail.value);
+hideOverlay();durum.textContent="Şifre sıfırlama maili gönderildi";
 };
 
-/* 🔥 MAIL LINKİNDEN GELİNCE */
-const urlParams=new URLSearchParams(window.location.search);
+const urlParams=new URLSearchParams(location.search);
 const oobCode=urlParams.get("oobCode");
 
 if(oobCode){
-showOverlay("Link doğrulanıyor...");
-verifyPasswordResetCode(auth,oobCode)
-.then(()=>{
-hideOverlay();
-gizle();
+verifyPasswordResetCode(auth,oobCode).then(()=>{
 newPassForm.style.display="block";
-})
-.catch(()=>{
-hideOverlay();
-durum.textContent="Link geçersiz veya süresi dolmuş";
 });
 }
 
-/* YENİ ŞİFRE KAYDET */
 newPassBtn.onclick=async()=>{
 if(newPass.value.length<6){
-durum.textContent="Şifre en az 6 karakter olmalı";
-return;
+durum.textContent="Şifre en az 6 karakter olmalı";return;
 }
-showOverlay("Şifre güncelleniyor...");
-try{
 await confirmPasswordReset(auth,oobCode,newPass.value);
-hideOverlay();
-durum.textContent="Şifre güncellendi, giriş yapabilirsiniz";
-setTimeout(()=>gecis(loginForm),3000);
-}catch(e){
-hideOverlay();
-durum.textContent="Şifre güncellenemedi";
-}
+durum.textContent="Şifre güncellendi";
 };
 
-/* MUSIC */
-const audio=document.getElementById("bgm");
-musicBtn.onclick=()=>audio.paused?(audio.play(),musicBtn.textContent="⏸ Durdur"):(audio.pause(),musicBtn.textContent="▶ Oynat");
+musicBtn.onclick=()=>{
+const a=document.getElementById("bgm");
+a.paused?(a.play(),musicBtn.textContent="⏸ Durdur"):(a.pause(),musicBtn.textContent="▶ Oynat");
+};
 </script>
 
 </body>
