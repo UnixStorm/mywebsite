@@ -52,7 +52,7 @@ body{
 <div id="overlay">
   <div class="loaderBox">
     <div class="loader"></div>
-    Lütfen bekleyiniz...
+    <div id="overlayText">Lütfen bekleyiniz...</div>
   </div>
 </div>
 
@@ -126,46 +126,74 @@ const auth = getAuth(app);
 emailjs.init("dCQownkzENRARtTC_");
 
 const overlay=document.getElementById("overlay");
+const overlayText=document.getElementById("overlayText");
 const durum=document.getElementById("durum");
-const kilitAc=()=>overlay.style.display="flex";
+
+function showOverlay(text="Lütfen bekleyiniz..."){
+  overlayText.textContent=text;
+  overlay.style.display="flex";
+}
+function hideOverlay(){
+  overlay.style.display="none";
+}
 
 let kod=null;
 
-/* ===== FORM GEÇİŞLERİ (EKLENEN TEK KISIM) ===== */
+/* ===== FORM GEÇİŞLERİ + OVERLAY ===== */
 const registerForm=document.getElementById("registerForm");
 const loginForm=document.getElementById("loginForm");
 const resetForm=document.getElementById("resetForm");
 
-function gizle(){registerForm.style.display=loginForm.style.display=resetForm.style.display="none";}
+function gizle(){
+  registerForm.style.display=loginForm.style.display=resetForm.style.display="none";
+}
 
-toLogin.onclick=()=>{gizle();loginForm.style.display="block";}
-toRegister.onclick=()=>{gizle();registerForm.style.display="block";}
-toReset.onclick=()=>{gizle();resetForm.style.display="block";}
-toReset2.onclick=()=>{gizle();resetForm.style.display="block";}
-toLogin2.onclick=()=>{gizle();loginForm.style.display="block";}
-/* ============================================ */
+function gecis(form){
+  showOverlay();
+  setTimeout(()=>{
+    gizle();
+    form.style.display="block";
+    hideOverlay();
+  },700);
+}
+
+toLogin.onclick=()=>gecis(loginForm);
+toRegister.onclick=()=>gecis(registerForm);
+toReset.onclick=()=>gecis(resetForm);
+toReset2.onclick=()=>gecis(resetForm);
+toLogin2.onclick=()=>gecis(loginForm);
+/* =================================== */
 
 regBtn.onclick=async()=>{
-kilitAc();
+showOverlay();
 if(!kod){
-kod=Math.floor(100000+Math.random()*900000);
-await emailjs.send("service_vbm28pq","template_507m11j",{kod,mail:regMail.value,zaman:new Date().toLocaleString("tr-TR")});
-durum.textContent="Mail kodunu gir";
-return;
+  kod=Math.floor(100000+Math.random()*900000);
+  await emailjs.send("service_vbm28pq","template_507m11j",{kod,mail:regMail.value,zaman:new Date().toLocaleString("tr-TR")});
+  hideOverlay();
+  durum.textContent="Mail kodunu gir";
+  return;
 }
-if(regCode.value!=kod){durum.textContent="Kod yanlış";return;}
+if(regCode.value!=kod){
+  hideOverlay();
+  durum.textContent="Kod yanlış";
+  return;
+}
 await createUserWithEmailAndPassword(auth,regMail.value,regPass.value);
-window.location.replace("ana_site.html");
+durum.textContent="Kayıt başarılı, yönlendiriliyorsunuz...";
+setTimeout(()=>window.location.replace("ana_site.html"),3000);
 };
 
 loginBtn.onclick=async()=>{
-kilitAc();
+showOverlay();
 await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
-window.location.replace("ana_site.html");
+durum.textContent="Giriş başarılı, yönlendiriliyorsunuz...";
+setTimeout(()=>window.location.replace("ana_site.html"),3000);
 };
 
 resetBtn.onclick=async()=>{
+showOverlay();
 await sendPasswordResetEmail(auth,resetMail.value);
+hideOverlay();
 durum.textContent="Mail gönderildi";
 };
 
