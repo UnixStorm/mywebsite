@@ -7,169 +7,95 @@
 
 <style>
 body{
-    margin:0;padding:0;height:100vh;
-    background:url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
-    background-size:cover;font-family:Arial;
+margin:0;padding:0;height:100vh;
+background:url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
+background-size:cover;font-family:Arial;
 }
-.yazi-kutu{text-align:center;margin-top:28px;}
-.anaYazi{font-size:18px;color:white;font-weight:bold;text-shadow:0 0 6px white;}
-.vip{color:orange;font-weight:bold;text-shadow:0 0 6px orange;}
-.red{color:red;font-weight:bold;text-shadow:0 0 6px red;}
-
 .center-box{
-    position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
-    width:280px;padding:20px;background:rgba(0,0,0,0.78);
-    border-radius:12px;backdrop-filter:blur(5px);color:white;text-align:center;
+position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
+width:280px;padding:20px;background:rgba(0,0,0,0.78);
+border-radius:12px;color:white;text-align:center;
 }
-.center-box input{
-    width:100%;padding:10px;margin:6px 0;border:none;border-radius:8px;outline:none;
-}
-.center-box button{
-    width:100%;padding:10px;margin-top:8px;border:none;border-radius:8px;
-    background:#006CFF;font-weight:bold;color:white;cursor:pointer;
-}
-.link-btn{display:block;margin-top:8px;text-decoration:underline;color:#ddd;cursor:pointer;}
-#durum{margin-top:10px;min-height:22px;color:#ffebeb;font-weight:bold;font-size:14px;}
-
-#overlay{
-    position:fixed;top:0;left:0;width:100%;height:100%;
-    background:rgba(0,0,0,0.55);display:none;justify-content:center;align-items:center;z-index:99999;
-}
-.loaderBox{
-    background:rgba(0,0,0,0.8);padding:20px 30px;border-radius:12px;
-    text-align:center;color:white;font-size:18px;font-weight:bold;
-}
-.loader{
-    border:4px solid #fff;border-top:4px solid transparent;border-radius:50%;
-    width:40px;height:40px;animation:load 1s linear infinite;margin:0 auto 15px;
-}
-@keyframes load{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+.center-box input{width:100%;padding:10px;margin:6px 0;border-radius:8px;border:none}
+.center-box button{width:100%;padding:10px;border-radius:8px;border:none;background:#006CFF;color:white}
+.link-btn{margin-top:8px;display:block;cursor:pointer;text-decoration:underline}
+#durum{margin-top:10px;color:#ffdede;font-weight:bold}
 </style>
 </head>
 
 <body>
-
-<div id="overlay">
-    <div class="loaderBox">
-        <div class="loader"></div>
-        Lütfen bekleyiniz...
-    </div>
-</div>
 
 <div class="center-box">
 
 <div id="registerForm">
 <h3>Kayıt Ol</h3>
 <input id="regName" placeholder="Kullanıcı adı">
-<input id="regMail" type="email" placeholder="E-posta">
+<input id="regMail" placeholder="E-posta">
 <input id="regPass" type="password" placeholder="Şifre">
 <input id="regCode" placeholder="E-postaya gelen kod">
-<button type="button" id="regBtn">Kayıt Ol</button>
+<button id="regBtn">Kayıt Ol</button>
 <span class="link-btn" id="toLogin">Giriş yapın</span>
 </div>
 
-<div id="loginForm" style="display:none;">
+<div id="loginForm" style="display:none">
 <h3>Giriş Yap</h3>
-<input id="loginMail" type="email" placeholder="E-posta">
+<input id="loginMail" placeholder="E-posta">
 <input id="loginPass" type="password" placeholder="Şifre">
-<button type="button" id="loginBtn">Giriş Yap</button>
+<button id="loginBtn">Giriş Yap</button>
 <span class="link-btn" id="toRegister">Kayıt Ol</span>
 </div>
 
 <div id="durum"></div>
 </div>
 
-<button type="button" id="musicBtn" style="position:fixed;bottom:20px;right:20px;padding:12px 20px;
-font-size:18px;border:none;border-radius:10px;background:rgba(0,0,0,0.6);color:white;">
-▶ Oynat
-</button>
-
-<audio id="bgm"><source src="music.m4a" type="audio/mp4"></audio>
+<button id="musicBtn" style="position:fixed;bottom:20px;right:20px">▶</button>
+<audio id="bgm"><source src="music.m4a"></audio>
 
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
-import {
-getAuth,
-createUserWithEmailAndPassword,
-signInWithEmailAndPassword
-} from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
 const app = initializeApp({
 apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
 authDomain: "unixstorm-9dff8.firebaseapp.com",
 projectId: "unixstorm-9dff8"
 });
-
 const auth = getAuth(app);
 emailjs.init("dCQownkzENRARtTC_");
 
-const durum=document.getElementById("durum");
-const overlay=document.getElementById("overlay");
-const kilitAc=()=>overlay.style.display="flex";
-const kilitKapat=()=>overlay.style.display="none";
-
-const mailDogruMu = mail => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(mail);
+const formGizle=()=>{registerForm.style.display="none";loginForm.style.display="none";}
+toLogin.onclick=()=>{formGizle();loginForm.style.display="block";}
+toRegister.onclick=()=>{formGizle();registerForm.style.display="block";}
 
 let kod=null;
 
 regBtn.onclick=async()=>{
-kilitAc();
-
-if(!regName.value || !regMail.value || !regPass.value){
-durum.textContent="Bilgiler eksik";
-kilitKapat(); return;
-}
-
-if(!mailDogruMu(regMail.value)){
-durum.textContent="E-posta formatı hatalı";
-kilitKapat(); return;
-}
-
+if(!regMail.value||!regPass.value){durum.textContent="Bilgiler eksik";return;}
 if(!kod){
 kod=Math.floor(100000+Math.random()*900000);
 await emailjs.send("service_vbm28pq","template_507m11j",{kod,mail:regMail.value});
-kilitKapat();
-durum.textContent="Mail kodunu gir";
-return;
+durum.textContent="Mail kodu gönderildi";return;
 }
-
-if(regCode.value!=kod){
-durum.textContent="Kod yanlış";
-kilitKapat(); return;
-}
-
-try{
+if(regCode.value!=kod){durum.textContent="Kod yanlış";return;}
 await createUserWithEmailAndPassword(auth,regMail.value,regPass.value);
-durum.textContent="Kayıt başarılı, yönlendiriliyorsunuz...";
-setTimeout(()=>window.location.replace("ana_site.html"),1500);
-}catch{
-durum.textContent="Bu e-posta zaten kayıtlı";
-kilitKapat();
-}
+durum.textContent="Kayıt başarılı yönlendiriliyorsunuz";
+setTimeout(()=>location.replace("ana_site.html"),1500);
 };
 
 loginBtn.onclick=async()=>{
-kilitAc();
-
-if(!loginMail.value || !loginPass.value){
-durum.textContent="Bilgiler eksik";
-kilitKapat(); return;
-}
-
 try{
 await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
-durum.textContent="Giriş başarılı, yönlendiriliyorsunuz...";
-setTimeout(()=>window.location.replace("ana_site.html"),1500);
+durum.textContent="Giriş başarılı yönlendiriliyorsunuz";
+setTimeout(()=>location.replace("ana_site.html"),1500);
 }catch{
-durum.textContent="Bu kullanıcı sisteme kayıtlı değil";
-kilitKapat();
+durum.textContent="Kullanıcı bulunamadı";
 }
 };
 
 const audio=document.getElementById("bgm");
-musicBtn.onclick=()=>audio.paused?(audio.play(),musicBtn.textContent="⏸ Durdur"):(audio.pause(),musicBtn.textContent="▶ Oynat");
+musicBtn.onclick=()=>audio.paused?(audio.play()):(audio.pause());
 </script>
 </body>
 </html>
