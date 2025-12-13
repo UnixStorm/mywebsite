@@ -20,3 +20,117 @@
     z-index: -1;
 }
     </style>
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<title>UNIXSTORM PANEL</title>
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+color:white;
+overflow:hidden;
+}
+
+/* Video */
+#bgVideo{
+position:fixed;
+top:0;left:0;
+width:100%;
+height:100%;
+object-fit:cover;
+z-index:-1;
+}
+
+/* Panel */
+.panel{
+display:flex;
+height:100vh;
+background:rgba(0,0,0,0.6);
+}
+
+/* Menü */
+.menu{
+width:220px;
+background:rgba(0,0,0,0.8);
+padding:15px;
+box-shadow:0 0 15px cyan;
+}
+
+.menu button{
+width:100%;
+margin-bottom:10px;
+padding:10px;
+border:none;
+border-radius:8px;
+background:#006CFF;
+color:white;
+cursor:pointer;
+font-weight:bold;
+}
+
+/* İçerik */
+.content{
+flex:1;
+padding:20px;
+overflow:auto;
+}
+.card{
+background:rgba(0,0,0,0.7);
+padding:15px;
+border-radius:10px;
+box-shadow:0 0 12px cyan;
+margin-bottom:15px;
+cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🔐 Firebase Güvenlik -->
+<script type="module">
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+
+const app = initializeApp({
+  apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
+  authDomain: "unixstorm-9dff8.firebaseapp.com",
+  projectId: "unixstorm-9dff8"
+});
+const auth = getAuth(app);
+
+onAuthStateChanged(auth,(user)=>{
+  if(!user) location.href="index.html";
+});
+</script>
+
+<video autoplay muted loop playsinline id="bgVideo">
+<source src="video.mp4" type="video/mp4">
+</video>
+
+<div class="panel">
+  <div class="menu">
+    <button onclick="loadPage('home')">🏠 Ana Sayfa</button>
+    <button onclick="loadPage('dosyalar')">📁 Dosyalar</button>
+    <button onclick="loadPage('profil')">👤 Profil</button>
+  </div>
+
+  <div class="content" id="content">Yükleniyor...</div>
+</div>
+
+<script>
+function loadPage(page){
+fetch(`pages/${page}.html`)
+.then(r=>r.text())
+.then(html=>{
+document.getElementById("content").innerHTML=html;
+});
+}
+loadPage("home");
+</script>
+
+</body>
+</html>
