@@ -42,6 +42,7 @@ width:40px;height:40px;animation:load 1s linear infinite;margin:0 auto 15px;
 }
 @keyframes load{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
 </style>
+ <script src="https://www.google.com/recaptcha/api.js" async defer></script>   
 </head>
 
 <body>
@@ -65,6 +66,7 @@ width:40px;height:40px;animation:load 1s linear infinite;margin:0 auto 15px;
 <input id="regMail" type="email" placeholder="E-posta">
 <input id="regPass" type="password" placeholder="Şifre">
 <input id="regCode" placeholder="E-postaya gelen kod">
+<div class="g-recaptcha" data-sitekey="6Ld9jSosAAAAALDhcrTsk864AtmnLKyrIaavqjcJ"></div>
 <button type="button" id="regBtn">Kayıt Ol</button>
 <span class="link-btn" id="toLogin">Giriş yapın</span>
 <span class="link-btn" id="toReset">Şifremi unuttum</span>
@@ -74,6 +76,7 @@ width:40px;height:40px;animation:load 1s linear infinite;margin:0 auto 15px;
 <h3>Giriş Yap</h3>
 <input id="loginMail" type="email" placeholder="E-posta">
 <input id="loginPass" type="password" placeholder="Şifre">
+ <div class="g-recaptcha" data-sitekey="6Ld9jSosAAAAALDhcrTsk864AtmnLKyrIaavqjcJ"></div>   
 <button type="button" id="loginBtn">Giriş Yap</button>
 <span class="link-btn" id="toRegister">Kayıt Ol</span>
 <span class="link-btn" id="toReset2">Şifremi unuttum</span>
@@ -185,6 +188,7 @@ toReset2.onclick=()=>gecis(resetForm);
 toLogin2.onclick=()=>gecis(loginForm);
 
 regBtn.onclick=async()=>{
+if(!captchaKontrol()) return;    
 if(bosMu(regName,regMail,regPass)){
 durum.textContent="Lütfen tüm alanları doldurun";
 return;
@@ -230,6 +234,7 @@ setTimeout(()=>location.href="ana_site.html",3000);
 };
 
 loginBtn.onclick=async()=>{
+if(!captchaKontrol()) return;    
 if(bosMu(loginMail,loginPass)){
 durum.textContent="Boş alan bırakmayın";
 return;
@@ -308,3 +313,4 @@ musicBtn.onclick=()=>audio.paused?(audio.play(),musicBtn.textContent="⏸ Durdur
 </script>
 </body>
     </html>
+
