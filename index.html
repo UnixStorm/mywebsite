@@ -207,6 +207,14 @@ function hideOverlay(){
 overlay.style.display="none";
 }
 
+function captchaKontrol(){
+    if(grecaptcha.getResponse().length === 0){
+        durum.textContent = "Lütfen robot doğrulamasını yapın";
+        return false;
+    }
+    return true;
+}
+
 let kod=null;
 
 const registerForm=document.getElementById("registerForm");
@@ -261,12 +269,19 @@ const zaman = new Date().toLocaleString("tr-TR", {
   timeStyle: "medium"
 });
 
+try {
 await emailjs.send("service_vbm28pq","template_507m11j",{
   kod: kod,
   mail: regMail.value,
   zaman: zaman
 });
+} catch (error) {
+    hideOverlay();
+    durum.textContent = "Mail gönderilemedi, tekrar deneyin.";
+    return;
+}
 
+grecaptcha.reset();
 hideOverlay();
 durum.textContent="Lütfen E-Posta adresinize gelen 6 Haneli kodu giriniz";
 return;
@@ -361,4 +376,4 @@ const audio=document.getElementById("bgm");
 musicBtn.onclick=()=>audio.paused?(audio.play(),musicBtn.textContent="⏸ Durdur"):(audio.pause(),musicBtn.textContent="▶ Oynat");
 </script>
 </body>
-    </html>
+</html>
