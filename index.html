@@ -293,6 +293,7 @@ return;
 }
 
 await createUserWithEmailAndPassword(auth,regMail.value,regPass.value);
+ sessionStorage.setItem("userLoggedIn","true");   
 durum.textContent="Kaydınız Başarıyla oluşturuldu, yönlendiriliyorsunuz...";
 setTimeout(()=>location.href="ana_site.html",3000);
 };
@@ -310,6 +311,7 @@ return;
 showOverlay();
 try{
 await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
+sessionStorage.setItem("userLoggedIn","true");    
 durum.textContent="Giriş başarılı yönlendiriliyorsunuz";
 setTimeout(()=>location.href="ana_site.html",3000);
 }catch{
