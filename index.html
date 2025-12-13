@@ -69,7 +69,7 @@ body{
 <input id="regMail" type="email" placeholder="E-posta">
 <input id="regPass" type="password" placeholder="Şifre">
 <input id="regCode" placeholder="E-postaya gelen kod">
-<button id="regBtn">Kayıt Ol</button>
+<button type="button" id="regBtn">Kayıt Ol</button>
 <span class="link-btn" id="toLogin">Giriş yapın</span>
 <span class="link-btn" id="toReset">Şifremi unuttum</span>
 </div>
@@ -78,7 +78,7 @@ body{
 <h3>Giriş Yap</h3>
 <input id="loginMail" type="email" placeholder="E-posta">
 <input id="loginPass" type="password" placeholder="Şifre">
-<button id="loginBtn">Giriş Yap</button>
+<button type="button" id="loginBtn">Giriş Yap</button>
 <span class="link-btn" id="toRegister">Kayıt Ol</span>
 <span class="link-btn" id="toReset2">Şifremi unuttum</span>
 </div>
@@ -86,26 +86,26 @@ body{
 <div id="resetForm" style="display:none;">
 <h3>Şifreyi Sıfırla</h3>
 <input id="resetMail" type="email" placeholder="E-posta">
-<button id="resetBtn">Kodu Gönder</button>
+<button type="button" id="resetBtn">Kodu Gönder</button>
 <span class="link-btn" id="toLogin2">Girişe dön</span>
 </div>
 
 <div id="resetCodeForm" style="display:none;">
 <h3>Kod Doğrula</h3>
 <input id="resetCode" placeholder="Kod">
-<button id="resetCodeBtn">Doğrula</button>
+<button type="button" id="resetCodeBtn">Doğrula</button>
 </div>
 
 <div id="newPassForm" style="display:none;">
 <h3>Yeni Şifre</h3>
 <input id="newPass" type="password" placeholder="Yeni şifre">
-<button id="newPassBtn">Kaydet</button>
+<button type="button" id="newPassBtn">Kaydet</button>
 </div>
 
 <div id="durum"></div>
 </div>
 
-<button id="musicBtn" style="position:fixed;bottom:20px;right:20px;padding:12px 20px;
+<button type="button" id="musicBtn" style="position:fixed;bottom:20px;right:20px;padding:12px 20px;
 font-size:18px;border:none;border-radius:10px;background:rgba(0,0,0,0.6);color:white;">
 ▶ Oynat
 </button>
@@ -178,14 +178,9 @@ durum.textContent="Kod yanlış";
 return;
 }
 
-try{
 await createUserWithEmailAndPassword(auth,regMail.value,regPass.value);
 durum.textContent="Kayıt başarılı";
 setTimeout(()=>location.href="ana_site.html",1200);
-}catch(e){
-durum.textContent=e.message;
-kilitKapat();
-}
 };
 
 loginBtn.onclick=async()=>{
@@ -194,7 +189,7 @@ try{
 await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
 durum.textContent="Giriş başarılı";
 setTimeout(()=>location.href="ana_site.html",1200);
-}catch(e){
+}catch{
 durum.textContent="Bilgiler yanlış";
 kilitKapat();
 }
