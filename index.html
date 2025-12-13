@@ -206,9 +206,19 @@ overlay.style.display="flex";
 function hideOverlay(){
 overlay.style.display="none";
 }
-
 function captchaKontrol(){
-    if(grecaptcha.getResponse().length === 0){
+    let solved = false;
+
+    for(let i = 0; i < 10; i++){
+        try{
+            if(grecaptcha.getResponse(i).length > 0){
+                solved = true;
+                break;
+            }
+        }catch(e){}
+    }
+
+    if(!solved){
         durum.textContent = "Lütfen robot doğrulamasını yapın";
         return false;
     }
