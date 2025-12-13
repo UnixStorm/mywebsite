@@ -1,3 +1,10 @@
+<script>
+  // Eğer sessionStorage'da 'userLoggedIn' yoksa kullanıcıyı index.html'e yönlendir
+  if (sessionStorage.getItem('userLoggedIn') !== 'true') {
+    // Yönlendirme işlemi
+    window.location.href = "index.html"; 
+  }
+</script>
 <video autoplay muted loop playsinline id="bgVideo">
     <source src="video.mp4" type="video/mp4">
 </video>
