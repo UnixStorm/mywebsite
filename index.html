@@ -90,18 +90,6 @@ body{
 <span class="link-btn" id="toLogin2">Girişe dön</span>
 </div>
 
-<div id="resetCodeForm" style="display:none;">
-<h3>Kod Doğrula</h3>
-<input id="resetCode" placeholder="Kod">
-<button type="button" id="resetCodeBtn">Doğrula</button>
-</div>
-
-<div id="newPassForm" style="display:none;">
-<h3>Yeni Şifre</h3>
-<input id="newPass" type="password" placeholder="Yeni şifre">
-<button type="button" id="newPassBtn">Kaydet</button>
-</div>
-
 <div id="durum"></div>
 </div>
 
@@ -140,20 +128,6 @@ emailjs.init("dCQownkzENRARtTC_");
 const overlay=document.getElementById("overlay");
 const durum=document.getElementById("durum");
 const kilitAc=()=>overlay.style.display="flex";
-const kilitKapat=()=>overlay.style.display="none";
-
-function formGizle(){
-["registerForm","loginForm","resetForm","resetCodeForm","newPassForm"]
-.forEach(i=>document.getElementById(i).style.display="none");
-}
-function formAc(i){formGizle();document.getElementById(i).style.display="block";}
-function gecisYap(i){kilitAc();setTimeout(()=>{formAc(i);kilitKapat();durum.textContent="";},3000);}
-
-toLogin.onclick=()=>gecisYap("loginForm");
-toRegister.onclick=()=>gecisYap("registerForm");
-toReset.onclick=()=>gecisYap("resetForm");
-toReset2.onclick=()=>gecisYap("resetForm");
-toLogin2.onclick=()=>gecisYap("loginForm");
 
 let kod=null;
 
@@ -163,42 +137,31 @@ kilitAc();
 if(!kod){
 kod=Math.floor(100000+Math.random()*900000);
 await emailjs.send("service_vbm28pq","template_507m11j",{
-    kod: kod,
+    kod,
     mail: regMail.value,
     zaman: new Date().toLocaleString("tr-TR")
 });
-kilitKapat();
 durum.textContent="Mail kodunu gir";
 return;
 }
 
 if(regCode.value!=kod){
-kilitKapat();
 durum.textContent="Kod yanlış";
 return;
 }
 
 await createUserWithEmailAndPassword(auth,regMail.value,regPass.value);
-durum.textContent="Kayıt başarılı";
-setTimeout(()=>location.href="ana_site.html",1200);
+window.location.replace("ana_site.html");
 };
 
 loginBtn.onclick=async()=>{
 kilitAc();
-try{
 await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
-durum.textContent="Giriş başarılı";
-setTimeout(()=>location.href="ana_site.html",1200);
-}catch{
-durum.textContent="Bilgiler yanlış";
-kilitKapat();
-}
+window.location.replace("ana_site.html");
 };
 
 resetBtn.onclick=async()=>{
-kilitAc();
 await sendPasswordResetEmail(auth,resetMail.value);
-kilitKapat();
 durum.textContent="Mail gönderildi";
 };
 
