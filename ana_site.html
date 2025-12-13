@@ -1,43 +1,23 @@
-<script>
-  // Eğer sessionStorage'da 'userLoggedIn' yoksa kullanıcıyı index.html'e yönlendir
-  if (sessionStorage.getItem('userLoggedIn') !== 'true') {
-    // Yönlendirme işlemi
-    window.location.href = "index.html"; 
-  }
-</script>
-<video autoplay muted loop playsinline id="bgVideo">
-    <source src="video.mp4" type="video/mp4">
-</video>
-
-<style>
-#bgVideo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: -1;
-}
-    </style>
 <!DOCTYPE html>
 <html lang="tr">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UNIXSTORM PANEL</title>
 
 <style>
 body{
 margin:0;
-font-family:Arial;
 color:white;
+font-family:Arial;
 overflow:hidden;
 }
 
-/* Video */
+/* Video arka plan */
 #bgVideo{
 position:fixed;
-top:0;left:0;
+top:0;
+left:0;
 width:100%;
 height:100%;
 object-fit:cover;
@@ -48,27 +28,32 @@ z-index:-1;
 .panel{
 display:flex;
 height:100vh;
-background:rgba(0,0,0,0.6);
+transition:transform .3s ease;
 }
 
 /* Menü */
 .menu{
-width:220px;
-background:rgba(0,0,0,0.8);
+width:280px; /* GENİŞLETİLDİ */
+background:rgba(0,0,0,0.85);
 padding:15px;
-box-shadow:0 0 15px cyan;
+box-shadow:0 0 18px cyan;
 }
 
 .menu button{
 width:100%;
 margin-bottom:10px;
-padding:10px;
+padding:12px;
 border:none;
-border-radius:8px;
+border-radius:10px;
 background:#006CFF;
 color:white;
 cursor:pointer;
 font-weight:bold;
+box-shadow:0 0 12px rgba(0,108,255,.9);
+}
+
+.menu button:hover{
+box-shadow:0 0 20px rgba(0,108,255,1);
 }
 
 /* İçerik */
@@ -76,14 +61,20 @@ font-weight:bold;
 flex:1;
 padding:20px;
 overflow:auto;
+background:rgba(0,0,0,0.55);
 }
+
 .card{
 background:rgba(0,0,0,0.7);
 padding:15px;
-border-radius:10px;
+border-radius:12px;
 box-shadow:0 0 12px cyan;
 margin-bottom:15px;
-cursor:pointer;
+}
+
+/* Panel kapalı hali */
+.panel.closed{
+transform:translateX(-260px);
 }
 </style>
 </head>
@@ -103,7 +94,10 @@ const app = initializeApp({
 const auth = getAuth(app);
 
 onAuthStateChanged(auth,(user)=>{
-  if(!user) location.href="index.html";
+  if(!user){
+    sessionStorage.clear();
+    location.href="index.html";
+  }
 });
 </script>
 
@@ -111,25 +105,56 @@ onAuthStateChanged(auth,(user)=>{
 <source src="video.mp4" type="video/mp4">
 </video>
 
-<div class="panel">
+<div class="panel" id="panel">
   <div class="menu">
-    <button onclick="loadPage('home')">🏠 Ana Sayfa</button>
-    <button onclick="loadPage('dosyalar')">📁 Dosyalar</button>
-    <button onclick="loadPage('profil')">👤 Profil</button>
+    <button onclick="ac('termux')">📱 Termux Komutları</button>
+    <button onclick="ac('python')">🐍 Python Komutları</button>
+    <button onclick="ac('kumar')">🎰 Sanal Kumar Sistemi</button>
+    <button onclick="ac('erkek')">👨 Erkek Profil Örnekleri</button>
+    <button onclick="ac('kiz')">👩 Kız Profil Örnekleri</button>
+    <button onclick="ac('edit')">🎬 Havalı Edit Videolar</button>
+    <button onclick="ac('link')">🌐 Önemli Site Linkleri</button>
+    <button onclick="ac('uygulama')">📲 Uygulama Önerileri</button>
+    <button onclick="ac('not')">📝 Notlar</button>
   </div>
 
-  <div class="content" id="content">Yükleniyor...</div>
+  <div class="content" id="icerik">
+    <div class="card">
+      <h2>Hoş geldin reis 👑</h2>
+      <p>Soldan bir bölüm seç.</p>
+    </div>
+  </div>
 </div>
 
 <script>
-function loadPage(page){
-fetch(`pages/${page}.html`)
-.then(r=>r.text())
-.then(html=>{
-document.getElementById("content").innerHTML=html;
-});
+/* İçerik değiştirme */
+function ac(x){
+const i=document.getElementById("icerik");
+
+if(x==="termux") i.innerHTML="<div class='card'><h2>📱 Termux</h2></div>";
+if(x==="python") i.innerHTML="<div class='card'><h2>🐍 Python</h2></div>";
+if(x==="kumar") i.innerHTML="<div class='card'><h2>🎰 Sanal Kumar</h2></div>";
+if(x==="erkek") i.innerHTML="<div class='card'><h2>👨 Erkek Profil</h2></div>";
+if(x==="kiz") i.innerHTML="<div class='card'><h2>👩 Kız Profil</h2></div>";
+if(x==="edit") i.innerHTML="<div class='card'><h2>🎬 Edit Videolar</h2></div>";
+if(x==="link") i.innerHTML="<div class='card'><h2>🌐 Linkler</h2></div>";
+if(x==="uygulama") i.innerHTML="<div class='card'><h2>📲 Uygulamalar</h2></div>";
+if(x==="not") i.innerHTML="<div class='card'><h2>📝 Notlar</h2><textarea style='width:100%;height:150px'></textarea></div>";
 }
-loadPage("home");
+
+/* 👉 SÜRÜKLE – AÇ / KAPAT */
+let startX=0;
+document.addEventListener("touchstart",e=>{
+startX=e.touches[0].clientX;
+});
+
+document.addEventListener("touchend",e=>{
+let endX=e.changedTouches[0].clientX;
+const panel=document.getElementById("panel");
+
+if(startX-endX>60) panel.classList.add("closed");     // sola it → kapat
+if(endX-startX>60) panel.classList.remove("closed"); // sağa çek → aç
+});
 </script>
 
 </body>
