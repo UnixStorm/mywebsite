@@ -139,7 +139,7 @@ function hideOverlay(){
 
 let kod=null;
 
-/* ===== FORM GEÇİŞLERİ + OVERLAY ===== */
+/* ===== FORM GEÇİŞLERİ ===== */
 const registerForm=document.getElementById("registerForm");
 const loginForm=document.getElementById("loginForm");
 const resetForm=document.getElementById("resetForm");
@@ -147,7 +147,6 @@ const resetForm=document.getElementById("resetForm");
 function gizle(){
   registerForm.style.display=loginForm.style.display=resetForm.style.display="none";
 }
-
 function gecis(form){
   showOverlay();
   setTimeout(()=>{
@@ -162,7 +161,7 @@ toRegister.onclick=()=>gecis(registerForm);
 toReset.onclick=()=>gecis(resetForm);
 toReset2.onclick=()=>gecis(resetForm);
 toLogin2.onclick=()=>gecis(loginForm);
-/* =================================== */
+/* =========================== */
 
 regBtn.onclick=async()=>{
 showOverlay();
@@ -180,14 +179,14 @@ if(regCode.value!=kod){
 }
 await createUserWithEmailAndPassword(auth,regMail.value,regPass.value);
 durum.textContent="Kayıt başarılı, yönlendiriliyorsunuz...";
-setTimeout(()=>window.location.replace("ana_site.html"),3000);
+setTimeout(()=>location.href="ana_site.html",3000);
 };
 
 loginBtn.onclick=async()=>{
 showOverlay();
 await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
 durum.textContent="Giriş başarılı, yönlendiriliyorsunuz...";
-setTimeout(()=>window.location.replace("ana_site.html"),3000);
+setTimeout(()=>location.href="ana_site.html",3000);
 };
 
 resetBtn.onclick=async()=>{
@@ -202,4 +201,4 @@ musicBtn.onclick=()=>audio.paused?(audio.play(),musicBtn.textContent="⏸ Durdur
 </script>
 
 </body>
-    </html>
+</html>
