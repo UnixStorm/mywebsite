@@ -88,6 +88,13 @@ width:40px;height:40px;animation:load 1s linear infinite;margin:0 auto 15px;
 <span class="link-btn" id="toLogin2">Girişe dön</span>
 </div>
 
+<!-- 🔥 YENİ ŞİFRE FORMU -->
+<div id="newPassForm" style="display:none;">
+<h3>Yeni Şifre Belirle</h3>
+<input id="newPass" type="password" placeholder="Yeni şifre">
+<button type="button" id="newPassBtn">Şifreyi Güncelle</button>
+</div>
+
 <div id="durum"></div>
 </div>
 
@@ -106,7 +113,9 @@ import {
 getAuth,
 createUserWithEmailAndPassword,
 signInWithEmailAndPassword,
-sendPasswordResetEmail
+sendPasswordResetEmail,
+verifyPasswordResetCode,
+confirmPasswordReset
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
 
 const firebaseConfig = {
@@ -141,9 +150,13 @@ let kod=null;
 const registerForm=document.getElementById("registerForm");
 const loginForm=document.getElementById("loginForm");
 const resetForm=document.getElementById("resetForm");
+const newPassForm=document.getElementById("newPassForm");
 
 function gizle(){
-registerForm.style.display=loginForm.style.display=resetForm.style.display="none";
+registerForm.style.display=
+loginForm.style.display=
+resetForm.style.display=
+newPassForm.style.display="none";
 }
 function gecis(form){
 showOverlay();
@@ -193,7 +206,7 @@ durum.textContent="E-posta veya şifre yanlış";
 }
 };
 
-/* 🔧 SADECE BURASI DÜZELTİLDİ */
+/* RESET MAIL */
 resetBtn.onclick=async()=>{
 showOverlay("Mail gönderiliyor...");
 try{
@@ -207,10 +220,46 @@ durum.textContent="Bu e-posta ile kayıtlı kullanıcı bulunamadı";
 }
 };
 
+/* 🔥 MAIL LINKİNDEN GELİNCE */
+const urlParams=new URLSearchParams(window.location.search);
+const oobCode=urlParams.get("oobCode");
+
+if(oobCode){
+showOverlay("Link doğrulanıyor...");
+verifyPasswordResetCode(auth,oobCode)
+.then(()=>{
+hideOverlay();
+gizle();
+newPassForm.style.display="block";
+})
+.catch(()=>{
+hideOverlay();
+durum.textContent="Link geçersiz veya süresi dolmuş";
+});
+}
+
+/* YENİ ŞİFRE KAYDET */
+newPassBtn.onclick=async()=>{
+if(newPass.value.length<6){
+durum.textContent="Şifre en az 6 karakter olmalı";
+return;
+}
+showOverlay("Şifre güncelleniyor...");
+try{
+await confirmPasswordReset(auth,oobCode,newPass.value);
+hideOverlay();
+durum.textContent="Şifre güncellendi, giriş yapabilirsiniz";
+setTimeout(()=>gecis(loginForm),3000);
+}catch(e){
+hideOverlay();
+durum.textContent="Şifre güncellenemedi";
+}
+};
+
 /* MUSIC */
 const audio=document.getElementById("bgm");
 musicBtn.onclick=()=>audio.paused?(audio.play(),musicBtn.textContent="⏸ Durdur"):(audio.pause(),musicBtn.textContent="▶ Oynat");
 </script>
 
 </body>
-    </html>
+</html>
