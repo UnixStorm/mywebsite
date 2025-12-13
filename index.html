@@ -11,44 +11,89 @@ body{
     background:url("3cc68b3f22ff5463843e82b661033950.jpg") no-repeat center center fixed;
     background-size:cover;font-family:Arial;
 }
+.yazi-kutu{text-align:center;margin-top:28px;}
+.anaYazi{font-size:18px;color:white;font-weight:bold;text-shadow:0 0 6px white;}
+.vip{color:orange;font-weight:bold;text-shadow:0 0 6px orange;}
+.red{color:red;font-weight:bold;text-shadow:0 0 6px red;}
+
 .center-box{
     position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);
     width:280px;padding:20px;background:rgba(0,0,0,0.78);
     border-radius:12px;color:white;text-align:center;
 }
-.center-box input,button{
+.center-box input{
     width:100%;padding:10px;margin:6px 0;border:none;border-radius:8px;
 }
-button{background:#006CFF;color:white;font-weight:bold}
-.link-btn{display:block;margin-top:6px;color:#ddd;cursor:pointer}
-#durum{margin-top:10px;font-weight:bold}
+.center-box button{
+    width:100%;padding:10px;margin-top:8px;border:none;border-radius:8px;
+    background:#006CFF;color:white;font-weight:bold;
+}
+.link-btn{display:block;margin-top:8px;color:#ddd;text-decoration:underline;cursor:pointer;}
+#durum{margin-top:10px;min-height:22px;font-weight:bold}
+
+#overlay{
+    position:fixed;top:0;left:0;width:100%;height:100%;
+    background:rgba(0,0,0,0.55);display:none;justify-content:center;align-items:center;z-index:999;
+}
+.loader{
+    border:4px solid #fff;border-top:4px solid transparent;border-radius:50%;
+    width:40px;height:40px;animation:spin 1s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
 </style>
 </head>
 
 <body>
 
+<div id="overlay"><div class="loader"></div></div>
+
+<div class="yazi-kutu">
+<div class="anaYazi">UNIXSTORM</div>
+</div>
+
 <div class="center-box">
 
-<!-- RESET 1 -->
-<div id="resetMailBox">
-<h3>Şifreyi Sıfırla</h3>
-<input id="resetMail" type="email" placeholder="E-posta">
-<button id="sendCodeBtn">Kodu Gönder</button>
-<span class="link-btn" onclick="showLogin()">Girişe dön</span>
+<!-- REGISTER -->
+<div id="registerForm">
+<h3>Kayıt Ol</h3>
+<input id="regMail" placeholder="E-posta">
+<input id="regPass" type="password" placeholder="Şifre">
+<input id="regCode" placeholder="Mail kodu">
+<button id="regBtn">Kayıt Ol</button>
+<span class="link-btn" id="toLogin">Giriş yap</span>
+<span class="link-btn" id="toReset">Şifremi unuttum</span>
 </div>
 
-<!-- RESET 2 -->
-<div id="resetCodeBox" style="display:none">
+<!-- LOGIN -->
+<div id="loginForm" style="display:none">
+<h3>Giriş Yap</h3>
+<input id="loginMail" placeholder="E-posta">
+<input id="loginPass" type="password" placeholder="Şifre">
+<button id="loginBtn">Giriş Yap</button>
+<span class="link-btn" id="toRegister">Kayıt Ol</span>
+<span class="link-btn" id="toReset2">Şifremi unuttum</span>
+</div>
+
+<!-- RESET STEP 1 -->
+<div id="resetMailForm" style="display:none">
+<h3>Şifreyi Sıfırla</h3>
+<input id="resetMail" placeholder="E-posta">
+<button id="sendResetCode">Kodu Gönder</button>
+<span class="link-btn" id="toLogin2">Girişe dön</span>
+</div>
+
+<!-- RESET STEP 2 -->
+<div id="resetCodeForm" style="display:none">
 <h3>Kodu Gir</h3>
 <input id="resetCode" placeholder="6 haneli kod">
-<button id="checkCodeBtn">Kodu Doğrula</button>
+<button id="checkResetCode">Doğrula</button>
 </div>
 
-<!-- RESET 3 -->
-<div id="newPassBox" style="display:none">
+<!-- RESET STEP 3 -->
+<div id="newPassForm" style="display:none">
 <h3>Yeni Şifre</h3>
 <input id="newPass" type="password" placeholder="Yeni şifre">
-<button id="savePassBtn">Şifreyi Güncelle</button>
+<button id="saveNewPass">Şifreyi Güncelle</button>
 </div>
 
 <div id="durum"></div>
@@ -60,6 +105,7 @@ button{background:#006CFF;color:white;font-weight:bold}
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import {
 getAuth,
+createUserWithEmailAndPassword,
 signInWithEmailAndPassword,
 updatePassword
 } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
@@ -68,8 +114,6 @@ const firebaseConfig = {
 apiKey: "AIzaSyC5X_RnBnhy2k-X6Y_lezHgWbgK31Y5Dao",
 authDomain: "unixstorm-9dff8.firebaseapp.com",
 projectId: "unixstorm-9dff8",
-storageBucket: "unixstorm-9dff8.firebasestorage.app",
-messagingSenderId: "787509821542",
 appId: "1:787509821542:web:2b54b5bafee1207edeada7"
 };
 
@@ -81,52 +125,62 @@ emailjs.init("dCQownkzENRARtTC_");
 let resetKod = null;
 let resetEmail = null;
 
-/* 1️⃣ MAIL GÖNDER */
-sendCodeBtn.onclick = async () => {
-  resetEmail = resetMail.value;
-  resetKod = Math.floor(100000 + Math.random() * 900000);
+/* FORM SWITCH */
+const forms = [
+registerForm,loginForm,
+resetMailForm,resetCodeForm,newPassForm
+];
+const show = f => forms.forEach(x=>x.style.display="none") || (f.style.display="block");
 
-  await emailjs.send(
-    "service_vbm28pq",
-    "template_507m11j",
-    { kod: resetKod, mail: resetEmail }
-  );
+toLogin.onclick=()=>show(loginForm);
+toRegister.onclick=()=>show(registerForm);
+toReset.onclick=()=>show(resetMailForm);
+toReset2.onclick=()=>show(resetMailForm);
+toLogin2.onclick=()=>show(loginForm);
 
-  durum.textContent = "Mail gönderildi";
-  resetMailBox.style.display = "none";
-  resetCodeBox.style.display = "block";
+/* RESET 1 */
+sendResetCode.onclick = async()=>{
+resetEmail = resetMail.value;
+resetKod = Math.floor(100000+Math.random()*900000);
+await emailjs.send("service_vbm28pq","template_507m11j",{kod:resetKod,mail:resetEmail});
+durum.textContent="Mail gönderildi";
+show(resetCodeForm);
 };
 
-/* 2️⃣ KOD KONTROL */
-checkCodeBtn.onclick = () => {
-  if (resetCode.value != resetKod) {
-    durum.textContent = "Kod yanlış";
-    return;
-  }
-  durum.textContent = "Kod doğru";
-  setTimeout(() => {
-    resetCodeBox.style.display = "none";
-    newPassBox.style.display = "block";
-  }, 2000);
-};
-
-/* 3️⃣ ŞİFRE GÜNCELLE */
-savePassBtn.onclick = async () => {
-  try {
-    await signInWithEmailAndPassword(auth, resetEmail, "TEMP_LOGIN");
-  } catch {}
-
-  const user = auth.currentUser;
-  await updatePassword(user, newPass.value);
-
-  durum.textContent = "Şifre güncellendi";
-  setTimeout(() => location.href = "index.html", 2000);
-};
-
-function showLogin(){
-  location.href="index.html";
+/* RESET 2 */
+checkResetCode.onclick=()=>{
+if(resetCode.value!=resetKod){
+durum.textContent="Kod yanlış";
+return;
 }
+durum.textContent="Kod doğru";
+setTimeout(()=>show(newPassForm),2000);
+};
+
+/* RESET 3 */
+saveNewPass.onclick=async()=>{
+await signInWithEmailAndPassword(auth,resetEmail,loginPass.value).catch(()=>{});
+await updatePassword(auth.currentUser,newPass.value);
+durum.textContent="Şifre güncellendi";
+setTimeout(()=>show(loginForm),2000);
+};
+
+/* REGISTER */
+regBtn.onclick=async()=>{
+await createUserWithEmailAndPassword(auth,regMail.value,regPass.value);
+durum.textContent="Kayıt başarılı";
+};
+
+/* LOGIN */
+loginBtn.onclick=async()=>{
+try{
+await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
+location.href="ana_site.html";
+}catch{
+durum.textContent="Hatalı giriş";
+}
+};
 </script>
 
 </body>
-</html>
+    </html>
