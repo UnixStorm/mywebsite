@@ -28,15 +28,16 @@ z-index:-1;
 .panel{
 display:flex;
 height:100vh;
-transition:transform .3s ease;
+transition:transform .35s ease;
 }
 
 /* Menü */
 .menu{
-width:280px; /* GENİŞLETİLDİ */
+width:280px;
 background:rgba(0,0,0,0.85);
 padding:15px;
 box-shadow:0 0 18px cyan;
+flex-shrink:0;
 }
 
 .menu button{
@@ -62,6 +63,7 @@ flex:1;
 padding:20px;
 overflow:auto;
 background:rgba(0,0,0,0.55);
+transition:opacity .3s ease;
 }
 
 .card{
@@ -72,9 +74,15 @@ box-shadow:0 0 12px cyan;
 margin-bottom:15px;
 }
 
-/* Panel kapalı hali */
+/* Panel kapalı */
 .panel.closed{
-transform:translateX(-260px);
+transform:translateX(-280px);
+}
+
+/* ❌ YARIM YAZI SORUNU ÇÖZÜMÜ */
+.panel.closed .content{
+opacity:0;
+pointer-events:none;
 }
 </style>
 </head>
@@ -127,7 +135,7 @@ onAuthStateChanged(auth,(user)=>{
 </div>
 
 <script>
-/* İçerik değiştirme */
+/* İçerik değiştir */
 function ac(x){
 const i=document.getElementById("icerik");
 
@@ -139,11 +147,12 @@ if(x==="kiz") i.innerHTML="<div class='card'><h2>👩 Kız Profil</h2></div>";
 if(x==="edit") i.innerHTML="<div class='card'><h2>🎬 Edit Videolar</h2></div>";
 if(x==="link") i.innerHTML="<div class='card'><h2>🌐 Linkler</h2></div>";
 if(x==="uygulama") i.innerHTML="<div class='card'><h2>📲 Uygulamalar</h2></div>";
-if(x==="not") i.innerHTML="<div class='card'><h2>📝 Notlar</h2><textarea style='width:100%;height:150px'></textarea></div>";
+if(x==="not") i.innerHTML="<div class='card'><h2>📝 Notlar</h2><textarea style='width:100%;height:160px'></textarea></div>";
 }
 
-/* 👉 SÜRÜKLE – AÇ / KAPAT */
+/* 👉 SÜRÜKLE AÇ / KAPAT */
 let startX=0;
+
 document.addEventListener("touchstart",e=>{
 startX=e.touches[0].clientX;
 });
@@ -152,8 +161,8 @@ document.addEventListener("touchend",e=>{
 let endX=e.changedTouches[0].clientX;
 const panel=document.getElementById("panel");
 
-if(startX-endX>60) panel.classList.add("closed");     // sola it → kapat
-if(endX-startX>60) panel.classList.remove("closed"); // sağa çek → aç
+if(startX-endX>60) panel.classList.add("closed");
+if(endX-startX>60) panel.classList.remove("closed");
 });
 </script>
 
