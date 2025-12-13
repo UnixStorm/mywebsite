@@ -157,6 +157,9 @@ font-size:18px;border:none;border-radius:10px;background:rgba(0,0,0,0.6);color:w
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script type="module">
+function captchaKontrol(){
+  return grecaptcha.getResponse().length !== 0;
+    }    
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import {
 getAuth,
