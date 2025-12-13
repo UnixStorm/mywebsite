@@ -180,16 +180,16 @@ if(!kod){
 kod=Math.floor(100000+Math.random()*900000);
 await emailjs.send("service_vbm28pq","template_507m11j",{kod,mail:regMail.value,zaman:new Date().toLocaleString("tr-TR")});
 hideOverlay();
-durum.textContent="Mail kodunu gir";
+durum.textContent="Lütfen E-Posta adresinize gelen 6 haneli kodu giriniz.";
 return;
 }
 if(regCode.value!=kod){
 hideOverlay();
-durum.textContent="Kod yanlış";
+durum.textContent="Kod yanlış girildi";
 return;
 }
 await createUserWithEmailAndPassword(auth,regMail.value,regPass.value);
-durum.textContent="Kayıt başarılı, yönlendiriliyorsunuz...";
+durum.textContent="Kaydınız başarıyla oluşturuldu,yönlendiriliyorsunuz...";
 setTimeout(()=>location.href="ana_site.html",3000);
 };
 
@@ -198,11 +198,11 @@ loginBtn.onclick=async()=>{
 showOverlay();
 try{
 await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
-durum.textContent="Giriş başarılı, yönlendiriliyorsunuz...";
+durum.textContent="Başarıyla giriş yaptınız, yönlendiriliyorsunuz...";
 setTimeout(()=>location.href="ana_site.html",3000);
 }catch(e){
 hideOverlay();
-durum.textContent="E-posta veya şifre yanlış";
+durum.textContent="E-posta veya şifre yanlış girildi";
 }
 };
 
@@ -212,7 +212,7 @@ showOverlay("Mail gönderiliyor...");
 try{
 await sendPasswordResetEmail(auth,resetMail.value);
 hideOverlay();
-durum.textContent="Şifre sıfırlama linki mail adresinize gönderildi";
+durum.textContent="Şifre sıfırlama linki E-posta adresinize gönderildi eyer maili göremediyseniz spam klasörüne bakın";
 setTimeout(()=>gecis(loginForm),3000);
 }catch(e){
 hideOverlay();
