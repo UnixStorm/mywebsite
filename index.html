@@ -184,9 +184,14 @@ setTimeout(()=>location.href="ana_site.html",3000);
 
 loginBtn.onclick=async()=>{
 showOverlay();
-await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
-durum.textContent="Giriş başarılı, yönlendiriliyorsunuz...";
-setTimeout(()=>location.href="ana_site.html",3000);
+try{
+  await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
+  durum.textContent="Giriş başarılı, yönlendiriliyorsunuz...";
+  setTimeout(()=>location.href="ana_site.html",3000);
+}catch(e){
+  hideOverlay();
+  durum.textContent="E-posta veya şifre yanlış";
+}
 };
 
 resetBtn.onclick=async()=>{
@@ -201,4 +206,4 @@ musicBtn.onclick=()=>audio.paused?(audio.play(),musicBtn.textContent="⏸ Durdur
 </script>
 
 </body>
-</html>
+    </html>
