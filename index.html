@@ -93,15 +93,6 @@ body{
 <div id="durum"></div>
 </div>
 
-<button type="button" id="musicBtn" style="position:fixed;bottom:20px;right:20px;padding:12px 20px;
-font-size:18px;border:none;border-radius:10px;background:rgba(0,0,0,0.6);color:white;">
-▶ Oynat
-</button>
-
-<audio id="bgm"><source src="music.m4a" type="audio/mp4"></audio>
-
-<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
-
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
 import {
@@ -123,39 +114,19 @@ appId: "1:787509821542:web:2b54b5bafee1207edeada7"
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 
-emailjs.init("dCQownkzENRARtTC_");
-
-const overlay=document.getElementById("overlay");
-const durum=document.getElementById("durum");
-const kilitAc=()=>overlay.style.display="flex";
-
 let kod=null;
 
 regBtn.onclick=async()=>{
-kilitAc();
-
 if(!kod){
 kod=Math.floor(100000+Math.random()*900000);
-await emailjs.send("service_vbm28pq","template_507m11j",{
-    kod,
-    mail: regMail.value,
-    zaman: new Date().toLocaleString("tr-TR")
-});
 durum.textContent="Mail kodunu gir";
 return;
 }
-
-if(regCode.value!=kod){
-durum.textContent="Kod yanlış";
-return;
-}
-
 await createUserWithEmailAndPassword(auth,regMail.value,regPass.value);
 window.location.replace("ana_site.html");
 };
 
 loginBtn.onclick=async()=>{
-kilitAc();
 await signInWithEmailAndPassword(auth,loginMail.value,loginPass.value);
 window.location.replace("ana_site.html");
 };
@@ -164,9 +135,6 @@ resetBtn.onclick=async()=>{
 await sendPasswordResetEmail(auth,resetMail.value);
 durum.textContent="Mail gönderildi";
 };
-
-const audio=document.getElementById("bgm");
-musicBtn.onclick=()=>{audio.paused?(audio.play(),musicBtn.textContent="⏸ Durdur"):(audio.pause(),musicBtn.textContent="▶ Oynat");};
 </script>
 </body>
 </html>
